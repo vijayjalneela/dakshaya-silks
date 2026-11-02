@@ -126,7 +126,9 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 @media (min-width:860px){.story-in{grid-template-columns:1.1fr .9fr;gap:40px;padding-top:56px;padding-bottom:56px}}
 .story-fig{order:-1;max-width:360px;margin:0 auto;width:100%}
 @media (min-width:860px){.story-fig{order:2;max-width:460px}}
-.story-fig img{width:100%;height:auto;filter:drop-shadow(0 18px 40px rgba(0,0,0,.35))}
+.story-fig{position:relative;padding:10px;border-radius:220px 220px 18px 18px;background:linear-gradient(160deg,#F8E3A3,#C9962F 45%,#8A5E14 70%,#F3D27A);box-shadow:0 24px 50px rgba(0,0,0,.4)}
+.story-fig img{width:100%;height:auto;display:block;border-radius:210px 210px 10px 10px;aspect-ratio:3/4;object-fit:cover;object-position:50% 20%}
+.story-fig::after{content:"";position:absolute;inset:10px;border-radius:210px 210px 10px 10px;box-shadow:inset 0 0 0 1px rgba(248,227,163,.6),inset 0 -60px 60px -30px rgba(74,8,32,.35);pointer-events:none}
 .story-txt{display:flex;flex-direction:column;gap:16px;text-align:center;max-width:36rem;margin:0 auto}
 @media (min-width:860px){.story-txt{text-align:left;margin:0}}
 .gold{background:linear-gradient(100deg,#F8E3A3 0%,#E2B54E 30%,#FFF1C4 50%,#C9962F 72%,#F3D27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -201,7 +203,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 
 <section class="story" id="our-story" aria-labelledby="storyTitle">
   <div class="wrap story-in">
-    <div class="story-fig"><img src="img/devi.svg" alt="A serene Indian woman in a silk saree with jasmine in her hair, a golden halo behind her" width="600" height="760" loading="lazy"></div>
+    <div class="story-fig"><img src="img/our-story.jpg" alt="A smiling Indian woman in a purple silk saree with a gold border and jasmine in her hair, seated in a garden" width="900" height="1200" loading="lazy"></div>
     <div class="story-txt">
       <p class="s-eyebrow gold" id="storyTitle">Our story</p>
       <p class="s-lead gold">At Dakshaya Silks, our name comes from <span class="s-name">Dakshayani</span>, the goddess of strength and devotion.</p>
