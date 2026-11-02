@@ -8,3 +8,7 @@ Public storefront for Dakshaya Boutique. Static site served by GitHub Pages.
 - `img/` – item photos (`<code>.jpg` large, `<code>-s.jpg` small).
 
 To refresh the collection, export again from the shop book and replace `catalog.json` and `img/`.
+
+## Photo enhancement
+Product photos are gently enhanced (brightness/contrast on luminance only, so colours stay true; mild saturation, clarity and sharpening).
+After replacing `img/` with a new export, run: `python3 tools/enhance.py img img` (needs Pillow and numpy). Run it once per export only — running it twice enhances twice.
