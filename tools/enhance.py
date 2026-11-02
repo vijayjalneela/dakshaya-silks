@@ -1,7 +1,7 @@
 """Gentle, colour-true photo enhancement for Dakshaya product photos.
 Brightness/contrast are stretched on luminance only (hue is never shifted),
 then a mild saturation lift and sharpening. Writes large + small versions."""
-import sys, glob, os
+import sys, glob, os, re
 from PIL import Image, ImageOps, ImageEnhance, ImageFilter
 import numpy as np
 
@@ -32,11 +32,19 @@ def save(im, base):
     sm = im.copy(); sm.thumbnail((480, 600), Image.LANCZOS)
     sm.save(base + "-s.jpg", quality=72, optimize=True, progressive=True)
 
+# any item code photo: ds-001.jpg, kt-004.jpg, jw-12.jpg ... (not the "-s" small copies, not our-story.jpg)
+CODE_PHOTO = re.compile(r"^[a-z]{1,5}-\d+\.jpg$", re.I)
+
 if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        sys.exit("usage: python3 tools/enhance.py <raw-photos-folder> img [code ...]")
     src_dir, out_dir = sys.argv[1], sys.argv[2]
-    codes = sys.argv[3:]
-    files = [f for f in sorted(glob.glob(os.path.join(src_dir, "*.jpg"))) if os.path.basename(f).startswith("ds-") and not f.endswith("-s.jpg")]
-    if codes: files = [f for f in files if os.path.basename(f)[:-4] in codes]
+    codes = [c.lower() for c in sys.argv[3:]]
+    # Reading and writing the same folder would enhance already-enhanced photos on a second run.
+    if os.path.realpath(src_dir) == os.path.realpath(out_dir):
+        sys.exit("Source and output folders must be different (e.g. photos-raw -> img), so photos are never enhanced twice.")
+    files = [f for f in sorted(glob.glob(os.path.join(src_dir, "*.jpg"))) if CODE_PHOTO.match(os.path.basename(f))]
+    if codes: files = [f for f in files if os.path.basename(f)[:-4].lower() in codes]
     os.makedirs(out_dir, exist_ok=True)
     for f in files:
         save(enhance(Image.open(f)), os.path.join(out_dir, os.path.basename(f)[:-4]))
