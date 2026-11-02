@@ -115,7 +115,10 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .panel{background:var(--surface);width:100%;max-width:900px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;display:grid;grid-template-columns:1fr}
 @media (min-width:760px){.panel{grid-template-columns:1.05fr 1fr;border-radius:20px}}
 .panel .big{background:var(--sunk);aspect-ratio:4/5;max-width:100%}
-.panel .big img{width:100%;height:100%;object-fit:cover}
+.panel .big img,.panel .big video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.panel .big{position:relative}
+.playbtn{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:rgba(62,6,27,.88);color:#F4D58A;border:1px solid #D4A23C;border-radius:999px;padding:10px 18px;font-weight:700;font-size:.95rem;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.vbadge{position:absolute;right:8px;bottom:8px;background:rgba(62,6,27,.85);color:#F4D58A;border-radius:999px;font-size:.7rem;font-weight:700;padding:2px 8px}
 .panel .info{padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;min-width:0}
 .panel h2{font-family:var(--display);font-weight:400;font-size:1.9rem;line-height:1.1;margin:0;text-wrap:balance}
 .panel .eyebrow{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
@@ -337,7 +340,7 @@ function render(){
   $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}${st.weave?" · "+st.weave:""}`;
   if(!r.length&&st.cat&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
   $("#grid").innerHTML=r.length?r.map(x=>`<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(x.price)}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${inr(x.price)}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`).join("")
     :`<div class="empty" style="grid-column:1/-1">No sarees match that. Try another colour or clear the filters.</div>`;
 }
@@ -346,7 +349,7 @@ function open(x,push=true){
   const spec=[["Code",code],["Weave / type",tidy(x.type)],["Material",x.material&&tidy(x.material).toLowerCase()!==tidy(x.type).toLowerCase()?tidy(x.material):""],["Colour",tidy(x.color)],["Border",x.border&&x.border!=="No"?(x.border==="Yes"?"With border":x.border):"Borderless"],["Size",x.size],["Length",x.length?x.length+" m":""],["Blouse piece",x.category==="Saree"?(x.blouse?"Included":"Not included"):""],["Dupatta",x.dupatta?"Included":""],["Available",x.stock>1?x.stock+" pieces":"1 piece"]].filter(r=>r[1]);
   const msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}, ${tidy(x.type)} (${inr(x.price)}). Is it available?`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
-    <div class="big"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}"></div>
+    <div class="big" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}">${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
     <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
       <div class="price num">${inr(x.price)}</div>
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
@@ -365,6 +368,7 @@ document.addEventListener("click",e=>{
   const w=e.target.closest(".chip[data-w]");if(w){st.weave=w.dataset.w;chips();render();return}
   const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave="";chips();render();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-document.querySelector(".ribbon").offsetHeight;scrollTo({top:y,behavior:"smooth"});return}
   const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
+  const pv=e.target.closest(".playbtn");if(pv){$("#bigMedia").innerHTML=`<video src="${esc(pv.dataset.video)}" poster="${esc(pv.dataset.poster)}" controls autoplay playsinline muted></video>`;return}
   if(e.target.closest("[data-close]")||e.target.id==="sheet"){closeSheet();return}
   const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
     (navigator.share?navigator.share({title:"Dakshaya Boutique",url}):navigator.clipboard.writeText(url).then(()=>toast("Link copied"))).catch(()=>{});}
