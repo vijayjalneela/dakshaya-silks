@@ -107,8 +107,9 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .panel .big{position:relative}.panel .big img{cursor:zoom-in}
 .zoom{position:fixed;inset:0;z-index:40;background:#000;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
 .zoom img{display:block;width:100%;height:100%;object-fit:contain;cursor:zoom-in}
-.zoom.on img{width:240%;height:auto;max-width:none;object-fit:initial;cursor:zoom-out}
-.zoom .zx{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:41;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.9);font-size:1.4rem}
+.zoom.on img{width:max(150%,1100px);height:auto;max-width:none;object-fit:initial;cursor:zoom-out}
+.zoom .zx{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:41;display:flex;align-items:center;gap:6px;height:44px;padding:0 16px 0 12px;border-radius:999px;border:2px solid #D4A23C;background:#fff;color:#241A28;font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.5);cursor:pointer}
+.zoom .zx b{font-size:1.5rem;line-height:1;font-weight:400}
 .zoom .zt{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:41;color:#fff;background:rgba(0,0,0,.55);padding:5px 12px;border-radius:999px;font-size:.82rem;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.card .pic img{transition:none}}
 .card .flag{position:absolute;left:8px;top:8px;background:var(--surface);color:var(--maroon);font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 9px;letter-spacing:.02em}
@@ -291,7 +292,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="panel" id="panel"></div></div>
 <div class="toast" id="toast" hidden></div>
-<div class="zoom" id="zoom" hidden><button class="zx" data-zclose aria-label="Close zoom">×</button><img id="zimg" alt=""><span class="zt">Tap to zoom in or out · drag to look around</span></div>
+<div class="zoom" id="zoom" hidden><button class="zx" data-zclose aria-label="Close zoom"><b aria-hidden="true">×</b>Close</button><img id="zimg" alt=""><span class="zt">Tap to zoom in or out · drag to look around</span></div>
 
 <script>
 /* ===== Shop settings: change these ===== */
