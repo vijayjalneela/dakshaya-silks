@@ -194,6 +194,22 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .desc{margin:0 0 12px;line-height:1.5;opacity:.9}
 #occ{margin-bottom:8px}
 .chips[hidden]{display:none}
+.swatches{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px}
+.swatches::-webkit-scrollbar{display:none}
+.sw{flex:none;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;padding:0;font-size:.78rem;font-weight:600;color:var(--muted);width:64px}
+.sw i{width:44px;height:44px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line),0 2px 6px rgba(0,0,0,.12);display:block}
+.sw[aria-pressed="true"] i{box-shadow:0 0 0 3px var(--maroon),0 2px 6px rgba(0,0,0,.12)}
+.sw[aria-pressed="true"]{color:var(--ink)}
+.sw small{font-weight:500;opacity:.8}
+.edits .wrap{padding-top:18px;padding-bottom:6px}
+.edit{margin-bottom:22px}
+.edit .eh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.edit .eh h2{font-family:var(--display);font-weight:400;font-size:1.5rem;margin:0}
+.edit .eh p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.edit .eh button{flex:none;background:none;border:0;color:var(--maroon);font-weight:700;padding:6px 0}
+.row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,200px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.row::-webkit-scrollbar{display:none}
+.row .card{scroll-snap-align:start}
 @media (min-width:760px){.panel .big{position:sticky;top:0;align-self:start}}
 .card .flag.new{left:auto;right:8px;background:var(--maroon);color:#fff}
 .rel{margin-top:18px}.rel h3{font-family:var(--display);font-weight:400;font-size:1.15rem;margin:0 0 8px}
@@ -240,6 +256,8 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 </header>
 
 <section class="shopby"><div class="wrap"><h2 class="sbh">Shop by collection</h2><div class="tiles" id="cats" role="group" aria-label="Collections"></div></div></section>
+<section class="shopby" id="colSec" hidden><div class="wrap"><h2 class="sbh">Shop by colour</h2><div class="swatches" id="cols" role="group" aria-label="Colours"></div></div></section>
+<section class="edits" id="edits"></section>
 
 <div class="bar">
   <div class="wrap">
@@ -318,10 +336,12 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const inr=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
 const tidy=s=>String(s||"").replace(/\s+/g," ").trim();
 const wa=text=>`https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
-const st={items:[],cat:"",weave:"",occ:"",q:"",price:"",sort:"az",bag:[]};
+const st={items:[],cat:"",weave:"",occ:"",col:"",q:"",price:"",sort:"az",bag:[]};
 try{st.bag=JSON.parse(localStorage.getItem("dk_bag")||"[]")}catch(e){st.bag=[]}
 const saveBag=()=>{try{localStorage.setItem("dk_bag",JSON.stringify(st.bag))}catch(e){}};
 const OCC=[["Wedding",/wedding|reception/i],["Festive",/festiv|pooja/i],["Party",/part/i],["Office",/office/i],["Daily wear",/daily|travel/i],["Gifting",/gift/i]];
+const COLS=[["Red","#B3122B",/\bred\b/],["Maroon","#6E0F2B",/maroon/],["Pink","#E06C9F",/pink/],["Purple","#6B3FA0",/purple/],["Blue","#2A54B8",/blue|navy/],["Green","#2E7D4F",/green|mehandi|mehndi/],["Yellow & gold","#D9A520",/yellow|mustard|gold/],["Orange","#E07020",/orange|copper/],["Beige & cream","#E3D3B5",/beige|creme|cream/],["Grey","#8A8A8A",/grey|gray/],["Black","#1E1E1E",/black/],["Brown","#7A4E2D",/brown/]];
+const colOf=(x,re)=>re.test(String(x.color||"").toLowerCase());
 const isNew=x=>x.added&&Date.now()-x.added<14*864e5;
 const codeOf=x=>x.code.split(" ")[0];
 /* Collections shown as picture tiles. Replace an image by changing its path (e.g. "img/cat/saree.jpg"). */
@@ -346,7 +366,7 @@ function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTim
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
   st.items=d.items.filter(x=>x.stock>0).map(x=>({...x,...(ds[x.code.split(" ")[0]]||{})}));
   if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-  facts();chips();render();bagUI();openFromHash();
+  facts();chips();edits();render();bagUI();openFromHash();
 }).catch(()=>{$("#count").textContent="The collection couldn't load. Please refresh the page."});
 
 function facts(){
@@ -372,12 +392,27 @@ function chips(){
   if(st.occ&&!oc.some(o=>o[0]===st.occ))st.occ="";
   $("#occ").innerHTML=oc.length?[["","Any occasion"],...oc].map(([l,c])=>`<button class="chip" data-o="${esc(l)}" aria-pressed="${st.occ===l}">${esc(l)}${c?`<small>${c}</small>`:""}</button>`).join(""):"";
   $("#occ").hidden=!oc.length;
+  const cpool=opool.filter(x=>{if(!st.occ)return true;const o=OCC.find(o=>o[0]===st.occ);return o&&o[1].test(x.for||"")});
+  const cc=COLS.map(([l,hex,re])=>[l,hex,cpool.filter(x=>colOf(x,re)).length]).filter(c=>c[2]);
+  if(st.col&&!cc.some(c=>c[0]===st.col))st.col="";
+  $("#cols").innerHTML=cc.map(([l,hex,c])=>`<button class="sw" data-col="${esc(l)}" aria-pressed="${st.col===l}"><i style="background:${hex}"></i>${esc(l)}<small>${c}</small></button>`).join("");
+  $("#colSec").hidden=cc.length<2;
 }
+const EDITS=[
+  {k:"new",t:"New arrivals",d:"Just in, one of each.",f:x=>true,sort:(a,b)=>(b.added||0)-(a.added||0),apply:()=>{st.sort="new";$("#sort").value="new"}},
+  {k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}},
+  {k:"u1k",t:"Under ₹1,000",d:"Everyday favourites at easy prices.",f:x=>pNow(x)<1000,sort:(a,b)=>pNow(a)-pNow(b),apply:()=>{st.price="0-1000";$("#price").value="0-1000"}},
+];
+function edits(){
+  $("#edits").innerHTML=`<div class="wrap">`+EDITS.map(e=>{const r=st.items.filter(e.f).sort(e.sort).slice(0,10);return r.length>=3?`<div class="edit"><div class="eh"><div><h2>${esc(e.t)}</h2><p>${esc(e.d)}</p></div><button data-edit="${e.k}">View all →</button></div><div class="row">${r.map(cardHTML).join("")}</div></div>`:""}).join("")+`</div>`;
+}
+function toShop(){const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-document.querySelector(".ribbon").offsetHeight;scrollTo({top:y,behavior:"smooth"})}
 function filtered(){
   const q=st.q.toLowerCase();
   let r=st.items.filter(x=>{
     if(st.cat==="__offers"){if(!onOffer(x))return false}else if(st.cat&&x.category!==st.cat)return false;
     if(st.weave&&tidy(x.type)!==st.weave)return false;
+    if(st.col){const c=COLS.find(c=>c[0]===st.col);if(c&&!colOf(x,c[2]))return false}
     if(st.occ){const o=OCC.find(o=>o[0]===st.occ);if(o&&!o[1].test(x.for||""))return false}
     if(st.price){const[a,b]=st.price.split("-").map(Number);if(pNow(x)<a||pNow(x)>=b)return false}
     if(q&&!([x.name,x.title,x.desc,x.for,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
@@ -391,14 +426,15 @@ function filtered(){
   return r;
 }
 function title(x){return tidy(x.title||x.name)}
+function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?"CLEARANCE ":""}${x.disc}% OFF</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isNew(x)&&!onOffer(x)?`<span class="flag new">NEW</span>`:""}</div>
+    <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`}
 function render(){
   const r=filtered();
   const lab=st.cat==="__offers"?"Offers & Clearance":(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
-  $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}${st.weave?" · "+st.weave:""}`;
+  $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}${st.weave?" · "+st.weave:""}${st.occ?" · "+st.occ:""}${st.col?" · "+st.col:""}`;
   if(!r.length&&st.cat&&st.cat!=="__offers"&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
-  $("#grid").innerHTML=r.length?r.map(x=>`<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?"CLEARANCE ":""}${x.disc}% OFF</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isNew(x)&&!onOffer(x)?`<span class="flag new">NEW</span>`:""}</div>
-    <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`).join("")
+  $("#grid").innerHTML=r.length?r.map(x=>cardHTML(x)).join("")
     :`<div class="empty" style="grid-column:1/-1">No sarees match that. Try another colour or clear the filters.</div>`;
 }
 function open(x,push=true){
@@ -444,6 +480,8 @@ document.addEventListener("click",e=>{
     z.classList.toggle("on");if(z.classList.contains("on")){requestAnimationFrame(()=>{z.scrollLeft=fx*im.offsetWidth-z.clientWidth/2;z.scrollTop=fy*im.offsetHeight-z.clientHeight/2})}return}
   const zm=e.target.closest("[data-zoom]");if(zm){$("#zimg").src=zm.dataset.zoom;$("#zimg").alt=zm.alt||"";$("#zoom").classList.remove("on");$("#zoom").hidden=false;return}
   const o=e.target.closest(".chip[data-o]");if(o){st.occ=o.dataset.o;chips();render();return}
+  const sw=e.target.closest(".sw[data-col]");if(sw){st.col=st.col===sw.dataset.col?"":sw.dataset.col;chips();render();toShop();return}
+  const ed=e.target.closest("[data-edit]");if(ed){const E=EDITS.find(x=>x.k===ed.dataset.edit);st.cat="";st.weave="";st.occ="";st.col="";st.price="";$("#price").value="";st.sort="az";$("#sort").value="az";E.apply();chips();render();toShop();return}
   const rl=e.target.closest("[data-rel]");if(rl){const x=st.items.find(i=>i.code===rl.dataset.rel);if(x)open(x);return}
   const bg=e.target.closest("[data-bag]");if(bg){const c=bg.dataset.bag;if(st.bag.includes(c)){st.bag=st.bag.filter(b=>b!==c);bg.textContent="Add to bag"}else{st.bag.push(c);bg.textContent="✓ In your bag";toast("Added to your bag")}saveBag();bagUI();return}
   const ub=e.target.closest("[data-unbag]");if(ub){st.bag=st.bag.filter(b=>b!==ub.dataset.unbag);saveBag();bagUI();openBag();return}
