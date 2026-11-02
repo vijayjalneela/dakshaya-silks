@@ -63,8 +63,8 @@ button{cursor:pointer}
   linear-gradient(var(--maroon-deep),var(--maroon-deep))}
 
 /* filter bar */
-.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.bar .wrap{padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:10px;display:flex;flex-direction:column;gap:10px}
+.bar{position:sticky;top:var(--ribh,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{padding-top:10px;padding-bottom:10px;display:flex;flex-direction:column;gap:10px}
 .chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .shopby .wrap{padding-top:22px;padding-bottom:4px}
 .sbh{font-family:var(--display);font-weight:400;font-size:1.5rem;margin:0 0 12px}
@@ -156,7 +156,7 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .s-rule{width:120px;height:1px;background:linear-gradient(90deg,transparent,#D4A23C,transparent);margin:2px auto}
 @media (min-width:860px){.s-rule{margin:2px 0}}
 
-.ribbon{background:#3E061B;color:#F4D58A;font-size:.88rem;text-align:center;line-height:1.35}
+.ribbon{background:#3E061B;color:#F4D58A;font-size:.88rem;text-align:center;line-height:1.35;position:sticky;top:0;z-index:7;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .ribbon .tick{overflow:hidden;padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .ribbon .track{display:flex;gap:28px;width:max-content;white-space:nowrap;animation:tick 48s linear infinite}
 .ribbon .track span[aria-hidden]{color:#D4A23C}
@@ -285,6 +285,7 @@ const COLLECTIONS=[
 ];
 
 $("#yr").textContent=new Date().getFullYear();
+{const rb=document.querySelector(".ribbon");const setH=()=>document.documentElement.style.setProperty("--ribh",(rb?rb.offsetHeight:0)+"px");setH();addEventListener("resize",setH);if(document.fonts)document.fonts.ready.then(setH)}
 {const ex=SHOP.exhibition||{};if(ex.dates){$("#expo").innerHTML=`<b>${esc(ex.dates)}</b>${ex.timings?" · "+esc(ex.timings):""}<br>${esc(ex.venue||"")}${ex.map?` · <a href="${esc(ex.map)}" target="_blank" rel="noopener">Map</a>`:""}<br>Come see and feel the full collection in person.`}}
 $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Boutique, I'd like to know more about your sarees.");
 
@@ -362,7 +363,7 @@ window.addEventListener("hashchange",openFromHash);
 
 document.addEventListener("click",e=>{
   const w=e.target.closest(".chip[data-w]");if(w){st.weave=w.dataset.w;chips();render();return}
-  const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave="";chips();render();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight;scrollTo({top:y,behavior:"smooth"});return}
+  const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave="";chips();render();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-document.querySelector(".ribbon").offsetHeight;scrollTo({top:y,behavior:"smooth"});return}
   const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
   if(e.target.closest("[data-close]")||e.target.id==="sheet"){closeSheet();return}
   const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
