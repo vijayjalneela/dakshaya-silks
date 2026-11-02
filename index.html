@@ -31,7 +31,7 @@
   --bg:#16111A; --surface:#211A26; --sunk:#1B1520; --ink:#F2EAF2; --muted:#B3A4B6; --line:#372C3C;
   --maroon:#C2265E; --maroon-deep:#8E1442; --zari:#DDB453; --wa:#3CB878; color-scheme:dark}}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding-bottom:env(safe-area-inset-bottom,0px)}
 img{max-width:100%;display:block}
 button,input,select{font:inherit;color:inherit}
@@ -96,8 +96,15 @@ button{cursor:pointer}
 /* grid */
 main .wrap{padding-top:18px;padding-bottom:40px}
 .count{color:var(--muted);font-size:.92rem;margin:0 0 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
-@media (min-width:720px){.grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}}
+/* Same proportions on every device: 2 columns on phones, 3 on tablets in portrait, 4 on laptops and iPad landscape, 5–6 on big monitors */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
+@media (min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}}
+@media (min-width:1600px){.wrap{max-width:1480px}.grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}}
+@media (min-width:2200px){.wrap{max-width:1840px}.grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:24px}}
+@media (max-width:359px){.card .txt{padding:8px 9px 10px}.card .nm{font-size:.9rem}}
+.card .flag{white-space:nowrap}
+@media (max-width:480px){.card .flag .lg{display:none}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;text-align:left;padding:0;transition:transform .15s ease,box-shadow .15s ease}
 .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(36,26,40,.10)}
 .card .pic{aspect-ratio:4/5;max-width:100%;background:var(--sunk);position:relative;overflow:hidden}
@@ -124,7 +131,7 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,12,18,.55)}
 @media (min-width:760px){.sheet{align-items:center;padding:24px}}
 .sheet[hidden]{display:none}
-.panel{background:var(--surface);width:100%;max-width:900px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;display:grid;grid-template-columns:1fr}
+.panel{background:var(--surface);width:100%;max-width:900px;max-height:92vh;max-height:92dvh;overflow:auto;border-radius:20px 20px 0 0;display:grid;grid-template-columns:1fr}
 @media (min-width:760px){.panel{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);border-radius:20px}}
 .panel .big{background:var(--sunk);aspect-ratio:4/5;max-width:100%;min-width:0}
 .panel .big img,.panel .big video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
@@ -456,7 +463,7 @@ function openFilters(){
 }
 function refresh(){chips();render();activeUI()}
 function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?"CLEARANCE ":""}${x.disc}% OFF</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isNew(x)&&!onOffer(x)?`<span class="flag new">NEW</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isNew(x)&&!onOffer(x)?`<span class="flag new">NEW</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`}
 function render(){
   const r=filtered();
