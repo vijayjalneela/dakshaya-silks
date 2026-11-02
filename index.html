@@ -167,6 +167,8 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.ribbon .track{animation:none;white-space:normal;width:auto;justify-content:center;padding:0 16px}.ribbon .track>*:nth-child(n+3){display:none}}
 .ribbon+.mast .wrap{padding-top:16px}
+.was{color:var(--muted);font-weight:500;font-size:.85em}
+.offtag{display:inline-block;background:#B42318;color:#fff;font-size:.75rem;font-weight:700;border-radius:999px;padding:2px 10px;vertical-align:middle}
 /* about + footer */
 .about{border-top:1px solid var(--line);background:var(--surface)}
 .about .wrap{padding-top:32px;padding-bottom:32px;display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
@@ -280,6 +282,8 @@ const tidy=s=>String(s||"").replace(/\s+/g," ").trim();
 const wa=text=>`https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
 const st={items:[],cat:"",weave:"",q:"",price:"",sort:"az"};
 /* Collections shown as picture tiles. Replace an image by changing its path (e.g. "img/cat/saree.jpg"). */
+const onOffer=x=>(+x.disc||0)>0&&(!x.offerEnds||x.offerEnds>=new Date().toISOString().slice(0,10));
+const pNow=x=>onOffer(x)?Math.round(x.price*(1-x.disc/100)):x.price;
 const COLLECTIONS=[
   {key:"Saree",label:"Sarees",img:"img/cat/saree.svg"},
   {key:"Kurti",label:"Kurtis",img:"img/cat/kurti.svg"},
@@ -308,8 +312,10 @@ function facts(){
 function groupOf(x){return x.category==="Saree"?tidy(x.type):x.category}
 function chips(){
   const n=k=>st.items.filter(x=>x.category===k).length;
+  const offers=st.items.filter(onOffer).length;
+  const extra0=offers?[{key:"__offers",label:"Offers & Clearance",img:"",count:offers}]:[];
   const extra=[...new Set(st.items.map(x=>x.category))].filter(c=>!COLLECTIONS.some(o=>o.key===c)).map(c=>({key:c,label:c,img:""}));
-  $("#cats").innerHTML=[...COLLECTIONS,...extra].map(o=>{const c=n(o.key);const pic=o.img||(st.items.find(x=>x.category===o.key)||{}).img&&`img/${st.items.find(x=>x.category===o.key).img}-s.jpg`;
+  $("#cats").innerHTML=[...extra0,...COLLECTIONS,...extra].map(o=>{const c=o.key==="__offers"?o.count:n(o.key);if(o.key==="__offers")return `<button class="tile" data-c="__offers" aria-pressed="${st.cat==="__offers"}"><div class="ring"><div class="all" style="font:700 1.5rem var(--body);background:#B42318">%</div></div><span>${esc(o.label)}</span><small>${c} on offer</small></button>`;const pic=o.img||(st.items.find(x=>x.category===o.key)||{}).img&&`img/${st.items.find(x=>x.category===o.key).img}-s.jpg`;
     return `<button class="tile" data-c="${esc(o.key)}" aria-pressed="${st.cat===o.key}"><div class="ring"><img src="${esc(pic)}" alt=""></div><span>${esc(o.label)}</span><small>${c?c+" designs":"Coming soon"}</small></button>`}).join("");
   const pool=st.items.filter(x=>!st.cat||x.category===st.cat);
   const m=new Map();pool.forEach(x=>{const k=tidy(x.type);m.set(k,(m.get(k)||0)+1)});
@@ -320,38 +326,38 @@ function chips(){
 function filtered(){
   const q=st.q.toLowerCase();
   let r=st.items.filter(x=>{
-    if(st.cat&&x.category!==st.cat)return false;
+    if(st.cat==="__offers"){if(!onOffer(x))return false}else if(st.cat&&x.category!==st.cat)return false;
     if(st.weave&&tidy(x.type)!==st.weave)return false;
-    if(st.price){const[a,b]=st.price.split("-").map(Number);if(x.price<a||x.price>=b)return false}
+    if(st.price){const[a,b]=st.price.split("-").map(Number);if(pNow(x)<a||pNow(x)>=b)return false}
     if(q&&!([x.name,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
     return true});
   const byName=(a,b)=>tidy(a.name).localeCompare(tidy(b.name),"en",{sensitivity:"base"})||tidy(a.type).localeCompare(tidy(b.type));
   if(st.sort==="az")r.sort(byName);
   else if(st.sort==="za")r.sort((a,b)=>byName(b,a));
-  else if(st.sort==="low")r.sort((a,b)=>a.price-b.price);
-  else if(st.sort==="high")r.sort((a,b)=>b.price-a.price);
+  else if(st.sort==="low")r.sort((a,b)=>pNow(a)-pNow(b));
+  else if(st.sort==="high")r.sort((a,b)=>pNow(b)-pNow(a));
   else r.sort((a,b)=>(b.added||0)-(a.added||0));
   return r;
 }
 function title(x){return tidy(x.name)}
 function render(){
   const r=filtered();
-  const lab=(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
+  const lab=st.cat==="__offers"?"Offers & Clearance":(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
   $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}${st.weave?" · "+st.weave:""}`;
-  if(!r.length&&st.cat&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
-  $("#grid").innerHTML=r.length?r.map(x=>`<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(x.price)}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}</div>
-    <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${inr(x.price)}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`).join("")
+  if(!r.length&&st.cat&&st.cat!=="__offers"&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
+  $("#grid").innerHTML=r.length?r.map(x=>`<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?"CLEARANCE ":""}${x.disc}% OFF</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}</div>
+    <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`).join("")
     :`<div class="empty" style="grid-column:1/-1">No sarees match that. Try another colour or clear the filters.</div>`;
 }
 function open(x,push=true){
   const code=x.code.split(" ")[0];
   const spec=[["Code",code],["Weave / type",tidy(x.type)],["Material",x.material&&tidy(x.material).toLowerCase()!==tidy(x.type).toLowerCase()?tidy(x.material):""],["Colour",tidy(x.color)],["Border",x.border&&x.border!=="No"?(x.border==="Yes"?"With border":x.border):"Borderless"],["Size",x.size],["Length",x.length?x.length+" m":""],["Blouse piece",x.category==="Saree"?(x.blouse?"Included":"Not included"):""],["Dupatta",x.dupatta?"Included":""],["Available",x.stock>1?x.stock+" pieces":"1 piece"]].filter(r=>r[1]);
-  const msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}, ${tidy(x.type)} (${inr(x.price)}). Is it available?`;
+  const msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}, ${tidy(x.type)} (${inr(pNow(x))}${onOffer(x)?", offer price":""}). Is it available?`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
     <div class="big" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}">${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
     <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
-      <div class="price num">${inr(x.price)}</div>
+      <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
       <a class="cta" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
       <button class="ghost" data-share="${esc(code)}">Copy link to share</button>
