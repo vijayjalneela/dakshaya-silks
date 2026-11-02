@@ -212,6 +212,8 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
         <option value="3000-99999">Above ₹3,000</option>
       </select>
       <select id="sort" aria-label="Sort">
+        <option value="az">Name: A to Z</option>
+        <option value="za">Name: Z to A</option>
         <option value="new">Newest first</option>
         <option value="low">Price: low to high</option>
         <option value="high">Price: high to low</option>
@@ -258,7 +260,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const inr=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
 const tidy=s=>String(s||"").replace(/\s+/g," ").trim();
 const wa=text=>`https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
-const st={items:[],cat:"",weave:"",q:"",price:"",sort:"new"};
+const st={items:[],cat:"",weave:"",q:"",price:"",sort:"az"};
 /* Collections shown as picture tiles. Replace an image by changing its path (e.g. "img/cat/saree.jpg"). */
 const COLLECTIONS=[
   {key:"Saree",label:"Sarees",img:"img/cat/saree.svg"},
@@ -292,7 +294,7 @@ function chips(){
     return `<button class="tile" data-c="${esc(o.key)}" aria-pressed="${st.cat===o.key}"><div class="ring"><img src="${esc(pic)}" alt=""></div><span>${esc(o.label)}</span><small>${c?c+" designs":"Coming soon"}</small></button>`}).join("");
   const pool=st.items.filter(x=>!st.cat||x.category===st.cat);
   const m=new Map();pool.forEach(x=>{const k=tidy(x.type);m.set(k,(m.get(k)||0)+1)});
-  const list=[...m].sort((a,b)=>b[1]-a[1]);
+  const list=[...m].sort((a,b)=>a[0].localeCompare(b[0],"en",{sensitivity:"base"}));
   $("#weaves").innerHTML=list.length>1?[["","All",pool.length],...list.map(([k,c])=>[k,k,c])].map(([k,l,c])=>`<button class="chip" data-w="${esc(k)}" aria-pressed="${st.weave===k}">${esc(l)}<small>${c}</small></button>`).join(""):"";
   $("#weaves").hidden=list.length<2;
 }
@@ -304,7 +306,10 @@ function filtered(){
     if(st.price){const[a,b]=st.price.split("-").map(Number);if(x.price<a||x.price>=b)return false}
     if(q&&!([x.name,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
     return true});
-  if(st.sort==="low")r.sort((a,b)=>a.price-b.price);
+  const byName=(a,b)=>tidy(a.name).localeCompare(tidy(b.name),"en",{sensitivity:"base"})||tidy(a.type).localeCompare(tidy(b.type));
+  if(st.sort==="az")r.sort(byName);
+  else if(st.sort==="za")r.sort((a,b)=>byName(b,a));
+  else if(st.sort==="low")r.sort((a,b)=>a.price-b.price);
   else if(st.sort==="high")r.sort((a,b)=>b.price-a.price);
   else r.sort((a,b)=>(b.added||0)-(a.added||0));
   return r;
