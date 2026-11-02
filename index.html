@@ -157,7 +157,12 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 @media (min-width:860px){.s-rule{margin:2px 0}}
 
 .ribbon{background:#3E061B;color:#F4D58A;font-size:.88rem;text-align:center;line-height:1.35}
-.ribbon .wrap{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px}
+.ribbon .tick{overflow:hidden;padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.ribbon .track{display:flex;gap:28px;width:max-content;white-space:nowrap;animation:tick 48s linear infinite}
+.ribbon .track span[aria-hidden]{color:#D4A23C}
+.ribbon:hover .track{animation-play-state:paused}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ribbon .track{animation:none;white-space:normal;width:auto;justify-content:center;padding:0 16px}.ribbon .track>*:nth-child(n+2){display:none}}
 .ribbon+.mast .wrap{padding-top:16px}
 /* about + footer */
 .about{border-top:1px solid var(--line);background:var(--surface)}
@@ -173,7 +178,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 </head>
 <body>
 
-<div class="ribbon"><div class="wrap">Every piece here is hand-picked, and most are one of a kind. We don't stock in bulk, so if something speaks to you, let us know soon.</div></div>
+<div class="ribbon" role="note" aria-label="Every piece here is hand-picked, and most are one of a kind. We don't stock in bulk, so if something speaks to you, let us know soon."><div class="tick"><div class="track"><span>Every piece here is hand-picked, and most are one of a kind. We don't stock in bulk, so if something speaks to you, let us know soon.</span><span aria-hidden="true">✦</span><span>Every piece here is hand-picked, and most are one of a kind. We don't stock in bulk, so if something speaks to you, let us know soon.</span><span aria-hidden="true">✦</span><span>Every piece here is hand-picked, and most are one of a kind. We don't stock in bulk, so if something speaks to you, let us know soon.</span><span aria-hidden="true">✦</span><span>Every piece here is hand-picked, and most are one of a kind. We don't stock in bulk, so if something speaks to you, let us know soon.</span><span aria-hidden="true">✦</span></div></div></div>
 <header class="mast">
   <div class="wrap">
     <div class="topline">
