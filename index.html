@@ -280,10 +280,6 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
   </div>
   <div class="zari"></div>
 </header>
-
-<section class="shopby"><div class="wrap"><h2 class="sbh">Shop by collection</h2><div class="tiles" id="cats" role="group" aria-label="Collections"></div></div></section>
-<section class="edits" id="edits"></section>
-
 <div class="bar">
   <div class="wrap">
     <div class="tools">
@@ -300,6 +296,10 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
     <div class="active" id="active" hidden></div>
   </div>
 </div>
+
+
+<section class="shopby"><div class="wrap"><h2 class="sbh">Shop by collection</h2><div class="tiles" id="cats" role="group" aria-label="Collections"></div></div></section>
+<section class="edits" id="edits"></section>
 
 <main id="shop">
   <div class="wrap">
@@ -534,8 +534,9 @@ document.addEventListener("click",e=>{
     (navigator.share?navigator.share({title:"Dakshaya Boutique",url}):navigator.clipboard.writeText(url).then(()=>toast("Link copied"))).catch(()=>{});}
 });
 document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!$("#zoom").hidden){$("#zoom").hidden=true;$("#zoom").classList.remove("on");return}if(!$("#sheet").hidden)closeSheet()});
-$("#q").addEventListener("input",e=>{st.q=e.target.value.trim();render()});
-$("#sort").addEventListener("change",e=>{st.sort=e.target.value;render()});
+function gridInView(){const r=document.getElementById("shop").getBoundingClientRect();return r.top<innerHeight*0.6}
+$("#q").addEventListener("input",e=>{st.q=e.target.value.trim();render();if(st.q&&!gridInView())toShop()});
+$("#sort").addEventListener("change",e=>{st.sort=e.target.value;render();if(!gridInView())toShop()});
 </script>
 </body>
 </html>
