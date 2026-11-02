@@ -192,6 +192,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 @media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
 .desc{margin:0 0 12px;line-height:1.5;opacity:.9}
 #occ{margin-bottom:8px}
+.chips[hidden]{display:none}
 .card .flag.new{left:auto;right:8px;background:var(--maroon);color:#fff}
 .rel{margin-top:18px}.rel h3{font-family:var(--display);font-weight:400;font-size:1.15rem;margin:0 0 8px}
 .relgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:start}
@@ -364,7 +365,9 @@ function chips(){
   const list=[...m].sort((a,b)=>a[0].localeCompare(b[0],"en",{sensitivity:"base"}));
   $("#weaves").innerHTML=list.length>1?[["","All",pool.length],...list.map(([k,c])=>[k,k,c])].map(([k,l,c])=>`<button class="chip" data-w="${esc(k)}" aria-pressed="${st.weave===k}">${esc(l)}<small>${c}</small></button>`).join(""):"";
   $("#weaves").hidden=list.length<2;
-  const oc=OCC.map(([l,re])=>[l,st.items.filter(x=>re.test(x.for||"")).length]).filter(o=>o[1]);
+  const opool=st.items.filter(x=>st.cat==="__offers"?onOffer(x):(!st.cat||x.category===st.cat));
+  const oc=OCC.map(([l,re])=>[l,opool.filter(x=>re.test(x.for||"")).length]).filter(o=>o[1]);
+  if(st.occ&&!oc.some(o=>o[0]===st.occ))st.occ="";
   $("#occ").innerHTML=oc.length?[["","Any occasion"],...oc].map(([l,c])=>`<button class="chip" data-o="${esc(l)}" aria-pressed="${st.occ===l}">${esc(l)}${c?`<small>${c}</small>`:""}</button>`).join(""):"";
   $("#occ").hidden=!oc.length;
 }
