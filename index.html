@@ -70,8 +70,8 @@ button{cursor:pointer}
 .sbh{font-family:var(--display);font-weight:400;font-size:1.5rem;margin:0 0 12px}
 .tiles{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:4px 2px 14px;margin-bottom:6px;scroll-snap-type:x proximity}
 .tiles::-webkit-scrollbar{display:none}
-.tile{flex:none;width:92px;display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;padding:0;scroll-snap-align:start;text-align:center}
-.tile .ring{width:84px;height:84px;border-radius:50%;padding:3px;background:linear-gradient(140deg,#F8E3A3,#C9962F 50%,#8A5E14);box-shadow:0 4px 12px rgba(36,26,40,.15);transition:transform .15s}
+.tile{flex:none;width:96px;display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;padding:0;scroll-snap-align:start;text-align:center}
+.tile .ring{width:88px;height:88px;border-radius:50%;padding:3px;background:linear-gradient(140deg,#F8E3A3,#C9962F 50%,#8A5E14);box-shadow:0 4px 12px rgba(36,26,40,.15);transition:transform .15s}
 .tile .ring img,.tile .ring .all{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:2px solid var(--surface)}
 .tile .ring .all{display:grid;place-items:center;background:var(--maroon);color:#F4D58A;font:28px var(--display)}
 .tile span{font-size:.8rem;font-weight:600;line-height:1.15;color:var(--ink)}
@@ -79,7 +79,7 @@ button{cursor:pointer}
 .tile[aria-pressed="true"] .ring{background:var(--maroon);transform:scale(1.06)}
 .tile[aria-pressed="true"] span{color:var(--maroon)}
 .tile:hover .ring{transform:scale(1.05)}
-@media (min-width:720px){.tile{width:108px}.tile .ring{width:100px;height:100px}}
+@media (min-width:720px){.tiles{gap:28px}.tile{width:150px}.tile .ring{width:136px;height:136px}.tile span{font-size:.95rem}}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.9rem;color:var(--muted);white-space:nowrap}
 .chip[aria-pressed="true"]{background:var(--maroon);border-color:var(--maroon);color:#fff}
@@ -197,10 +197,11 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
   <div class="zari"></div>
 </header>
 
-<section class="shopby"><div class="wrap"><h2 class="sbh">Shop by weave</h2><div class="tiles" id="cats" role="group" aria-label="Shop by weave"></div></div></section>
+<section class="shopby"><div class="wrap"><h2 class="sbh">Shop by collection</h2><div class="tiles" id="cats" role="group" aria-label="Collections"></div></div></section>
 
 <div class="bar">
   <div class="wrap">
+    <div class="chips" id="weaves" role="group" aria-label="Weaves"></div>
     <div class="tools">
       <input id="q" type="search" placeholder="Search colour, fabric or code" aria-label="Search">
       <select id="price" aria-label="Price range">
@@ -257,7 +258,14 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const inr=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
 const tidy=s=>String(s||"").replace(/\s+/g," ").trim();
 const wa=text=>`https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
-const st={items:[],cat:"",q:"",price:"",sort:"new"};
+const st={items:[],cat:"",weave:"",q:"",price:"",sort:"new"};
+/* Collections shown as picture tiles. Replace an image by changing its path (e.g. "img/cat/saree.jpg"). */
+const COLLECTIONS=[
+  {key:"Saree",label:"Sarees",img:"img/cat/saree.svg"},
+  {key:"Kurti",label:"Kurtis",img:"img/cat/kurti.svg"},
+  {key:"Dress material",label:"Dress Materials",img:"img/cat/dress.svg"},
+  {key:"Jewellery",label:"Jewellery",img:"img/cat/jewellery.svg"},
+];
 
 $("#yr").textContent=new Date().getFullYear();
 if(SHOP.address) $("#addr").textContent=SHOP.address;
@@ -278,19 +286,21 @@ function facts(){
 }
 function groupOf(x){return x.category==="Saree"?tidy(x.type):x.category}
 function chips(){
-  const cats=new Set(st.items.map(x=>x.category));
-  let list;
-  if(cats.size>1){list=[...cats].map(c=>[c,st.items.filter(x=>x.category===c).length])}
-  else{const m=new Map();st.items.forEach(x=>{const k=tidy(x.type);m.set(k,(m.get(k)||0)+1)});list=[...m].sort((a,b)=>b[1]-a[1])}
-  st.groupBy=cats.size>1?"category":"type";
-  const keyOf=x=>st.groupBy==="category"?x.category:tidy(x.type);
-  const pic=k=>{const its=st.items.filter(x=>keyOf(x)===k).sort((a,b)=>b.price-a.price);return its[0]?its[0].img:""};
-  $("#cats").innerHTML=[["",st.items.length,"All"],...list.map(([k,n])=>[k,n,k])].map(([k,n,l])=>`<button class="tile" data-c="${esc(k)}" aria-pressed="${st.cat===k}"><div class="ring">${k?`<img src="img/${esc(pic(k))}-s.jpg" alt="" loading="lazy">`:`<div class="all">D</div>`}</div><span>${esc(l)}</span><small>${n}</small></button>`).join("");
+  const n=k=>st.items.filter(x=>x.category===k).length;
+  const extra=[...new Set(st.items.map(x=>x.category))].filter(c=>!COLLECTIONS.some(o=>o.key===c)).map(c=>({key:c,label:c,img:""}));
+  $("#cats").innerHTML=[...COLLECTIONS,...extra].map(o=>{const c=n(o.key);const pic=o.img||(st.items.find(x=>x.category===o.key)||{}).img&&`img/${st.items.find(x=>x.category===o.key).img}-s.jpg`;
+    return `<button class="tile" data-c="${esc(o.key)}" aria-pressed="${st.cat===o.key}"><div class="ring"><img src="${esc(pic)}" alt=""></div><span>${esc(o.label)}</span><small>${c?c+" designs":"Coming soon"}</small></button>`}).join("");
+  const pool=st.items.filter(x=>!st.cat||x.category===st.cat);
+  const m=new Map();pool.forEach(x=>{const k=tidy(x.type);m.set(k,(m.get(k)||0)+1)});
+  const list=[...m].sort((a,b)=>b[1]-a[1]);
+  $("#weaves").innerHTML=list.length>1?[["","All",pool.length],...list.map(([k,c])=>[k,k,c])].map(([k,l,c])=>`<button class="chip" data-w="${esc(k)}" aria-pressed="${st.weave===k}">${esc(l)}<small>${c}</small></button>`).join(""):"";
+  $("#weaves").hidden=list.length<2;
 }
 function filtered(){
   const q=st.q.toLowerCase();
   let r=st.items.filter(x=>{
-    if(st.cat&&(st.groupBy==="category"?x.category:tidy(x.type))!==st.cat)return false;
+    if(st.cat&&x.category!==st.cat)return false;
+    if(st.weave&&tidy(x.type)!==st.weave)return false;
     if(st.price){const[a,b]=st.price.split("-").map(Number);if(x.price<a||x.price>=b)return false}
     if(q&&!([x.name,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
     return true});
@@ -302,7 +312,9 @@ function filtered(){
 function title(x){return tidy(x.name)}
 function render(){
   const r=filtered();
-  $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+st.cat:""}`;
+  const lab=(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
+  $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}${st.weave?" · "+st.weave:""}`;
+  if(!r.length&&st.cat&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Silks, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
   $("#grid").innerHTML=r.length?r.map(x=>`<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(x.price)}">
     <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${inr(x.price)}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`).join("")
@@ -329,7 +341,8 @@ function openFromHash(){const h=location.hash.slice(1).toUpperCase();if(h==="OUR
 window.addEventListener("hashchange",openFromHash);
 
 document.addEventListener("click",e=>{
-  const c=e.target.closest(".tile");if(c){st.cat=c.dataset.c;chips();render();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight;scrollTo({top:y,behavior:"smooth"});return}
+  const w=e.target.closest(".chip[data-w]");if(w){st.weave=w.dataset.w;chips();render();return}
+  const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave="";chips();render();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight;scrollTo({top:y,behavior:"smooth"});return}
   const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
   if(e.target.closest("[data-close]")||e.target.id==="sheet"){closeSheet();return}
   const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
