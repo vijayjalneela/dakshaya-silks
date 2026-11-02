@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760" role="img" aria-label="A serene Indian woman in a saree, with a golden halo behind her">
+  <defs>
+    <radialGradient id="glow" cx="300" cy="250" r="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F7DC8F" stop-opacity=".55"/>
+      <stop offset=".45" stop-color="#D9A93A" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#D9A93A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8E3A3"/><stop offset=".5" stop-color="#D4A23C"/><stop offset="1" stop-color="#A8771E"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B9774C"/><stop offset="1" stop-color="#9C5E38"/>
+    </linearGradient>
+    <linearGradient id="sareeG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C21F55"/><stop offset="1" stop-color="#7E0F38"/>
+    </linearGradient>
+    <pattern id="buttas" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+      <path d="M17 9c3 4 3 8 0 12-3-4-3-8 0-12z" fill="#E9C46A" opacity=".75"/>
+    </pattern>
+    <pattern id="zariBand" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+      <rect width="16" height="16" fill="#C9962F"/>
+      <path d="M0 8h16M8 0v16" stroke="#F8E3A3" stroke-width="1.2" opacity=".7"/>
+      <circle cx="8" cy="8" r="2.4" fill="#7E0F38"/>
+    </pattern>
+    <clipPath id="pallu"><path d="M300 372 L452 404 Q500 440 500 540 L504 760 L250 760 Z"/></clipPath>
+  </defs>
+
+  <!-- halo -->
+  <circle cx="300" cy="250" r="300" fill="url(#glow)"/>
+  <g fill="none" stroke="url(#gold)">
+    <circle cx="300" cy="235" r="168" stroke-width="3"/>
+    <circle cx="300" cy="235" r="152" stroke-width="1.2" stroke-dasharray="2 7"/>
+    <circle cx="300" cy="235" r="186" stroke-width="1"/>
+  </g>
+  <g stroke="url(#gold)" stroke-width="2" stroke-linecap="round" opacity=".85">
+    <path d="M300 30v26M300 414v12M95 235h26M479 235h26M155 90l18 18M445 90l-18 18M155 380l18-18M445 380l-18-18M218 50l8 22M382 50l-8 22M110 160l22 8M490 160l-22 8M110 310l22-8M490 310l-22-8"/>
+  </g>
+  <!-- lotus petals ring -->
+  <g fill="#E9C46A" opacity=".55">
+    <path d="M300 62c10 12 10 24 0 34-10-10-10-22 0-34z"/>
+    <path d="M300 62c10 12 10 24 0 34-10-10-10-22 0-34z" transform="rotate(30 300 235)"/>
+    <path d="M300 62c10 12 10 24 0 34-10-10-10-22 0-34z" transform="rotate(60 300 235)"/>
+    <path d="M300 62c10 12 10 24 0 34-10-10-10-22 0-34z" transform="rotate(90 300 235)"/>
+    <path d="M300 62c10 12 10 24 0 34-10-10-10-22 0-34z" transform="rotate(-30 300 235)"/>
+    <path d="M300 62c10 12 10 24 0 34-10-10-10-22 0-34z" transform="rotate(-60 300 235)"/>
+    <path d="M300 62c10 12 10 24 0 34-10-10-10-22 0-34z" transform="rotate(-90 300 235)"/>
+  </g>
+
+  <!-- low bun behind the head with a jasmine gajra -->
+  <circle cx="352" cy="318" r="30" fill="#1F1212"/>
+  <g fill="#FFF8EC">
+    <circle cx="330" cy="292" r="5.5"/><circle cx="342" cy="286" r="5.5"/><circle cx="355" cy="285" r="5.5"/><circle cx="368" cy="289" r="5.5"/><circle cx="378" cy="298" r="5.5"/><circle cx="384" cy="310" r="5.5"/><circle cx="385" cy="323" r="5.5"/><circle cx="381" cy="336" r="5.5"/><circle cx="373" cy="346" r="5"/>
+  </g>
+  <g fill="#FFFFFF" opacity=".55"><circle cx="356" cy="306" r="3"/><circle cx="345" cy="325" r="3"/><circle cx="364" cy="330" r="3"/></g>
+  <!-- hair, pulled back neatly -->
+  <path d="M300 146c-58 0-90 40-92 96-1 18 2 32 8 42l20-4c-6-18-6-38 0-58 10-34 34-54 64-56 30 2 54 22 64 56 6 20 6 40 0 58l20 4c6-10 9-24 8-42-2-56-34-96-92-96z" fill="#1F1212"/>
+  <!-- body / blouse -->
+  <path d="M276 330h48l6 46c46 5 96 16 124 32 34 20 44 72 46 124l4 228H100l4-228c2-52 12-104 46-124 28-16 78-27 124-32z" fill="#5C0B2A"/>
+  <!-- blouse sleeve trim (her right, viewer's left) -->
+  <path d="M146 416c-22 24-32 74-34 124" fill="none" stroke="url(#gold)" stroke-width="5" stroke-linecap="round"/>
+  <!-- neck -->
+  <path d="M278 318h44l4 60c-14 10-38 10-52 0z" fill="url(#skin)"/>
+
+  <!-- pallu over her left shoulder (viewer's right) -->
+  <path d="M300 372 L452 404 Q500 440 500 540 L504 760 L250 760 Z" fill="url(#sareeG)"/>
+  <rect x="200" y="360" width="320" height="420" fill="url(#buttas)" clip-path="url(#pallu)"/>
+  <path d="M300 372 L250 760 L282 760 L324 377 Z" fill="url(#zariBand)"/>
+  <path d="M300 372 L250 760" stroke="#F8E3A3" stroke-width="1.5"/>
+  <path d="M324 377 L282 760" stroke="#F8E3A3" stroke-width="1.5"/>
+  <!-- pleated drape fold lines -->
+  <g stroke="#5C0B2A" stroke-width="2" opacity=".45" fill="none">
+    <path d="M360 400c-6 120-14 240-24 360"/><path d="M410 410c0 120-6 240-10 350"/><path d="M452 420c6 110 6 230 4 340"/>
+  </g>
+
+  <!-- face -->
+  <path d="M300 168c-44 0-66 34-66 76 0 32 8 56 22 72 14 16 30 24 44 24s30-8 44-24c14-16 22-40 22-72 0-42-22-76-66-76z" fill="url(#skin)"/>
+  <!-- ears + jhumkas -->
+  <ellipse cx="234" cy="256" rx="8" ry="15" fill="#A86640"/>
+  <ellipse cx="366" cy="256" rx="8" ry="15" fill="#A86640"/>
+  <g fill="url(#gold)">
+    <circle cx="233" cy="274" r="3.5"/><path d="M221 292c0-10 6-15 12-15s12 5 12 15z"/><circle cx="224" cy="296" r="2"/><circle cx="233" cy="297" r="2"/><circle cx="242" cy="296" r="2"/>
+    <circle cx="367" cy="274" r="3.5"/><path d="M355 292c0-10 6-15 12-15s12 5 12 15z"/><circle cx="358" cy="296" r="2"/><circle cx="367" cy="297" r="2"/><circle cx="376" cy="296" r="2"/>
+  </g>
+  <!-- hair over forehead with centre parting, a touch of grey at the temple -->
+  <path d="M300 160c-46 0-72 30-74 74 18-10 34-28 42-46 10 6 22 10 32 10s22-4 32-10c8 18 24 36 42 46-2-44-28-74-74-74z" fill="#1F1212"/>
+  <path d="M246 196c-8 10-13 22-15 34" stroke="#B9B2AE" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".9"/>
+  <path d="M254 190c-7 9-11 19-13 29" stroke="#B9B2AE" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+  <!-- sindoor in parting -->
+  <path d="M300 162v30" stroke="#D7263D" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- features: serene, closed eyes -->
+  <g fill="none" stroke="#3A1F14" stroke-linecap="round">
+    <path d="M262 236c8-6 18-7 26-3" stroke-width="2.6"/>
+    <path d="M312 233c8-4 18-3 26 3" stroke-width="2.6"/>
+    <path d="M264 254c8 6 18 6 24 0" stroke-width="2.4"/>
+    <path d="M312 254c6 6 16 6 24 0" stroke-width="2.4"/>
+    <path d="M299 252c-2 12-4 22-8 28 4 3 10 4 16 1" stroke-width="2" opacity=".75"/>
+    <path d="M286 300c9 6 19 6 28 0" stroke-width="2.4"/>
+    <path d="M262 296c4 14 12 24 22 30" stroke-width="1.4" opacity=".35"/>
+    <path d="M338 296c-4 14-12 24-22 30" stroke-width="1.4" opacity=".35"/>
+    <path d="M286 334c9 4 19 4 28 0" stroke-width="1.4" opacity=".35"/>
+  </g>
+  <path d="M288 300c8 9 16 9 24 0" fill="#8E2D2A" opacity=".55"/>
+  <!-- bindi and nose stud -->
+  <circle cx="300" cy="222" r="5.5" fill="#D7263D"/>
+  <circle cx="300" cy="222" r="2" fill="#F8E3A3"/>
+  <circle cx="290" cy="281" r="2.6" fill="url(#gold)"/>
+
+  <!-- mangalsutra and gold chain -->
+  <path d="M276 352c6 34 16 52 24 58 8-6 18-24 24-58" fill="none" stroke="#1F1212" stroke-width="2.6" stroke-dasharray="1 3.5" stroke-linecap="round"/>
+  <path d="M272 350c6 44 18 68 28 74 10-6 22-30 28-74" fill="none" stroke="url(#gold)" stroke-width="2.6"/>
+  <path d="M300 424l-8 8 8 14 8-14z" fill="url(#gold)"/>
+  <circle cx="300" cy="432" r="2.5" fill="#D7263D"/>
+
+  <!-- bangles on the raised hand side are omitted; a lotus rests at the foot -->
+  <g transform="translate(300 736) scale(.85)">
+    <path d="M0 -58c16 18 16 40 0 56-16-16-16-38 0-56z" fill="#F4C9D6"/>
+    <path d="M0 -2c-10-24-30-40-56-44 6 26 26 42 56 44z" fill="#E8A6BC"/>
+    <path d="M0 -2c10-24 30-40 56-44-6 26-26 42-56 44z" fill="#E8A6BC"/>
+    <path d="M0 -2c-22-8-46-8-70 2 22 14 48 14 70-2z" fill="#D9809E"/>
+    <path d="M0 -2c22-8 46-8 70 2-22 14-48 14-70-2z" fill="#D9809E"/>
+    <ellipse cx="0" cy="8" rx="86" ry="10" fill="url(#gold)" opacity=".8"/>
+  </g>
+</svg>
