@@ -31,6 +31,7 @@
   --bg:#16111A; --surface:#211A26; --sunk:#1B1520; --ink:#F2EAF2; --muted:#B3A4B6; --line:#372C3C;
   --maroon:#C2265E; --maroon-deep:#8E1442; --zari:#DDB453; --wa:#3CB878; color-scheme:dark}}
 *{box-sizing:border-box}
+html.locked,html.locked body{overflow:hidden}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding-bottom:env(safe-area-inset-bottom,0px)}
 img{max-width:100%;display:block}
@@ -65,7 +66,7 @@ button{cursor:pointer}
   linear-gradient(var(--maroon-deep),var(--maroon-deep))}
 
 /* filter bar */
-.bar{position:sticky;top:var(--ribh,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{position:-webkit-sticky;position:sticky;top:var(--ribh,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 4px 10px rgba(0,0,0,.04)}
 .bar .wrap{padding-top:10px;padding-bottom:10px;display:flex;flex-direction:column;gap:10px}
 .chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .shopby .wrap{padding-top:22px;padding-bottom:4px}
@@ -112,7 +113,7 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 @media (hover:hover){.card:hover .pic img{transform:scale(1.05)}}
 .zoomhint{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:.78rem;font-weight:600;border-radius:999px;padding:4px 10px;pointer-events:none}
 .panel .big{position:relative}.panel .big img{cursor:zoom-in}
-.zoom{position:fixed;inset:0;z-index:40;background:#000;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
+.zoom{position:fixed;inset:0;z-index:40;background:#000;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
 .zoom img{display:block;width:100%;height:100%;object-fit:contain;cursor:zoom-in}
 .zoom.on img{width:max(150%,1100px);height:auto;max-width:none;object-fit:initial;cursor:zoom-out}
 .zoom .zx{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:41;display:flex;align-items:center;gap:6px;height:44px;padding:0 16px 0 12px;border-radius:999px;border:2px solid #D4A23C;background:#fff;color:#241A28;font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.5);cursor:pointer}
@@ -178,9 +179,9 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .s-rule{width:120px;height:1px;background:linear-gradient(90deg,transparent,#D4A23C,transparent);margin:2px auto}
 @media (min-width:860px){.s-rule{margin:2px 0}}
 
-.ribbon{background:#3E061B;color:#F4D58A;font-size:.8rem;font-style:italic;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1.35;position:sticky;top:0;z-index:7;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.ribbon{position:-webkit-sticky;background:#3E061B;color:#F4D58A;font-size:.8rem;font-style:italic;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1.35;position:sticky;top:0;z-index:7;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .ribbon .tick{overflow:hidden;padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.ribbon .track{display:flex;gap:28px;width:max-content;white-space:nowrap;animation:tick 55s linear infinite}
+.ribbon .track{display:flex;gap:28px;width:max-content;white-space:nowrap;animation:tick 55s linear infinite;will-change:transform}
 .ribbon .track span[aria-hidden]{color:#D4A23C;font-style:normal}
 .ribbon:hover .track{animation-play-state:paused}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -379,6 +380,10 @@ $("#yr").textContent=new Date().getFullYear();
  $("#contact").innerHTML=[SHOP.address?(SHOP.map?`<a href="${esc(SHOP.map)}" target="_blank" rel="noopener">${esc(SHOP.address)}</a>`:esc(SHOP.address)):"",SHOP.instagram?`<a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener">Instagram</a>`:"",/^91?9{10}$/.test(SHOP.whatsapp)?"":`<a href="${wa("Hello Dakshaya Boutique")}" target="_blank" rel="noopener">WhatsApp +${esc(SHOP.whatsapp)}</a>`].filter(Boolean).join(" · ")}
 $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Boutique, I'd like to know more about your sarees.");
 
+function lockScroll(){document.documentElement.classList.add("locked")}
+function unlockScroll(){if($("#sheet").hidden&&$("#zoom").hidden)document.documentElement.classList.remove("locked")}
+/* safety net: if nothing is open, the page must always scroll */
+["touchstart","pageshow","focus","visibilitychange","hashchange"].forEach(ev=>addEventListener(ev,()=>{if(document.documentElement.classList.contains("locked"))unlockScroll()},{passive:true}));
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
 
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
@@ -459,7 +464,7 @@ function openFilters(){
     ${grp("Fabric / weave",weaves.map(([l,c])=>opt("weave",l,l,c)).join(""))}
     ${total||!st.items.some(inCat)?"":`<p class="note">Nothing matches all of these. Remove one filter.</p>`}
     <div class="ffoot"><button class="cta" data-showres>Show ${total} design${total===1?"":"s"}</button></div></div>`;
-  if($("#sheet").hidden){$("#sheet").hidden=false;document.body.style.overflow="hidden";$("#panel").scrollTop=0}
+  if($("#sheet").hidden){$("#sheet").hidden=false;lockScroll();$("#panel").scrollTop=0}
 }
 function refresh(){chips();render();activeUI()}
 function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
@@ -487,7 +492,7 @@ function open(x,push=true){
       <a class="cta" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
       <div class="btnrow"><button class="ghost" data-bag="${esc(code)}">${st.bag.includes(code)?"✓ In your bag":"Add to bag"}</button><button class="ghost" data-share="${esc(code)}">Share</button></div>
       <p class="note">Quote code <b>${esc(code)}</b> when you call or visit.</p>${relHTML(x)}</div>`;
-  $("#sheet").hidden=false;document.body.style.overflow="hidden";
+  $("#sheet").hidden=false;lockScroll();
   if(push)history.replaceState(null,"","#"+code.toLowerCase());
   $("#panel").scrollTop=0;$("[data-close]").focus();
 }
@@ -506,17 +511,17 @@ function openBag(){
   const msg="Hello Dakshaya Boutique, I'd like these pieces:\n"+its.map((x,i)=>`${i+1}. ${codeOf(x)} – ${title(x)} (${inr(pNow(x))})`).join("\n")+`\nTotal ${inr(tot)}. Are they available?`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button><div class="info"><span class="eyebrow">Your bag</span><h2 id="sheetTitle">${its.length} piece${its.length===1?"":"s"} · ${inr(tot)}</h2>
    ${its.length?its.map(x=>`<div class="bagrow"><img src="img/${esc(x.img)}-s.jpg" alt=""><div><b>${esc(title(x))}</b><br><span class="num">${esc(codeOf(x))} · ${inr(pNow(x))}</span></div><button data-unbag="${esc(codeOf(x))}">Remove</button></div>`).join("")+`<a class="cta" style="margin-top:14px" href="${wa(msg)}" target="_blank" rel="noopener">Send all on WhatsApp</a><p class="note">Every piece is one of a kind, so we'll confirm availability and send a packing video before shipping.</p>`:`<p>Your bag is empty.</p>`}</div>`;
-  $("#sheet").hidden=false;document.body.style.overflow="hidden";$("#panel").scrollTop=0;
+  $("#sheet").hidden=false;lockScroll();$("#panel").scrollTop=0;
 }
-function closeSheet(){$("#sheet").hidden=true;document.body.style.overflow="";history.replaceState(null,"",location.pathname+location.search)}
+function closeSheet(){$("#sheet").hidden=true;unlockScroll();history.replaceState(null,"",location.pathname+location.search)}
 function openFromHash(){const h=location.hash.slice(1).toUpperCase();if(h==="OUR-STORY"||h==="SHOP")return;if(!h){if(!$("#sheet").hidden)closeSheet();return}const x=st.items.find(i=>i.code.split(" ")[0]===h);if(x)open(x,false)}
 window.addEventListener("hashchange",openFromHash);
 
 document.addEventListener("click",e=>{
-  if(e.target.closest("[data-zclose]")){$("#zoom").hidden=true;$("#zoom").classList.remove("on");return}
+  if(e.target.closest("[data-zclose]")){$("#zoom").hidden=true;$("#zoom").classList.remove("on");unlockScroll();return}
   if(e.target.id==="zimg"){const z=$("#zoom"),im=e.target,r=im.getBoundingClientRect(),fx=(e.clientX-r.left)/r.width,fy=(e.clientY-r.top)/r.height;
     z.classList.toggle("on");if(z.classList.contains("on")){requestAnimationFrame(()=>{z.scrollLeft=fx*im.offsetWidth-z.clientWidth/2;z.scrollTop=fy*im.offsetHeight-z.clientHeight/2})}return}
-  const zm=e.target.closest("[data-zoom]");if(zm){$("#zimg").src=zm.dataset.zoom;$("#zimg").alt=zm.alt||"";$("#zoom").classList.remove("on");$("#zoom").hidden=false;return}
+  const zm=e.target.closest("[data-zoom]");if(zm){$("#zimg").src=zm.dataset.zoom;$("#zimg").alt=zm.alt||"";$("#zoom").classList.remove("on");$("#zoom").hidden=false;lockScroll();return}
   if(e.target.closest("#fbtn")){openFilters();return}
   const fo=e.target.closest(".chip[data-f]");if(fo){const k=fo.dataset.f,v=fo.dataset.v;st[k]=st[k]===v?"":v;refresh();openFilters();return}
   if(e.target.closest("[data-showres]")){closeSheet();toShop();return}
@@ -533,7 +538,7 @@ document.addEventListener("click",e=>{
   const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
     (navigator.share?navigator.share({title:"Dakshaya Boutique",url}):navigator.clipboard.writeText(url).then(()=>toast("Link copied"))).catch(()=>{});}
 });
-document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!$("#zoom").hidden){$("#zoom").hidden=true;$("#zoom").classList.remove("on");return}if(!$("#sheet").hidden)closeSheet()});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(!$("#zoom").hidden){$("#zoom").hidden=true;$("#zoom").classList.remove("on");unlockScroll();return}if(!$("#sheet").hidden)closeSheet()});
 function gridInView(){const r=document.getElementById("shop").getBoundingClientRect();return r.top<innerHeight*0.6}
 $("#q").addEventListener("input",e=>{st.q=e.target.value.trim();render();if(st.q&&!gridInView())toShop()});
 $("#sort").addEventListener("change",e=>{st.sort=e.target.value;render();if(!gridInView())toShop()});
