@@ -156,6 +156,9 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .s-rule{width:120px;height:1px;background:linear-gradient(90deg,transparent,#D4A23C,transparent);margin:2px auto}
 @media (min-width:860px){.s-rule{margin:2px 0}}
 
+.ribbon{background:#3E061B;color:#F4D58A;font-size:.88rem;text-align:center;line-height:1.35}
+.ribbon .wrap{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px}
+.ribbon+.mast .wrap{padding-top:16px}
 /* about + footer */
 .about{border-top:1px solid var(--line);background:var(--surface)}
 .about .wrap{padding-top:32px;padding-bottom:32px;display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
@@ -170,6 +173,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 </head>
 <body>
 
+<div class="ribbon"><div class="wrap">Every piece here is hand-picked, and most are one of a kind. We don't stock in bulk, so if something speaks to you, let us know soon.</div></div>
 <header class="mast">
   <div class="wrap">
     <div class="topline">
@@ -233,7 +237,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
   <div class="wrap">
     <div><h3>How to order</h3><p>Tap any saree, then "Order on WhatsApp". The message already has the saree code, so we know exactly which one you mean.</p></div>
     <div><h3>Our next exhibition</h3><p id="expo">Come see and feel the full collection in person. Dates and venue will be announced soon. Message us on WhatsApp to get an invite.</p></div>
-    <div><h3>What you see is what you get</h3><p>Every photo is of the actual piece in our shop, taken in natural daylight with no filters. Colours may look slightly different on some screens.</p></div>
+    <div><h3>What you see is what you get</h3><p>Every photo is of the actual piece from our hand-picked collection, taken in natural daylight with no filters. Colours may look slightly different on some screens.</p></div>
     <div><h3>See it packed before we ship</h3><p>Once you order, we send you a short packing video on WhatsApp showing your item's colour, fabric, design and price, and the delivery address. We ship only after you reply to confirm.</p></div>
   </div>
 </section>
