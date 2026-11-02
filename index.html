@@ -33,6 +33,7 @@
   --maroon:#C2265E; --maroon-deep:#8E1442; --zari:#DDB453; --wa:#3CB878; color-scheme:dark}}
 *{box-sizing:border-box}
 html.locked,html.locked body{overflow:hidden}
+html.locked body{position:fixed;left:0;right:0;width:100%}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding-bottom:env(safe-area-inset-bottom,0px)}
 img{max-width:100%;display:block}
@@ -44,7 +45,7 @@ button{cursor:pointer}
 
 /* masthead */
 .mast{background:radial-gradient(120% 90% at 75% 40%,#A3164A 0%,#7E0F38 45%,#4A0820 100%);color:var(--on-maroon);position:relative;overflow:hidden}
-.mast::before{content:"";position:absolute;inset:0;opacity:.09;background-image:radial-gradient(circle at 10px 10px,#fff 1.4px,transparent 1.6px);background-size:22px 22px}
+.mast::before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;opacity:.09;background-image:radial-gradient(circle at 10px 10px,#fff 1.4px,transparent 1.6px);background-size:22px 22px}
 .mast .wrap{position:relative;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:26px}
 .topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .logo{font-family:var(--display);font-size:1.15rem;letter-spacing:.06em;text-transform:uppercase;opacity:.92}
@@ -90,10 +91,11 @@ button{cursor:pointer}
 .chip small{font-weight:500;opacity:.75;margin-left:4px}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
 .tools input,.tools select{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 11px;min-height:40px;min-width:0}
-.tools input{flex:1 1 100%}
+.tools input{flex:1 1 140px}
 @media (min-width:640px){.tools input{flex:1 1 180px}}
-.tools select{flex:1 1 0}
-@media (min-width:640px){.tools select{flex:0 1 auto}}
+.tools select{flex:0 1 auto;max-width:9.5em}
+/* phones: search, Filters and a compact sort icon share one row (the icon still opens the phone's own sort picker) */
+@media (max-width:639px){.fbtn{padding:8px 11px}.tools input{flex-basis:110px}.tools select{flex:0 0 44px;width:44px;max-width:44px;padding:0;color:transparent;-webkit-appearance:none;appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23B0306A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4'/%3E%3C/svg%3E") center/20px no-repeat var(--surface);cursor:pointer}.tools select option{color:var(--ink)}}
 
 /* grid */
 main .wrap{padding-top:18px;padding-bottom:40px}
@@ -114,13 +116,14 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 @media (hover:hover){.card:hover .pic img{transform:scale(1.05)}}
 .zoomhint{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:.78rem;font-weight:600;border-radius:999px;padding:4px 10px;pointer-events:none}
 .panel .big{position:relative}.panel .big img{cursor:zoom-in}
-.zoom{position:fixed;inset:0;z-index:40;background:#000;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
+.zoom{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:#000;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
 .zoom img{display:block;width:100%;height:100%;object-fit:contain;cursor:zoom-in}
 .zoom.on img{width:max(150%,1100px);height:auto;max-width:none;object-fit:initial;cursor:zoom-out}
 .zoom .zx{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:41;display:flex;align-items:center;gap:6px;height:44px;padding:0 16px 0 12px;border-radius:999px;border:2px solid #D4A23C;background:#fff;color:#241A28;font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.5);cursor:pointer}
 .zoom .zx b{font-size:1.5rem;line-height:1;font-weight:400}
 .zoom .zt{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:41;color:#fff;background:rgba(0,0,0,.55);padding:5px 12px;border-radius:999px;font-size:.82rem;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.card .pic img{transition:none}}
+@supports not (aspect-ratio:1/1){.card .pic,.panel .big{height:0;padding-top:125%}.card .pic img,.panel .big img,.panel .big video{position:absolute;top:0;left:0}}
 .card .flag{position:absolute;left:8px;top:8px;background:var(--surface);color:var(--maroon);font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 9px;letter-spacing:.02em}
 .card .txt{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .card .ty{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -130,7 +133,7 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .empty{padding:40px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r)}
 
 /* sheet */
-.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,12,18,.55)}
+.sheet{position:fixed;top:0;right:0;bottom:0;left:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,12,18,.55)}
 @media (min-width:760px){.sheet{align-items:center;padding:24px}}
 .sheet[hidden]{display:none}
 .panel{background:var(--surface);width:100%;max-width:900px;max-height:92vh;max-height:92dvh;overflow:auto;border-radius:20px 20px 0 0;display:grid;grid-template-columns:1fr}
@@ -138,6 +141,9 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .panel .big{background:var(--sunk);aspect-ratio:4/5;max-width:100%;min-width:0}
 .panel .big img,.panel .big video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
 .panel .big{position:relative}
+/* phones: shorter photo so the price and order button show straight away; tap the photo for the full view */
+@media (max-width:759px){.panel .big{aspect-ratio:auto;width:100%;height:52vh;height:52dvh;padding-top:0}}
+@media (max-width:759px),(max-height:500px){.panel .info>.cta.stick{position:-webkit-sticky;position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:2;box-shadow:0 8px 24px rgba(0,0,0,.28)}}
 .playbtn{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:rgba(62,6,27,.88);color:#F4D58A;border:1px solid #D4A23C;border-radius:999px;padding:10px 18px;font-weight:700;font-size:.95rem;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 .vbadge{position:absolute;right:8px;bottom:8px;background:rgba(62,6,27,.85);color:#F4D58A;border-radius:999px;font-size:.7rem;font-weight:700;padding:2px 8px}
 .panel .info{padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -154,10 +160,10 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 
 
 /* our story */
-@font-face{font-family:"Cinzel Decorative";src:url(fonts/cinzel-deco.woff?v=2) format("woff");font-display:swap}
-@font-face{font-family:"Cormorant Garamond";src:url(fonts/cormorant.woff) format("woff");font-weight:300 700;font-display:swap}
-@font-face{font-family:"Cormorant Garamond";src:url(fonts/cormorant-italic.woff) format("woff");font-weight:300 700;font-style:italic;font-display:swap}
-@font-face{font-family:"Great Vibes";src:url(fonts/great-vibes.woff) format("woff");font-display:swap}
+@font-face{font-family:"Cinzel Decorative";src:url(fonts/cinzel-deco.woff2?v=2) format("woff2"),url(fonts/cinzel-deco.woff?v=2) format("woff");font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url(fonts/cormorant.woff2) format("woff2"),url(fonts/cormorant.woff) format("woff");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url(fonts/cormorant-italic.woff2) format("woff2"),url(fonts/cormorant-italic.woff) format("woff");font-weight:300 700;font-style:italic;font-display:swap}
+@font-face{font-family:"Great Vibes";src:url(fonts/great-vibes.woff2) format("woff2"),url(fonts/great-vibes.woff) format("woff");font-display:swap}
 .story{background:radial-gradient(120% 90% at 75% 40%,#A3164A 0%,#7E0F38 45%,#4A0820 100%);color:#F8E3A3;position:relative;overflow:hidden}
 .story::before,.story::after{content:"";position:absolute;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,#D4A23C 0 8px,transparent 8px 12px,#D4A23C 12px 14px,transparent 14px 22px) 0 2px/auto 6px repeat-x}
 .story::before{top:0}.story::after{bottom:0}
@@ -167,7 +173,7 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 @media (min-width:860px){.story-fig{order:2;max-width:460px}}
 .story-fig{position:relative;padding:10px;border-radius:220px 220px 18px 18px;background:linear-gradient(160deg,#F8E3A3,#C9962F 45%,#8A5E14 70%,#F3D27A);box-shadow:0 24px 50px rgba(0,0,0,.4)}
 .story-fig img{width:100%;height:auto;display:block;border-radius:210px 210px 10px 10px;aspect-ratio:3/4;object-fit:cover;object-position:50% 20%}
-.story-fig::after{content:"";position:absolute;inset:10px;border-radius:210px 210px 10px 10px;box-shadow:inset 0 0 0 1px rgba(248,227,163,.6),inset 0 -60px 60px -30px rgba(74,8,32,.35);pointer-events:none}
+.story-fig::after{content:"";position:absolute;top:10px;right:10px;bottom:10px;left:10px;border-radius:210px 210px 10px 10px;box-shadow:inset 0 0 0 1px rgba(248,227,163,.6),inset 0 -60px 60px -30px rgba(74,8,32,.35);pointer-events:none}
 .story-txt{display:flex;flex-direction:column;gap:16px;text-align:center;max-width:36rem;margin:0 auto}
 @media (min-width:860px){.story-txt{text-align:left;margin:0}}
 .gold{background:linear-gradient(100deg,#F8E3A3 0%,#E2B54E 30%,#FFF1C4 50%,#C9962F 72%,#F3D27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -187,10 +193,12 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .ribbon:hover .track{animation-play-state:paused}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.ribbon .track{animation:none;white-space:normal;width:auto;justify-content:center;padding:0 16px;display:grid}
-.ribbon .track>*{grid-area:1/1;opacity:0;transition:opacity .6s ease}
-.ribbon .track>span[aria-hidden]{display:none}
-.ribbon .track>.on{opacity:1}}
+.ribbon .track>*{display:none}
+.ribbon .track>.on{display:block;animation:ribfade .6s ease}}
+@keyframes ribfade{from{opacity:0}to{opacity:1}}
 .ribbon+.mast .wrap{padding-top:16px}
+/* short landscape phones: let the ribbon scroll away so the shop has room */
+@media (max-height:500px){.ribbon{position:relative}}
 .was{color:var(--muted);font-weight:500;font-size:.85em}
 .offtag{display:inline-block;background:#B42318;color:#fff;font-size:.75rem;font-weight:700;border-radius:999px;padding:2px 10px;vertical-align:middle}
 /* about + footer */
@@ -295,11 +303,11 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
       <input id="q" type="search" placeholder="Search colour, fabric or code" aria-label="Search">
       <button class="fbtn" id="fbtn" type="button" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filters<span class="fcount" id="fcount" hidden></span></button>
       <select id="sort" aria-label="Sort">
-        <option value="az">Name: A to Z</option>
-        <option value="za">Name: Z to A</option>
-        <option value="new">Newest first</option>
-        <option value="low">Price: low to high</option>
-        <option value="high">Price: high to low</option>
+        <option value="az">A to Z</option>
+        <option value="za">Z to A</option>
+        <option value="new">Newest</option>
+        <option value="low">Price: low–high</option>
+        <option value="high">Price: high–low</option>
       </select>
     </div>
     <div class="active" id="active" hidden></div>
@@ -360,7 +368,7 @@ const SHOP = {
 /* ====================================== */
 
 const $=s=>document.querySelector(s);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const inr=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
 const tidy=s=>String(s||"").replace(/\s+/g," ").trim();
 const wa=text=>`https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
@@ -391,25 +399,29 @@ const COLLECTIONS=[
 ];
 
 $("#yr").textContent=new Date().getFullYear();
-{const rb=document.querySelector(".ribbon");const setH=()=>document.documentElement.style.setProperty("--ribh",(rb?rb.offsetHeight:0)+"px");setH();addEventListener("resize",setH);if(document.fonts)document.fonts.ready.then(setH)}
+function ribH(){const rb=document.querySelector(".ribbon");return rb&&/sticky/.test(getComputedStyle(rb).position)?rb.offsetHeight:0}
+function setH(){document.documentElement.style.setProperty("--ribh",ribH()+"px")}
+setH();addEventListener("resize",setH);if(document.fonts)document.fonts.ready.then(setH);
 {const ex=SHOP.exhibition||{};if(ex.dates){$("#expo").innerHTML=`<b>${esc(ex.dates)}</b>${ex.timings?" · "+esc(ex.timings):""}<br>${esc(ex.venue||"")}${ex.map?` · <a href="${esc(ex.map)}" target="_blank" rel="noopener">Map</a>`:""}<br>Come see and feel the full collection in person.`}}
 {const pol=[SHOP.shipping,SHOP.payment,SHOP.returns].filter(Boolean);if(pol.length){$("#policy").hidden=false;$("#policyTxt").innerHTML=pol.map(esc).join("<br>")}
  $("#contact").innerHTML=[SHOP.address?(SHOP.map?`<a href="${esc(SHOP.map)}" target="_blank" rel="noopener">${esc(SHOP.address)}</a>`:esc(SHOP.address)):"",SHOP.instagram?`<a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener">Instagram</a>`:"",/^91?9{10}$/.test(SHOP.whatsapp)?"":`<a href="${wa("Hello Dakshaya Boutique")}" target="_blank" rel="noopener">WhatsApp +${esc(SHOP.whatsapp)}</a>`].filter(Boolean).join(" · ")}
 $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Boutique, I'd like to know more about your sarees.");
 
-function lockScroll(){document.documentElement.classList.add("locked")}
-function unlockScroll(){if($("#sheet").hidden&&$("#zoom").hidden)document.documentElement.classList.remove("locked")}
+/* Lock the page behind a sheet. Pinning <body> (not just overflow:hidden) also stops older iPhones scrolling the page underneath. */
+let lockY=0;
+function lockScroll(){const h=document.documentElement;if(h.classList.contains("locked"))return;lockY=scrollY;document.body.style.top=-lockY+"px";h.classList.add("locked")}
+function unlockScroll(){const h=document.documentElement;if(!$("#sheet").hidden||!$("#zoom").hidden||!h.classList.contains("locked"))return;h.classList.remove("locked");document.body.style.top="";const sb=h.style.scrollBehavior;h.style.scrollBehavior="auto";scrollTo(0,lockY);h.style.scrollBehavior=sb}
 /* safety net: if nothing is open, the page must always scroll */
 ["touchstart","pageshow","focus","visibilitychange","hashchange"].forEach(ev=>addEventListener(ev,()=>{if(document.documentElement.classList.contains("locked"))unlockScroll()},{passive:true}));
 /* Reduce Motion on: no sliding, but fade through each message so the strip still "runs" */
 (function(){const mq=matchMedia("(prefers-reduced-motion: reduce)");const msgs=[...document.querySelectorAll(".ribbon .track>span:not([aria-hidden])")].slice(0,5);if(!msgs.length)return;let i=0,t=null;
- function start(){msgs.forEach((m,k)=>m.classList.toggle("on",k===0));i=0;clearInterval(t);if(mq.matches)t=setInterval(()=>{msgs[i].classList.remove("on");i=(i+1)%msgs.length;msgs[i].classList.add("on")},3500)}
+ function start(){msgs.forEach((m,k)=>m.classList.toggle("on",k===0));i=0;clearInterval(t);if(mq.matches)t=setInterval(()=>{msgs[i].classList.remove("on");i=(i+1)%msgs.length;msgs[i].classList.add("on");setH()},3500);setH()}
  start();mq.addEventListener?mq.addEventListener("change",start):mq.addListener(start)})();
 /* Back to collections: appears once the collection tiles are scrolled out of view */
 (function(){const btn=$("#totop"),sec=document.getElementById("collections");let tick=false;
  function upd(){tick=false;const r=sec.getBoundingClientRect();btn.classList.toggle("show",r.bottom<0)}
  addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});upd();
- btn.addEventListener("click",()=>{const y=sec.getBoundingClientRect().top+scrollY-document.querySelector(".ribbon").offsetHeight-document.querySelector(".bar").offsetHeight;scrollTo({top:Math.max(0,y),behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})})})();
+ btn.addEventListener("click",()=>{const y=sec.getBoundingClientRect().top+scrollY-ribH()-document.querySelector(".bar").offsetHeight;scrollTo({top:Math.max(0,y),behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})})})();
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
 
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
@@ -442,7 +454,7 @@ const EDITS=[
 function edits(){
   $("#edits").innerHTML=`<div class="wrap">`+EDITS.map(e=>{const r=st.items.filter(e.f).sort(e.sort).slice(0,10);return r.length>=3?`<div class="edit"><div class="eh"><div><h2>${esc(e.t)}</h2><p>${esc(e.d)}</p></div><button data-edit="${e.k}">View all →</button></div><div class="row">${r.map(cardHTML).join("")}</div></div>`:""}).join("")+`</div>`;
 }
-function toShop(){const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-document.querySelector(".ribbon").offsetHeight;scrollTo({top:y,behavior:"smooth"})}
+function toShop(){const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-ribH();scrollTo({top:y,behavior:"smooth"})}
 function filtered(){
   let r=st.items.filter(x=>pass(x));
   const byName=(a,b)=>title(a).localeCompare(title(b),"en",{sensitivity:"base"})||tidy(a.type).localeCompare(tidy(b.type));
@@ -488,7 +500,7 @@ function openFilters(){
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button><div class="fpanel"><div class="fh"><h2 id="sheetTitle">Filters</h2>${nFilters()?`<button class="clearall" data-unset="filters">Clear filters</button>`:""}</div>
     ${grp("Occasion",occ.map(([l,c])=>opt("occ",l,l,c)).join(""))}
     ${grp("Price",prices.map(([v,l,c])=>opt("price",v,l,c)).join(""))}
-    ${grp("Colour",cols.map(([l,hex,c])=>opt("col",l,l,c,`<i style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${hex};margin-right:6px;vertical-align:-2px;box-shadow:0 0 0 1px rgba(0,0,0,.15)"></i>`)).join(""))}
+    ${grp("Colour",cols.map(([l,hex,c])=>opt("col",l,l,c,`<i style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${hex};margin-right:6px;vertical-align:-2px;box-shadow:0 0 0 1px rgba(128,128,128,.6)"></i>`)).join(""))}
     ${grp("Fabric / weave",weaves.map(([l,c])=>opt("weave",l,l,c)).join(""))}
     ${total||!st.items.some(inCat)?"":`<p class="note">Nothing matches all of these. Remove one filter.</p>`}
     <div class="ffoot"><button class="cta" data-showres>Show ${total} design${total===1?"":"s"}</button></div></div>`;
@@ -517,7 +529,7 @@ function open(x,push=true){
       <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:isClear(x)?` <span class="offtag">Clearance${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
       ${x.desc?`<p class="desc">${esc(x.desc)}</p>`:""}
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
-      <a class="cta" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
+      <a class="cta stick" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp · ${inr(pNow(x))}</a>
       <div class="btnrow"><button class="ghost" data-bag="${esc(code)}">${st.bag.includes(code)?"✓ In your bag":"Add to bag"}</button><button class="ghost" data-share="${esc(code)}">Share</button></div>
       <p class="note">Quote code <b>${esc(code)}</b> when you call or visit.</p>${relHTML(x)}</div>`;
   showSheet(push,"#"+code.toLowerCase());cur=code;
@@ -581,12 +593,15 @@ document.addEventListener("click",e=>{
   const bg=e.target.closest("[data-bag]");if(bg){const c=bg.dataset.bag;if(st.bag.includes(c)){st.bag=st.bag.filter(b=>b!==c);bg.textContent="Add to bag"}else{st.bag.push(c);bg.textContent="✓ In your bag";toast("Added to your bag")}saveBag();bagUI();return}
   const ub=e.target.closest("[data-unbag]");if(ub){st.bag=st.bag.filter(b=>b!==ub.dataset.unbag);saveBag();bagUI();openBag();return}
   if(e.target.closest("#bagbtn")){openBag();return}
-  const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave=st.occ=st.col=st.price=st.q="";$("#q").value="";refresh();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-document.querySelector(".ribbon").offsetHeight;scrollTo({top:y,behavior:"smooth"});return}
+  const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave=st.occ=st.col=st.price=st.q="";$("#q").value="";refresh();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-ribH();scrollTo({top:y,behavior:"smooth"});return}
   const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
   const pv=e.target.closest(".playbtn");if(pv){$("#bigMedia").innerHTML=`<video src="${esc(pv.dataset.video)}" poster="${esc(pv.dataset.poster)}" controls autoplay playsinline muted></video>`;return}
   if(e.target.closest("[data-close]")||e.target.id==="sheet"){closeSheet();return}
   const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
-    (navigator.share?navigator.share({title:"Dakshaya Boutique",url}):navigator.clipboard.writeText(url).then(()=>toast("Link copied"))).catch(()=>{});}
+    const show=()=>{try{prompt("Copy this link to share",url)}catch(e){toast(url)}};
+    if(navigator.share)navigator.share({title:"Dakshaya Boutique",url}).catch(()=>{});
+    else if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(()=>toast("Link copied"),show);
+    else show();}
 });
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape"){if(!$("#zoom").hidden){closeZoom();return}if(!$("#sheet").hidden)closeSheet();return}
