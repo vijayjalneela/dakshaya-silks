@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dakshaya Silks · Sarees & Ethnic Wear</title>
+<meta name="description" content="Handpicked silk, tussar, Banarasi, Mysore crepe, Kota and cotton sarees from Dakshaya Silks. Browse the collection and order on WhatsApp.">
+<meta property="og:title" content="Dakshaya Silks · Sarees & Ethnic Wear">
+<meta property="og:description" content="Handpicked sarees. Browse the collection and order on WhatsApp.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#A3164A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23A3164A'/%3E%3Ctext x='32' y='44' font-family='Georgia' font-size='36' text-anchor='middle' fill='%23F4D58A'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mukta:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: single column storefront. Maroon masthead with a zari border, a short welcome, sticky filter bar, 2–4 column product grid, item sheet on tap. */
+:root{
+  --bg:#FBF8FA; --surface:#FFFFFF; --sunk:#F3EDF2; --ink:#241A28; --muted:#6E6072; --line:#E7DDE6;
+  --maroon:#A3164A; --maroon-deep:#7E0F38; --on-maroon:#FFFFFF;
+  --zari:#B4871C; --zari-light:#F4D58A;
+  --wa:#1F8A55;
+  --display:"Marcellus","Palatino Linotype",Georgia,serif;
+  --body:"Mukta","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:14px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#16111A; --surface:#211A26; --sunk:#1B1520; --ink:#F2EAF2; --muted:#B3A4B6; --line:#372C3C;
+  --maroon:#C2265E; --maroon-deep:#8E1442; --zari:#DDB453; --wa:#3CB878; color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%;display:block}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--zari);outline-offset:2px}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-variant-numeric:tabular-nums}
+
+/* masthead */
+.mast{background:var(--maroon);color:var(--on-maroon);position:relative;overflow:hidden}
+.mast::before{content:"";position:absolute;inset:0;opacity:.09;background-image:radial-gradient(circle at 10px 10px,#fff 1.4px,transparent 1.6px);background-size:22px 22px}
+.mast .wrap{position:relative;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:26px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-family:var(--display);font-size:1.15rem;letter-spacing:.06em;text-transform:uppercase;opacity:.92}
+.wa-top{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);color:#fff;text-decoration:none;border-radius:999px;padding:6px 14px;font-weight:600;font-size:.92rem}
+.herow{display:grid;gap:28px;align-items:center;margin-top:30px}
+@media (min-width:900px){.herow{grid-template-columns:1.25fr 1fr}}
+.hero{display:grid;gap:14px;max-width:46rem}
+.mosaic{display:none}
+@media (min-width:900px){.mosaic{display:grid;grid-template-columns:1fr 1fr;gap:10px;transform:rotate(-2deg);max-width:380px;justify-self:end;width:100%}}
+.mosaic img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;border:3px solid var(--zari-light);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.mosaic img:nth-child(2){margin-top:28px}.mosaic img:nth-child(3){margin-top:-28px}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,7vw,4.2rem);line-height:1.02;margin:0;text-wrap:balance}
+.hero h1 span{color:var(--zari-light)}
+.hero p{margin:0;font-size:1.08rem;max-width:36rem;opacity:.92}
+.facts{display:flex;gap:22px;flex-wrap:wrap;margin-top:6px;font-size:.92rem}
+.facts b{display:block;font-size:1.5rem;font-weight:700;line-height:1.1;color:var(--zari-light)}
+.zari{height:12px;background:
+  repeating-linear-gradient(90deg,var(--zari) 0 8px,transparent 8px 12px,var(--zari) 12px 14px,transparent 14px 22px) 0 3px/auto 6px repeat-x,
+  linear-gradient(var(--maroon-deep),var(--maroon-deep))}
+
+/* filter bar */
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:10px;display:flex;flex-direction:column;gap:10px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.9rem;color:var(--muted);white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--maroon);border-color:var(--maroon);color:#fff}
+.chip small{font-weight:500;opacity:.75;margin-left:4px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools input,.tools select{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 11px;min-height:40px;min-width:0}
+.tools input{flex:1 1 100%}
+@media (min-width:640px){.tools input{flex:1 1 180px}}
+.tools select{flex:1 1 0}
+@media (min-width:640px){.tools select{flex:0 1 auto}}
+
+/* grid */
+main .wrap{padding-top:18px;padding-bottom:40px}
+.count{color:var(--muted);font-size:.92rem;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+@media (min-width:720px){.grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;text-align:left;padding:0;transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(36,26,40,.10)}
+.card .pic{aspect-ratio:4/5;max-width:100%;background:var(--sunk);position:relative;overflow:hidden}
+.card .pic img{width:100%;height:100%;object-fit:cover}
+.card .flag{position:absolute;left:8px;top:8px;background:var(--surface);color:var(--maroon);font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 9px;letter-spacing:.02em}
+.card .txt{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.card .ty{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .nm{font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.card .pr{font-weight:700;color:var(--maroon);font-size:1.08rem;margin-top:2px}
+.card .code{font-size:.75rem;color:var(--muted)}
+.empty{padding:40px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r)}
+
+/* sheet */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,12,18,.55)}
+@media (min-width:760px){.sheet{align-items:center;padding:24px}}
+.sheet[hidden]{display:none}
+.panel{background:var(--surface);width:100%;max-width:900px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;display:grid;grid-template-columns:1fr}
+@media (min-width:760px){.panel{grid-template-columns:1.05fr 1fr;border-radius:20px}}
+.panel .big{background:var(--sunk);aspect-ratio:4/5;max-width:100%}
+.panel .big img{width:100%;height:100%;object-fit:cover}
+.panel .info{padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel h2{font-family:var(--display);font-weight:400;font-size:1.9rem;line-height:1.1;margin:0;text-wrap:balance}
+.panel .eyebrow{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.panel .price{font-size:1.8rem;font-weight:700;color:var(--maroon)}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:.95rem}
+.spec dt{color:var(--muted)}
+.spec dd{margin:0;font-weight:500;overflow-wrap:anywhere}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--wa);color:#fff;text-decoration:none;border-radius:12px;padding:13px 16px;font-weight:700;font-size:1.05rem}
+.ghost{border:1px solid var(--line);background:none;border-radius:12px;padding:10px 14px;font-weight:600}
+.close{position:sticky;top:10px;margin-left:auto;margin-right:10px;margin-top:10px;width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);box-shadow:0 2px 10px rgba(0,0,0,.18);font-size:1.4rem;line-height:1;grid-column:1/-1;z-index:2;margin-bottom:-50px}
+.note{font-size:.85rem;color:var(--muted)}
+
+/* about + footer */
+.about{border-top:1px solid var(--line);background:var(--surface)}
+.about .wrap{padding-top:32px;padding-bottom:32px;display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.about h3{font-family:var(--display);font-weight:400;font-size:1.35rem;margin:0 0 6px}
+.about p{margin:0;color:var(--muted)}
+footer{background:var(--maroon-deep);color:#fff}
+footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.88rem;opacity:.9}
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:10;width:56px;height:56px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="topline">
+      <div class="logo">Dakshaya Silks</div>
+      <a class="wa-top" id="waTop" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+        WhatsApp us
+      </a>
+    </div>
+    <div class="herow"><div class="hero">
+      <h1>Sarees woven for <span>every occasion</span></h1>
+      <p>Silk, tussar, Banarasi, Mysore crepe, Kota and soft cottons, handpicked for our shop. See something you like? Message us on WhatsApp with the code and we'll keep it for you.</p>
+      <div class="facts num" id="facts"></div>
+    </div><div class="mosaic" id="mosaic" aria-hidden="true"></div></div>
+  </div>
+  <div class="zari"></div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="chips" id="cats" role="group" aria-label="Collections"></div>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Search colour, fabric or code" aria-label="Search">
+      <select id="price" aria-label="Price range">
+        <option value="">Any price</option>
+        <option value="0-1000">Under ₹1,000</option>
+        <option value="1000-2000">₹1,000 – ₹2,000</option>
+        <option value="2000-3000">₹2,000 – ₹3,000</option>
+        <option value="3000-99999">Above ₹3,000</option>
+      </select>
+      <select id="sort" aria-label="Sort">
+        <option value="new">Newest first</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <p class="count num" id="count">Loading the collection…</p>
+    <div class="grid" id="grid"></div>
+  </div>
+</main>
+
+<section class="about">
+  <div class="wrap">
+    <div><h3>How to order</h3><p>Tap any saree, then "Order on WhatsApp". The message already has the saree code, so we know exactly which one you mean.</p></div>
+    <div><h3>Visit the shop</h3><p id="addr">Come see the full range in person. Address coming soon.</p></div>
+    <div><h3>Every piece is checked</h3><p>Photos are of the actual saree in our shop. Colours may look slightly different on screen.</p></div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© <span id="yr"></span> Dakshaya Silks</span><span id="upd"></span></div></footer>
+
+<a class="fab" id="fab" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+</a>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="panel" id="panel"></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ===== Shop settings: change these ===== */
+const SHOP = {
+  whatsapp: "919999999999",          // DUMMY number for now: country code + number, digits only
+  address: "",                        // e.g. "12, Main Road, Bengaluru 560001"
+};
+/* ====================================== */
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const inr=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
+const tidy=s=>String(s||"").replace(/\s+/g," ").trim();
+const wa=text=>`https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
+const st={items:[],cat:"",q:"",price:"",sort:"new"};
+
+$("#yr").textContent=new Date().getFullYear();
+if(SHOP.address) $("#addr").textContent=SHOP.address;
+$("#waTop").href=$("#fab").href=wa("Hello Dakshaya Silks, I'd like to know more about your sarees.");
+
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
+
+fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{
+  st.items=d.items.filter(x=>x.stock>0);
+  if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+  facts();chips();render();openFromHash();
+  const pick=[...st.items].sort((a,b)=>b.price-a.price).slice(0,4);
+  $("#mosaic").innerHTML=pick.map(x=>`<img src="img/${esc(x.img)}-s.jpg" alt="">`).join("");
+}).catch(()=>{$("#count").textContent="The collection couldn't load. Please refresh the page."});
+
+function facts(){
+  const types=new Set(st.items.map(x=>tidy(x.type).toLowerCase()));
+  const prices=st.items.map(x=>x.price);
+  $("#facts").innerHTML=`<div><b>${st.items.length}</b>designs in stock</div><div><b>${types.size}</b>weaves &amp; fabrics</div><div><b>${inr(Math.min(...prices))}</b>sarees from</div>`;
+}
+function groupOf(x){return x.category==="Saree"?tidy(x.type):x.category}
+function chips(){
+  const cats=new Set(st.items.map(x=>x.category));
+  let list;
+  if(cats.size>1){list=[...cats].map(c=>[c,st.items.filter(x=>x.category===c).length])}
+  else{const m=new Map();st.items.forEach(x=>{const k=tidy(x.type);m.set(k,(m.get(k)||0)+1)});list=[...m].sort((a,b)=>b[1]-a[1])}
+  st.groupBy=cats.size>1?"category":"type";
+  $("#cats").innerHTML=[["",st.items.length,"All"],...list.map(([k,n])=>[k,n,k])].map(([k,n,l])=>`<button class="chip" data-c="${esc(k)}" aria-pressed="${st.cat===k}">${esc(l)}<small>${n}</small></button>`).join("");
+}
+function filtered(){
+  const q=st.q.toLowerCase();
+  let r=st.items.filter(x=>{
+    if(st.cat&&(st.groupBy==="category"?x.category:tidy(x.type))!==st.cat)return false;
+    if(st.price){const[a,b]=st.price.split("-").map(Number);if(x.price<a||x.price>=b)return false}
+    if(q&&!([x.name,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
+    return true});
+  if(st.sort==="low")r.sort((a,b)=>a.price-b.price);
+  else if(st.sort==="high")r.sort((a,b)=>b.price-a.price);
+  else r.sort((a,b)=>(b.added||0)-(a.added||0));
+  return r;
+}
+function title(x){return tidy(x.name)}
+function render(){
+  const r=filtered();
+  $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+st.cat:""}`;
+  $("#grid").innerHTML=r.length?r.map(x=>`<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(x.price)}">
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}</div>
+    <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${inr(x.price)}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`).join("")
+    :`<div class="empty" style="grid-column:1/-1">No sarees match that. Try another colour or clear the filters.</div>`;
+}
+function open(x,push=true){
+  const code=x.code.split(" ")[0];
+  const spec=[["Code",code],["Weave / type",tidy(x.type)],["Material",x.material&&tidy(x.material).toLowerCase()!==tidy(x.type).toLowerCase()?tidy(x.material):""],["Colour",tidy(x.color)],["Border",x.border&&x.border!=="No"?(x.border==="Yes"?"With border":x.border):"Borderless"],["Size",x.size],["Length",x.length?x.length+" m":""],["Blouse piece",x.category==="Saree"?(x.blouse?"Included":"Not included"):""],["Dupatta",x.dupatta?"Included":""],["Available",x.stock>1?x.stock+" pieces":"1 piece"]].filter(r=>r[1]);
+  const msg=`Hello Dakshaya Silks, I'm interested in ${code} – ${title(x)}, ${tidy(x.type)} (${inr(x.price)}). Is it available?`;
+  $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
+    <div class="big"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}"></div>
+    <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
+      <div class="price num">${inr(x.price)}</div>
+      <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+      <a class="cta" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
+      <button class="ghost" data-share="${esc(code)}">Copy link to share</button>
+      <p class="note">Quote code <b>${esc(code)}</b> when you call or visit.</p></div>`;
+  $("#sheet").hidden=false;document.body.style.overflow="hidden";
+  if(push)history.replaceState(null,"","#"+code.toLowerCase());
+  $("#panel").scrollTop=0;$("[data-close]").focus();
+}
+function closeSheet(){$("#sheet").hidden=true;document.body.style.overflow="";history.replaceState(null,"",location.pathname+location.search)}
+function openFromHash(){const h=location.hash.slice(1).toUpperCase();if(!h){if(!$("#sheet").hidden)closeSheet();return}const x=st.items.find(i=>i.code.split(" ")[0]===h);if(x)open(x,false)}
+window.addEventListener("hashchange",openFromHash);
+
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".chip");if(c){st.cat=c.dataset.c;chips();render();return}
+  const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
+  if(e.target.closest("[data-close]")||e.target.id==="sheet"){closeSheet();return}
+  const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
+    (navigator.share?navigator.share({title:"Dakshaya Silks",url}):navigator.clipboard.writeText(url).then(()=>toast("Link copied"))).catch(()=>{});}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#sheet").hidden)closeSheet()});
+$("#q").addEventListener("input",e=>{st.q=e.target.value.trim();render()});
+$("#price").addEventListener("change",e=>{st.price=e.target.value;render()});
+$("#sort").addEventListener("change",e=>{st.sort=e.target.value;render()});
+</script>
+</body>
+</html>
