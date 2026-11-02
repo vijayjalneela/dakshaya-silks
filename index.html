@@ -179,6 +179,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:10;width:56px;height:56px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+.desc{margin:0 0 12px;line-height:1.5;opacity:.9}
 </style>
 </head>
 <body>
@@ -298,8 +299,8 @@ $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Boutique, I'd like to know mo
 
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
 
-fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{
-  st.items=d.items.filter(x=>x.stock>0);
+Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
+  st.items=d.items.filter(x=>x.stock>0).map(x=>({...x,...(ds[x.code.split(" ")[0]]||{})}));
   if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
   facts();chips();render();openFromHash();
 }).catch(()=>{$("#count").textContent="The collection couldn't load. Please refresh the page."});
@@ -329,9 +330,9 @@ function filtered(){
     if(st.cat==="__offers"){if(!onOffer(x))return false}else if(st.cat&&x.category!==st.cat)return false;
     if(st.weave&&tidy(x.type)!==st.weave)return false;
     if(st.price){const[a,b]=st.price.split("-").map(Number);if(pNow(x)<a||pNow(x)>=b)return false}
-    if(q&&!([x.name,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
+    if(q&&!([x.name,x.title,x.desc,x.for,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
     return true});
-  const byName=(a,b)=>tidy(a.name).localeCompare(tidy(b.name),"en",{sensitivity:"base"})||tidy(a.type).localeCompare(tidy(b.type));
+  const byName=(a,b)=>title(a).localeCompare(title(b),"en",{sensitivity:"base"})||tidy(a.type).localeCompare(tidy(b.type));
   if(st.sort==="az")r.sort(byName);
   else if(st.sort==="za")r.sort((a,b)=>byName(b,a));
   else if(st.sort==="low")r.sort((a,b)=>pNow(a)-pNow(b));
@@ -339,7 +340,7 @@ function filtered(){
   else r.sort((a,b)=>(b.added||0)-(a.added||0));
   return r;
 }
-function title(x){return tidy(x.name)}
+function title(x){return tidy(x.title||x.name)}
 function render(){
   const r=filtered();
   const lab=st.cat==="__offers"?"Offers & Clearance":(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
@@ -352,12 +353,13 @@ function render(){
 }
 function open(x,push=true){
   const code=x.code.split(" ")[0];
-  const spec=[["Code",code],["Weave / type",tidy(x.type)],["Material",x.material&&tidy(x.material).toLowerCase()!==tidy(x.type).toLowerCase()?tidy(x.material):""],["Colour",tidy(x.color)],["Border",x.border&&x.border!=="No"?(x.border==="Yes"?"With border":x.border):"Borderless"],["Size",x.size],["Length",x.length?x.length+" m":""],["Blouse piece",x.category==="Saree"?(x.blouse?"Included":"Not included"):""],["Dupatta",x.dupatta?"Included":""],["Available",x.stock>1?x.stock+" pieces":"1 piece"]].filter(r=>r[1]);
+  const spec=[["Code",code],["Weave / type",tidy(x.type)],["Material",x.material&&tidy(x.material).toLowerCase()!==tidy(x.type).toLowerCase()?tidy(x.material):""],["Colour",tidy(x.color)],["Border",x.border&&x.border!=="No"?(x.border==="Yes"?"With border":x.border):"Borderless"],["Size",x.size],["Length",x.length?x.length+" m":""],["Blouse piece",x.category==="Saree"?(x.blouse?"Included":"Not included"):""],["Dupatta",x.dupatta?"Included":""],["Best for",x.for],["Available",x.stock>1?x.stock+" pieces":"Only 1 piece"]].filter(r=>r[1]);
   const msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}, ${tidy(x.type)} (${inr(pNow(x))}${onOffer(x)?", offer price":""}). Is it available?`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
     <div class="big" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}">${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
     <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
       <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
+      ${x.desc?`<p class="desc">${esc(x.desc)}</p>`:""}
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
       <a class="cta" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
       <button class="ghost" data-share="${esc(code)}">Copy link to share</button>

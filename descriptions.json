@@ -1,0 +1,322 @@
+{
+ "DS-001": {
+  "title": "Orange Tussar Silk Saree",
+  "desc": "The natural texture and soft sheen of tussar give it quiet elegance.",
+  "for": "Festive, family functions, office events"
+ },
+ "DS-002": {
+  "title": "Mehendi Green & Blue Kanjivaram Silk Saree",
+  "desc": "A rich silk weave with the classic Kanchi look.",
+  "for": "Weddings, festivals, poojas"
+ },
+ "DS-003": {
+  "title": "Pink & Green Kanjivaram Silk Saree with Zari Border",
+  "desc": "A rich silk weave with the classic Kanchi look. A zari border adds a festive finish.",
+  "for": "Weddings, festivals, poojas"
+ },
+ "DS-004": {
+  "title": "Gold Kanjivaram Silk Saree with Zari Border",
+  "desc": "A rich silk weave with the classic Kanchi look. A zari border adds a festive finish.",
+  "for": "Weddings, festivals, poojas"
+ },
+ "DS-005": {
+  "title": "Purple Modal Saree",
+  "desc": "Soft, lightweight modal that falls in a fluid drape and stays comfortable all day.",
+  "for": "Festive, parties, functions"
+ },
+ "DS-007": {
+  "title": "Maroon & Gold Modal Saree",
+  "desc": "Soft, lightweight modal that falls in a fluid drape and stays comfortable all day.",
+  "for": "Festive, parties, functions"
+ },
+ "DS-008": {
+  "title": "Red & Gold Modal Saree",
+  "desc": "Soft, lightweight modal that falls in a fluid drape and stays comfortable all day.",
+  "for": "Festive, parties, functions"
+ },
+ "DS-009": {
+  "title": "Grey Semi Tussar Saree",
+  "desc": "The natural texture and soft sheen of tussar give it quiet elegance.",
+  "for": "Festive, family functions, office events"
+ },
+ "DS-011": {
+  "title": "Onion Pink Tussar Silk Saree",
+  "desc": "The natural texture and soft sheen of tussar give it quiet elegance.",
+  "for": "Festive, family functions, office events"
+ },
+ "DS-012": {
+  "title": "Grey Tussar Silk Saree",
+  "desc": "The natural texture and soft sheen of tussar give it quiet elegance.",
+  "for": "Festive, family functions, office events"
+ },
+ "DS-014": {
+  "title": "Red Tussar Silk Saree",
+  "desc": "The natural texture and soft sheen of tussar give it quiet elegance.",
+  "for": "Festive, family functions, office events"
+ },
+ "DS-017": {
+  "title": "Mustard Banarasi Semi Katan Saree with Zari Border",
+  "desc": "A Banarasi-style weave that gives a rich festive look while staying light to carry. A zari border adds a festive finish.",
+  "for": "Weddings, festivals, receptions"
+ },
+ "DS-019": {
+  "title": "Blue Banarasi Semi Katan Saree with Zari Border",
+  "desc": "A Banarasi-style weave that gives a rich festive look while staying light to carry. A zari border adds a festive finish.",
+  "for": "Weddings, festivals, receptions"
+ },
+ "DS-020": {
+  "title": "Coffee Brown Banarasi Semi Katan Saree with Zari Border",
+  "desc": "A Banarasi-style weave that gives a rich festive look while staying light to carry. A zari border adds a festive finish.",
+  "for": "Weddings, festivals, receptions"
+ },
+ "DS-021": {
+  "title": "Dark Purple Banarasi Semi Katan Saree with Zari Border",
+  "desc": "A Banarasi-style weave that gives a rich festive look while staying light to carry. A zari border adds a festive finish.",
+  "for": "Weddings, festivals, receptions"
+ },
+ "DS-022": {
+  "title": "Blue Mysore Crepe Saree with Zari Border",
+  "desc": "Smooth Mysore crepe that drapes softly and holds its pleats beautifully. A zari border adds a festive finish.",
+  "for": "Functions, office events, festive"
+ },
+ "DS-023": {
+  "title": "Maroon Mysore Crepe Saree",
+  "desc": "Smooth Mysore crepe that drapes softly and holds its pleats beautifully.",
+  "for": "Functions, office events, festive"
+ },
+ "DS-024": {
+  "title": "Red Mysore Crepe Saree with Zari Border",
+  "desc": "Smooth Mysore crepe that drapes softly and holds its pleats beautifully. A zari border adds a festive finish.",
+  "for": "Functions, office events, festive"
+ },
+ "DS-026": {
+  "title": "Beige & Black Jute Silk Saree",
+  "desc": "An earthy, textured jute-silk weave with a natural look. Finished with a contrast border.",
+  "for": "Office, day events, gifting"
+ },
+ "DS-027": {
+  "title": "Maroon Semi Mushroom Silk Saree with Zari Border",
+  "desc": "A soft semi-silk with a gentle lustre. A zari border adds a festive finish.",
+  "for": "Festive, functions"
+ },
+ "DS-028": {
+  "title": "Sky Blue Semi Mushroom Silk Saree with Zari Border",
+  "desc": "A soft semi-silk with a gentle lustre. A zari border adds a festive finish.",
+  "for": "Festive, functions"
+ },
+ "DS-029": {
+  "title": "Red Kota Lotus Saree with Zari Border",
+  "desc": "Light, airy Kota weave that keeps you cool through long days. A zari border adds a festive finish.",
+  "for": "Summer functions, day events, festive"
+ },
+ "DS-030": {
+  "title": "Yellow Kota Lotus Saree with Zari Border",
+  "desc": "Light, airy Kota weave that keeps you cool through long days. A zari border adds a festive finish.",
+  "for": "Summer functions, day events, festive"
+ },
+ "DS-031": {
+  "title": "Purple Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-033": {
+  "title": "Navy Blue Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-034": {
+  "title": "Light Purple Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-035": {
+  "title": "Light Navy Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-036": {
+  "title": "Green Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-037": {
+  "title": "Grey Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-038": {
+  "title": "Blue-Purple Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-040": {
+  "title": "Red Semi Mango Silk Saree with Zari Border",
+  "desc": "A semi-silk with a rich, festive finish. A zari border adds a festive finish.",
+  "for": "Weddings, receptions, festivals"
+ },
+ "DS-041": {
+  "title": "Bluish Grey Semi Mango Silk Saree with Zari Border",
+  "desc": "A semi-silk with a rich, festive finish. A zari border adds a festive finish.",
+  "for": "Weddings, receptions, festivals"
+ },
+ "DS-042": {
+  "title": "Light Purple Semi Mango Silk Saree with Zari Border",
+  "desc": "A semi-silk with a rich, festive finish. A zari border adds a festive finish.",
+  "for": "Weddings, receptions, festivals"
+ },
+ "DS-043": {
+  "title": "Green Semi Mango Silk Saree with Zari Border",
+  "desc": "A semi-silk with a rich, festive finish. A zari border adds a festive finish.",
+  "for": "Weddings, receptions, festivals"
+ },
+ "DS-044": {
+  "title": "Purple Jamdani Saree",
+  "desc": "Woven Jamdani motifs that give it a handcrafted charm. Finished with a contrast border.",
+  "for": "Day events, festive, office"
+ },
+ "DS-045": {
+  "title": "Maroon Moonga Silk Saree with Zari Border",
+  "desc": "Moonga silk with its natural lustre. A zari border adds a festive finish.",
+  "for": "Festivals, poojas, functions"
+ },
+ "DS-046": {
+  "title": "Black Chiffon Saree with Zari Border",
+  "desc": "Featherlight chiffon that flows with every step. A zari border adds a festive finish.",
+  "for": "Parties, evening events"
+ },
+ "DS-047": {
+  "title": "Purple Satin Crepe Saree",
+  "desc": "Smooth satin crepe with a soft sheen.",
+  "for": "Parties, evening events"
+ },
+ "DS-050": {
+  "title": "Brown Tussar Georgette Saree with Zari Border",
+  "desc": "Light tussar georgette, easy to drape, with a subtle textured finish. A zari border adds a festive finish.",
+  "for": "Parties, functions, festive"
+ },
+ "DS-052": {
+  "title": "Maroon Banarasi Semi Silk Saree with Zari Border",
+  "desc": "A Banarasi semi-silk weave with a rich traditional look. A zari border adds a festive finish.",
+  "for": "Weddings, festivals, poojas"
+ },
+ "DS-054": {
+  "title": "Black & Pink Jamdani Saree with Zari Border",
+  "desc": "Woven Jamdani motifs that give it a handcrafted charm. A zari border adds a festive finish.",
+  "for": "Day events, festive, office"
+ },
+ "DS-055": {
+  "title": "Blue & Black Cotton Linen Handloom Saree with Zari Border",
+  "desc": "Breathable cotton-linen handloom with a crisp, elegant fall. A zari border adds a festive finish.",
+  "for": "Office, day events, festive"
+ },
+ "DS-056": {
+  "title": "Beige & Red Cotton Jamdani Saree",
+  "desc": "Breathable cotton with woven Jamdani motifs. Finished with a contrast border.",
+  "for": "Office, day events, festive"
+ },
+ "DS-058": {
+  "title": "Yellow Chikankari Saree",
+  "desc": "Delicate chikankari work for a graceful, understated look. Finished with a contrast border.",
+  "for": "Day events, office, summer functions"
+ },
+ "DS-059": {
+  "title": "Black Cotton Saree",
+  "desc": "Soft, breathable cotton for easy everyday wear.",
+  "for": "Daily wear, office"
+ },
+ "DS-061": {
+  "title": "Black Striped Chiffon Saree",
+  "desc": "Featherlight chiffon that flows with every step. Finished with a contrast border.",
+  "for": "Parties, evening events"
+ },
+ "DS-062": {
+  "title": "Blue Jamdani Saree",
+  "desc": "Woven Jamdani motifs that give it a handcrafted charm. Finished with a contrast border.",
+  "for": "Day events, festive, office"
+ },
+ "DS-063": {
+  "title": "Black & Red Crepe Saree",
+  "desc": "Soft crepe that drapes easily and resists creasing. Finished with a contrast border.",
+  "for": "Daily wear, office, travel"
+ },
+ "DS-065": {
+  "title": "Pink Hand-Painted Georgette Saree",
+  "desc": "Light georgette with a hand-painted design, so no two are alike.",
+  "for": "Parties, festive, gifting"
+ },
+ "DS-066": {
+  "title": "Green Hand-Painted Georgette Saree",
+  "desc": "Light georgette with a hand-painted design, so no two are alike.",
+  "for": "Parties, festive, gifting"
+ },
+ "DS-067": {
+  "title": "Black & Mehendi Green Kalamkari Cotton Saree",
+  "desc": "Cotton with a Kalamkari-style print. Finished with a contrast border.",
+  "for": "Office, day events, festive"
+ },
+ "DS-068": {
+  "title": "Green Georgette Saree with Zari Border",
+  "desc": "Light, flowing georgette. A zari border adds a festive finish.",
+  "for": "Parties, festive"
+ },
+ "DS-069": {
+  "title": "Pink Kota Silk Saree",
+  "desc": "Light Kota silk with a delicate sheen. Finished with a contrast border.",
+  "for": "Festive, summer functions"
+ },
+ "DS-071": {
+  "title": "Beige Embroidered Kota Saree with Zari Border",
+  "desc": "Light Kota with embroidery. A zari border adds a festive finish.",
+  "for": "Festive, day events"
+ },
+ "DS-072": {
+  "title": "Purple-Grey Tussar Silk Saree",
+  "desc": "The natural texture and soft sheen of tussar give it quiet elegance.",
+  "for": "Festive, family functions, office events"
+ },
+ "DS-074": {
+  "title": "Cream Jute Saree",
+  "desc": "An earthy, textured jute-silk weave with a natural look. Finished with a contrast border.",
+  "for": "Office, day events, gifting"
+ },
+ "DS-075": {
+  "title": "Black & Pink Jamdani Tissue Saree",
+  "desc": "Sheer Jamdani tissue with woven motifs and a soft shimmer. Finished with a contrast border.",
+  "for": "Festive, evening functions"
+ },
+ "DS-076": {
+  "title": "Green Jamdani Tissue Saree",
+  "desc": "Sheer Jamdani tissue with woven motifs and a soft shimmer. Finished with a contrast border.",
+  "for": "Festive, evening functions"
+ },
+ "DS-077": {
+  "title": "Copper Raga Tissue Saree with Zari Border",
+  "desc": "Shimmery Raga tissue that catches the light beautifully. A zari border adds a festive finish.",
+  "for": "Festive, evening functions"
+ },
+ "DS-079": {
+  "title": "Green Raga Tissue Saree",
+  "desc": "Shimmery Raga tissue that catches the light beautifully.",
+  "for": "Festive, evening functions"
+ },
+ "DS-080": {
+  "title": "Red Cotton Saree with Zari Border",
+  "desc": "Soft, breathable cotton for easy everyday wear. A zari border adds a festive finish.",
+  "for": "Daily wear, office"
+ },
+ "DS-082": {
+  "title": "Green Banarasi Semi Silk Saree",
+  "desc": "A Banarasi semi-silk weave with a rich traditional look. Finished with a contrast border.",
+  "for": "Weddings, festivals, poojas"
+ },
+ "DS-083": {
+  "title": "Red & Black Cotton Saree with Zari Border",
+  "desc": "Soft, breathable cotton for easy everyday wear. A zari border adds a festive finish.",
+  "for": "Daily wear, office"
+ },
+ "DS-084": {
+  "title": "Green Soft Silk (Art Silk) Saree with Zari Border",
+  "desc": "Soft art silk with a smooth, glossy finish. A zari border adds a festive finish.",
+  "for": "Festive, functions"
+ }
+}
