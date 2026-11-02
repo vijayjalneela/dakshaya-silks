@@ -232,7 +232,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 <section class="about">
   <div class="wrap">
     <div><h3>How to order</h3><p>Tap any saree, then "Order on WhatsApp". The message already has the saree code, so we know exactly which one you mean.</p></div>
-    <div><h3>Visit the shop</h3><p id="addr">Come see the full range in person. Address coming soon.</p></div>
+    <div><h3>Our next exhibition</h3><p id="expo">Come see and feel the full collection in person. Dates and venue will be announced soon. Message us on WhatsApp to get an invite.</p></div>
     <div><h3>What you see is what you get</h3><p>Every photo is of the actual piece in our shop, taken in natural daylight with no filters. Colours may look slightly different on some screens.</p></div>
     <div><h3>See it packed before we ship</h3><p>Once you order, we send you a short packing video on WhatsApp showing your item's colour, fabric, design and price, and the delivery address. We ship only after you reply to confirm.</p></div>
   </div>
@@ -252,6 +252,12 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 const SHOP = {
   whatsapp: "919999999999",          // DUMMY number for now: country code + number, digits only
   address: "",                        // e.g. "12, Main Road, Bengaluru 560001"
+  exhibition: {                       // fill in when the next exhibition is fixed; leave dates "" to show "coming soon"
+    dates: "",                        // e.g. "15–17 November 2026"
+    timings: "",                      // e.g. "10 am – 8 pm"
+    venue: "",                        // e.g. "Rotary Hall, Jayanagar 4th Block, Bengaluru"
+    map: "",                          // optional Google Maps link
+  },
 };
 /* ====================================== */
 
@@ -270,7 +276,7 @@ const COLLECTIONS=[
 ];
 
 $("#yr").textContent=new Date().getFullYear();
-if(SHOP.address) $("#addr").textContent=SHOP.address;
+{const ex=SHOP.exhibition||{};if(ex.dates){$("#expo").innerHTML=`<b>${esc(ex.dates)}</b>${ex.timings?" · "+esc(ex.timings):""}<br>${esc(ex.venue||"")}${ex.map?` · <a href="${esc(ex.map)}" target="_blank" rel="noopener">Map</a>`:""}<br>Come see and feel the full collection in person.`}}
 $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Silks, I'd like to know more about your sarees.");
 
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
