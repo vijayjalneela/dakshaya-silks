@@ -12,3 +12,8 @@ To refresh the collection, export again from the shop book, replace `catalog.jso
 ## Photo enhancement
 Product photos are gently enhanced (brightness/contrast on luminance only, so colours stay true; mild saturation, clarity and sharpening).
 Run: `python3 tools/enhance.py photos-raw img` (needs Pillow and numpy). It reads the original photos from `photos-raw/` and writes enhanced large and small versions into `img/`, so running it again never enhances a photo twice. It works for every item code (sarees, kurtis, jewellery …). To redo only some items: `python3 tools/enhance.py photos-raw img ds-014 kt-003`.
+
+## Other files
+- `_headers` – security and caching headers that Cloudflare Pages adds to every response.
+- `robots.txt`, `sitemap.xml` – help search engines find the site.
+- `img/icon-180.png` – the icon shown when someone adds the site to their phone's home screen.

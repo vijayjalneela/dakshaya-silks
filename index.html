@@ -9,6 +9,12 @@
 <meta property="og:title" content="Dakshaya Boutique · Hand-picked Sarees">
 <meta property="og:description" content="Hand-picked, one-of-a-kind sarees in silk, tussar, Kota, Jamdani, cotton and more. Real daylight photos, packing video before every shipment. Order on WhatsApp.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://dakshaya-boutique.pages.dev/">
+<meta property="og:site_name" content="Dakshaya Boutique">
+<meta property="og:locale" content="en_IN">
+<link rel="canonical" href="https://dakshaya-boutique.pages.dev/">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ClothingStore","name":"Dakshaya Boutique","url":"https://dakshaya-boutique.pages.dev/","image":"https://dakshaya-boutique.pages.dev/img/our-story.jpg","description":"Hand-picked, one-of-a-kind sarees. Order on WhatsApp.","currenciesAccepted":"INR"}</script>
 <meta property="og:image" content="https://dakshaya-boutique.pages.dev/img/our-story.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#A3164A">
@@ -22,7 +28,7 @@
   --bg:#FBF8FA; --surface:#FFFFFF; --sunk:#F3EDF2; --ink:#241A28; --muted:#6E6072; --line:#E7DDE6;
   --maroon:#A3164A; --maroon-deep:#7E0F38; --on-maroon:#FFFFFF;
   --zari:#B4871C; --zari-light:#F4D58A;
-  --wa:#1F8A55;
+  --wa:#167347; --mtext:var(--maroon);
   --display:"Marcellus","Palatino Linotype",Georgia,serif;
   --body:"Mukta","Segoe UI",system-ui,-apple-system,sans-serif;
   --r:14px;
@@ -30,7 +36,7 @@
 }
 @media (prefers-color-scheme:dark){:root{
   --bg:#16111A; --surface:#211A26; --sunk:#1B1520; --ink:#F2EAF2; --muted:#B3A4B6; --line:#372C3C;
-  --maroon:#C2265E; --maroon-deep:#8E1442; --zari:#DDB453; --wa:#3CB878; color-scheme:dark}}
+  --maroon:#C2265E; --maroon-deep:#8E1442; --zari:#DDB453; --wa:#167347; --mtext:#F48CB0; color-scheme:dark}}
 *{box-sizing:border-box}
 html.locked,html.locked body{overflow:hidden}
 html.locked body{position:fixed;left:0;right:0;width:100%}
@@ -82,7 +88,7 @@ button{cursor:pointer}
 .tile span{font-size:.8rem;font-weight:600;line-height:1.15;color:var(--ink)}
 .tile small{font-size:.72rem;color:var(--muted);font-weight:500}
 .tile[aria-pressed="true"] .ring{background:var(--maroon);transform:scale(1.06)}
-.tile[aria-pressed="true"] span{color:var(--maroon)}
+.tile[aria-pressed="true"] span{color:var(--mtext)}
 .tile:hover .ring{transform:scale(1.05)}
 @media (min-width:720px){.tiles{gap:28px}.tile{width:150px}.tile .ring{width:136px;height:136px}.tile span{font-size:.95rem}}
 .chips::-webkit-scrollbar{display:none}
@@ -124,11 +130,11 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .zoom .zt{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:41;color:#fff;background:rgba(0,0,0,.55);padding:5px 12px;border-radius:999px;font-size:.82rem;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.card .pic img{transition:none}}
 @supports not (aspect-ratio:1/1){.card .pic,.panel .big{height:0;padding-top:125%}.card .pic img,.panel .big img,.panel .big video{position:absolute;top:0;left:0}}
-.card .flag{position:absolute;left:8px;top:8px;background:var(--surface);color:var(--maroon);font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 9px;letter-spacing:.02em}
+.card .flag{position:absolute;left:8px;top:8px;background:var(--surface);color:var(--mtext);font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 9px;letter-spacing:.02em}
 .card .txt{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .card .ty{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .card .nm{font-weight:600;line-height:1.25;overflow-wrap:anywhere}
-.card .pr{font-weight:700;color:var(--maroon);font-size:1.08rem;margin-top:2px}
+.card .pr{font-weight:700;color:var(--mtext);font-size:1.08rem;margin-top:2px}
 .card .code{font-size:.75rem;color:var(--muted)}
 .empty{padding:40px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r)}
 
@@ -149,7 +155,7 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .panel .info{padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;min-width:0}
 .panel h2{font-family:var(--display);font-weight:400;font-size:1.9rem;line-height:1.1;margin:0;text-wrap:balance}
 .panel .eyebrow{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.panel .price{font-size:1.8rem;font-weight:700;color:var(--maroon)}
+.panel .price{font-size:1.8rem;font-weight:700;color:var(--mtext)}
 .spec{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:.95rem}
 .spec dt{color:var(--muted)}
 .spec dd{margin:0;font-weight:500;overflow-wrap:anywhere}
@@ -190,7 +196,7 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .ribbon .tick{overflow:hidden;padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .ribbon .track{display:flex;gap:28px;width:max-content;white-space:nowrap;animation:tick 55s linear infinite;will-change:transform}
 .ribbon .track span[aria-hidden]{color:#D4A23C;font-style:normal}
-.ribbon:hover .track{animation-play-state:paused}
+.ribbon:hover .track,.ribbon.paused .track{animation-play-state:paused}.ribbon{cursor:pointer}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.ribbon .track{animation:none;white-space:normal;width:auto;justify-content:center;padding:0 16px;display:grid}
 .ribbon .track>*{display:none}
@@ -217,14 +223,14 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .totop.show{opacity:1;transform:none;pointer-events:auto}
 @media (max-width:440px){body.hasbag .totop span{display:none}body.hasbag .totop{padding:0 14px}}
 @media (prefers-reduced-motion:reduce){.totop{transition:none}}
-.fbtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--maroon);color:var(--maroon);background:var(--surface);border-radius:10px;padding:8px 14px;min-height:40px;font-weight:700;flex:0 0 auto}
+.fbtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--mtext);color:var(--mtext);background:var(--surface);border-radius:10px;padding:8px 14px;min-height:40px;font-weight:700;flex:0 0 auto}
 .fcount{background:var(--maroon);color:#fff;border-radius:999px;font-size:.75rem;min-width:20px;height:20px;display:inline-grid;place-items:center;padding:0 6px}
 .fcount[hidden]{display:none}
 .active{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .active[hidden]{display:none}
 .pill{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--maroon);color:#fff;border-radius:999px;padding:5px 12px;font-weight:600;font-size:.85rem}
 .pill b{font-weight:400;font-size:1.1rem;line-height:1}
-.clearall{background:none;border:0;color:var(--maroon);font-weight:700;text-decoration:underline;padding:5px 4px;font-size:.88rem}
+.clearall{background:none;border:0;color:var(--mtext);font-weight:700;text-decoration:underline;padding:5px 4px;font-size:.88rem}
 .fpanel{padding:20px 20px 0;display:flex;flex-direction:column;gap:20px;grid-column:1/-1}
 .fpanel .fh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-right:44px}
 .fpanel .fh h2{font-family:var(--display);font-weight:400;font-size:1.7rem;margin:0}
@@ -249,7 +255,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .edit .eh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
 .edit .eh h2{font-family:var(--display);font-weight:400;font-size:1.5rem;margin:0}
 .edit .eh p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
-.edit .eh button{flex:none;background:none;border:0;color:var(--maroon);font-weight:700;padding:6px 0}
+.edit .eh button{flex:none;background:none;border:0;color:var(--mtext);font-weight:700;padding:6px 0}
 .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,200px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
 .row::-webkit-scrollbar{display:none}
 .row .card{scroll-snap-align:start}
@@ -271,7 +277,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 </head>
 <body>
 
-<div class="ribbon" role="note" aria-label="Hand-picked, one-of-a-kind pieces. No bulk, no repeats. Love a piece? Message us before it finds another home. Real photos in natural daylight. Packing video before every shipment."><div class="tick"><div class="track"><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span></div></div></div>
+<div class="ribbon" role="note" title="Tap to pause or play" aria-label="Hand-picked, one-of-a-kind pieces. No bulk, no repeats. Love a piece? Message us before it finds another home. Real photos in natural daylight. Packing video before every shipment."><div class="tick"><div class="track"><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span></div></div></div>
 <header class="mast">
   <div class="wrap">
     <div class="topline">
@@ -346,7 +352,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="panel" id="panel"></div></div>
 <div class="toast" id="toast" hidden></div>
-<div class="zoom" id="zoom" hidden><button class="zx" data-zclose aria-label="Close zoom"><b aria-hidden="true">×</b>Close</button><img id="zimg" alt=""><span class="zt">Tap to zoom in or out · drag to look around</span></div>
+<div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-label="Photo zoom"><button class="zx" data-zclose aria-label="Close zoom"><b aria-hidden="true">×</b>Close</button><img id="zimg" alt=""><span class="zt">Tap to zoom in or out · drag to look around</span></div>
 
 <script>
 /* ===== Shop settings: change these ===== */
@@ -425,8 +431,8 @@ function unlockScroll(){const h=document.documentElement;if(!$("#sheet").hidden|
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
 
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
-  st.items=d.items.filter(x=>x.stock>0).map(x=>({...x,type:fixType(x.type),material:fixType(x.material),...(ds[x.code.split(" ")[0]]||{})}));
-  if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+  st.items=d.items.filter(x=>x.stock>0&&+x.price>0&&x.code&&x.img).map(x=>({...x,disc:Math.min(90,Math.max(0,+x.disc||0)),type:fixType(x.type),material:fixType(x.material),...(ds[x.code.split(" ")[0]]||{})}));
+  if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
   facts();chips();edits();render();activeUI();bagUI();openFromHash();
 }).catch(()=>{$("#count").textContent="The collection couldn't load. Please refresh the page."});
 
@@ -584,6 +590,7 @@ function openZoom(src,alt){zopener=document.activeElement;history.pushState(Obje
 function closeZoom(fromBack){if(zpushed){zpushed=false;if(!fromBack){skipPop=true;history.back()}}$("#zoom").hidden=true;$("#zoom").classList.remove("on");unlockScroll();if(zopener&&document.contains(zopener))zopener.focus({preventScroll:true});zopener=null}
 
 document.addEventListener("click",e=>{
+  if(e.target.closest(".ribbon")){e.target.closest(".ribbon").classList.toggle("paused");return}
   if(e.target.closest("[data-zclose]")){closeZoom();return}
   if(e.target.id==="zimg"){const z=$("#zoom"),im=e.target,r=im.getBoundingClientRect(),fx=(e.clientX-r.left)/r.width,fy=(e.clientY-r.top)/r.height;
     z.classList.toggle("on");if(z.classList.contains("on")){requestAnimationFrame(()=>{z.scrollLeft=fx*im.offsetWidth-z.clientWidth/2;z.scrollTop=fy*im.offsetHeight-z.clientHeight/2})}return}
