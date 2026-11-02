@@ -6,8 +6,10 @@
 <title>Dakshaya Boutique · Sarees, Kurtis & Jewellery</title>
 <meta name="description" content="Dakshaya Boutique: hand-picked sarees, kurtis, dress materials and jewellery. Browse the collection and order on WhatsApp.">
 <meta property="og:title" content="Dakshaya Boutique · Sarees, Kurtis & Jewellery">
-<meta property="og:description" content="Handpicked sarees. Browse the collection and order on WhatsApp.">
+<meta property="og:description" content="Hand-picked, one-of-a-kind sarees in silk, tussar, Kota, Jamdani, cotton and more. Real daylight photos, packing video before every shipment. Order on WhatsApp.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://dakshaya-boutique.pages.dev/img/our-story.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#A3164A">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23A3164A'/%3E%3Ctext x='32' y='44' font-family='Georgia' font-size='36' text-anchor='middle' fill='%23F4D58A'%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -180,6 +182,20 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
 .desc{margin:0 0 12px;line-height:1.5;opacity:.9}
+#occ{margin-bottom:8px}
+.card .flag.new{left:auto;right:8px;background:var(--maroon);color:#fff}
+.rel{margin-top:18px}.rel h3{font-family:var(--display);font-weight:400;font-size:1.15rem;margin:0 0 8px}
+.relgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:start}
+.relgrid button{border:0;padding:0;background:none;text-align:left;font-size:.78rem;color:var(--muted);min-width:0}
+.relgrid img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:8px;display:block;margin-bottom:4px}
+.relgrid b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink);font-size:.82rem;line-height:1.25}
+.relgrid button{display:flex;flex-direction:column;align-self:start}
+.bagbtn{position:fixed;right:max(84px,calc(env(safe-area-inset-right,0px) + 84px));bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:10;background:var(--maroon);color:#fff;border:0;border-radius:999px;padding:11px 18px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.bagrow{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.bagrow img{width:56px;height:70px;object-fit:cover;border-radius:6px}
+.bagrow button{border:1px solid var(--line);background:none;border-radius:999px;padding:4px 10px;font-size:.82rem}
+.btnrow{display:flex;gap:8px;margin-top:8px}.btnrow .ghost{flex:1}
+.contact a{color:inherit}
 </style>
 </head>
 <body>
@@ -215,6 +231,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 
 <div class="bar">
   <div class="wrap">
+    <div class="chips" id="occ" role="group" aria-label="Occasion"></div>
     <div class="chips" id="weaves" role="group" aria-label="Weaves"></div>
     <div class="tools">
       <input id="q" type="search" placeholder="Search colour, fabric or code" aria-label="Search">
@@ -246,14 +263,16 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 
 <section class="about">
   <div class="wrap">
-    <div><h3>How to order</h3><p>Tap any saree, then "Order on WhatsApp". The message already has the saree code, so we know exactly which one you mean.</p></div>
+    <div><h3>How to order</h3><p>Tap any piece, then "Order on WhatsApp". Want more than one? Add them to your bag and send them all in one message. The item codes go with it, so we know exactly which pieces you mean.</p></div>
     <div><h3>Our next exhibition</h3><p id="expo">Come see and feel the full collection in person. Dates and venue will be announced soon. Message us on WhatsApp to get an invite.</p></div>
     <div><h3>What you see is what you get</h3><p>Every photo is of the actual piece from our hand-picked collection, taken in natural daylight with no filters. Colours may look slightly different on some screens.</p></div>
+    <div id="policy" hidden><h3>Shipping, payment &amp; returns</h3><p id="policyTxt"></p></div>
     <div><h3>See it packed before we ship</h3><p>Once you order, we send you a short packing video on WhatsApp showing your item's colour, fabric, design and price, and the delivery address. We ship only after you reply to confirm.</p></div>
   </div>
 </section>
 
-<footer><div class="wrap"><span>© <span id="yr"></span> Dakshaya Boutique</span><span id="upd"></span></div></footer>
+<footer><div class="wrap"><span>© <span id="yr"></span> Dakshaya Boutique</span><span id="upd"></span><span class="contact" id="contact"></span></div></footer>
+<button class="bagbtn" id="bagbtn" hidden></button>
 
 <a class="fab" id="fab" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
@@ -267,6 +286,11 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 const SHOP = {
   whatsapp: "919999999999",          // DUMMY number for now: country code + number, digits only
   address: "",                        // e.g. "12, Main Road, Bengaluru 560001"
+  map: "",                            // Google Maps link to the shop (optional)
+  instagram: "",                      // e.g. "https://instagram.com/dakshaya.boutique"
+  shipping: "",                       // e.g. "Free shipping across India on orders above ₹1,500. Delivered in 4–7 days."
+  payment: "",                        // e.g. "UPI, bank transfer or cash at the shop."
+  returns: "",                        // e.g. "Exchange within 3 days if the piece doesn't match the packing video."
   exhibition: {                       // fill in when the next exhibition is fixed; leave dates "" to show "coming soon"
     dates: "",                        // e.g. "15–17 November 2026"
     timings: "",                      // e.g. "10 am – 8 pm"
@@ -281,7 +305,12 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const inr=n=>"₹"+Math.round(n||0).toLocaleString("en-IN");
 const tidy=s=>String(s||"").replace(/\s+/g," ").trim();
 const wa=text=>`https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
-const st={items:[],cat:"",weave:"",q:"",price:"",sort:"az"};
+const st={items:[],cat:"",weave:"",occ:"",q:"",price:"",sort:"az",bag:[]};
+try{st.bag=JSON.parse(localStorage.getItem("dk_bag")||"[]")}catch(e){st.bag=[]}
+const saveBag=()=>{try{localStorage.setItem("dk_bag",JSON.stringify(st.bag))}catch(e){}};
+const OCC=[["Wedding",/wedding|reception/i],["Festive",/festiv|pooja/i],["Party",/part/i],["Office",/office/i],["Daily wear",/daily|travel/i],["Gifting",/gift/i]];
+const isNew=x=>x.added&&Date.now()-x.added<14*864e5;
+const codeOf=x=>x.code.split(" ")[0];
 /* Collections shown as picture tiles. Replace an image by changing its path (e.g. "img/cat/saree.jpg"). */
 const onOffer=x=>(+x.disc||0)>0&&(!x.offerEnds||x.offerEnds>=new Date().toISOString().slice(0,10));
 const pNow=x=>onOffer(x)?Math.round(x.price*(1-x.disc/100)):x.price;
@@ -295,6 +324,8 @@ const COLLECTIONS=[
 $("#yr").textContent=new Date().getFullYear();
 {const rb=document.querySelector(".ribbon");const setH=()=>document.documentElement.style.setProperty("--ribh",(rb?rb.offsetHeight:0)+"px");setH();addEventListener("resize",setH);if(document.fonts)document.fonts.ready.then(setH)}
 {const ex=SHOP.exhibition||{};if(ex.dates){$("#expo").innerHTML=`<b>${esc(ex.dates)}</b>${ex.timings?" · "+esc(ex.timings):""}<br>${esc(ex.venue||"")}${ex.map?` · <a href="${esc(ex.map)}" target="_blank" rel="noopener">Map</a>`:""}<br>Come see and feel the full collection in person.`}}
+{const pol=[SHOP.shipping,SHOP.payment,SHOP.returns].filter(Boolean);if(pol.length){$("#policy").hidden=false;$("#policyTxt").innerHTML=pol.map(esc).join("<br>")}
+ $("#contact").innerHTML=[SHOP.address?(SHOP.map?`<a href="${esc(SHOP.map)}" target="_blank" rel="noopener">${esc(SHOP.address)}</a>`:esc(SHOP.address)):"",SHOP.instagram?`<a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener">Instagram</a>`:"",`<a href="${wa("Hello Dakshaya Boutique")}" target="_blank" rel="noopener">WhatsApp +${esc(SHOP.whatsapp)}</a>`].filter(Boolean).join(" · ")}
 $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Boutique, I'd like to know more about your sarees.");
 
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
@@ -302,7 +333,7 @@ function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTim
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
   st.items=d.items.filter(x=>x.stock>0).map(x=>({...x,...(ds[x.code.split(" ")[0]]||{})}));
   if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-  facts();chips();render();openFromHash();
+  facts();chips();render();bagUI();openFromHash();
 }).catch(()=>{$("#count").textContent="The collection couldn't load. Please refresh the page."});
 
 function facts(){
@@ -323,12 +354,16 @@ function chips(){
   const list=[...m].sort((a,b)=>a[0].localeCompare(b[0],"en",{sensitivity:"base"}));
   $("#weaves").innerHTML=list.length>1?[["","All",pool.length],...list.map(([k,c])=>[k,k,c])].map(([k,l,c])=>`<button class="chip" data-w="${esc(k)}" aria-pressed="${st.weave===k}">${esc(l)}<small>${c}</small></button>`).join(""):"";
   $("#weaves").hidden=list.length<2;
+  const oc=OCC.map(([l,re])=>[l,st.items.filter(x=>re.test(x.for||"")).length]).filter(o=>o[1]);
+  $("#occ").innerHTML=oc.length?[["","Any occasion"],...oc].map(([l,c])=>`<button class="chip" data-o="${esc(l)}" aria-pressed="${st.occ===l}">${esc(l)}${c?`<small>${c}</small>`:""}</button>`).join(""):"";
+  $("#occ").hidden=!oc.length;
 }
 function filtered(){
   const q=st.q.toLowerCase();
   let r=st.items.filter(x=>{
     if(st.cat==="__offers"){if(!onOffer(x))return false}else if(st.cat&&x.category!==st.cat)return false;
     if(st.weave&&tidy(x.type)!==st.weave)return false;
+    if(st.occ){const o=OCC.find(o=>o[0]===st.occ);if(o&&!o[1].test(x.for||""))return false}
     if(st.price){const[a,b]=st.price.split("-").map(Number);if(pNow(x)<a||pNow(x)>=b)return false}
     if(q&&!([x.name,x.title,x.desc,x.for,x.type,x.material,x.color,x.code,x.border,x.category].join(" ").toLowerCase().includes(q)))return false;
     return true});
@@ -347,7 +382,7 @@ function render(){
   $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}${st.weave?" · "+st.weave:""}`;
   if(!r.length&&st.cat&&st.cat!=="__offers"&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
   $("#grid").innerHTML=r.length?r.map(x=>`<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?"CLEARANCE ":""}${x.disc}% OFF</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?"CLEARANCE ":""}${x.disc}% OFF</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isNew(x)&&!onOffer(x)?`<span class="flag new">NEW</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`).join("")
     :`<div class="empty" style="grid-column:1/-1">No sarees match that. Try another colour or clear the filters.</div>`;
 }
@@ -362,17 +397,38 @@ function open(x,push=true){
       ${x.desc?`<p class="desc">${esc(x.desc)}</p>`:""}
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
       <a class="cta" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp</a>
-      <button class="ghost" data-share="${esc(code)}">Copy link to share</button>
-      <p class="note">Quote code <b>${esc(code)}</b> when you call or visit.</p></div>`;
+      <div class="btnrow"><button class="ghost" data-bag="${esc(code)}">${st.bag.includes(code)?"✓ In your bag":"Add to bag"}</button><button class="ghost" data-share="${esc(code)}">Share</button></div>
+      <p class="note">Quote code <b>${esc(code)}</b> when you call or visit.</p>${relHTML(x)}</div>`;
   $("#sheet").hidden=false;document.body.style.overflow="hidden";
   if(push)history.replaceState(null,"","#"+code.toLowerCase());
   $("#panel").scrollTop=0;$("[data-close]").focus();
+}
+function relHTML(x){
+  const others=st.items.filter(i=>i!==x&&i.category===x.category);
+  const same=others.filter(i=>tidy(i.type)===tidy(x.type));
+  const near=others.filter(i=>!same.includes(i)).sort((a,b)=>Math.abs(pNow(a)-pNow(x))-Math.abs(pNow(b)-pNow(x)));
+  const r=[...same,...near].slice(0,4);
+  return r.length?`<div class="rel"><h3>You may also love</h3><div class="relgrid">${r.map(i=>`<button data-rel="${esc(i.code)}"><img src="img/${esc(i.img)}-s.jpg" alt="" loading="lazy"><b>${esc(title(i))}</b>${inr(pNow(i))}</button>`).join("")}</div></div>`:"";
+}
+function bagUI(){const n=st.bag.filter(c=>st.items.some(x=>codeOf(x)===c)).length;$("#bagbtn").hidden=!n;$("#bagbtn").textContent=`🛍 Bag (${n})`}
+function openBag(){
+  const its=st.bag.map(c=>st.items.find(x=>codeOf(x)===c)).filter(Boolean);
+  const tot=its.reduce((a,x)=>a+pNow(x),0);
+  const msg="Hello Dakshaya Boutique, I'd like these pieces:\n"+its.map((x,i)=>`${i+1}. ${codeOf(x)} – ${title(x)} (${inr(pNow(x))})`).join("\n")+`\nTotal ${inr(tot)}. Are they available?`;
+  $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button><div class="info"><span class="eyebrow">Your bag</span><h2 id="sheetTitle">${its.length} piece${its.length===1?"":"s"} · ${inr(tot)}</h2>
+   ${its.length?its.map(x=>`<div class="bagrow"><img src="img/${esc(x.img)}-s.jpg" alt=""><div><b>${esc(title(x))}</b><br><span class="num">${esc(codeOf(x))} · ${inr(pNow(x))}</span></div><button data-unbag="${esc(codeOf(x))}">Remove</button></div>`).join("")+`<a class="cta" style="margin-top:14px" href="${wa(msg)}" target="_blank" rel="noopener">Send all on WhatsApp</a><p class="note">Every piece is one of a kind, so we'll confirm availability and send a packing video before shipping.</p>`:`<p>Your bag is empty.</p>`}</div>`;
+  $("#sheet").hidden=false;document.body.style.overflow="hidden";$("#panel").scrollTop=0;
 }
 function closeSheet(){$("#sheet").hidden=true;document.body.style.overflow="";history.replaceState(null,"",location.pathname+location.search)}
 function openFromHash(){const h=location.hash.slice(1).toUpperCase();if(h==="OUR-STORY"||h==="SHOP")return;if(!h){if(!$("#sheet").hidden)closeSheet();return}const x=st.items.find(i=>i.code.split(" ")[0]===h);if(x)open(x,false)}
 window.addEventListener("hashchange",openFromHash);
 
 document.addEventListener("click",e=>{
+  const o=e.target.closest(".chip[data-o]");if(o){st.occ=o.dataset.o;chips();render();return}
+  const rl=e.target.closest("[data-rel]");if(rl){const x=st.items.find(i=>i.code===rl.dataset.rel);if(x)open(x);return}
+  const bg=e.target.closest("[data-bag]");if(bg){const c=bg.dataset.bag;if(st.bag.includes(c)){st.bag=st.bag.filter(b=>b!==c);bg.textContent="Add to bag"}else{st.bag.push(c);bg.textContent="✓ In your bag";toast("Added to your bag")}saveBag();bagUI();return}
+  const ub=e.target.closest("[data-unbag]");if(ub){st.bag=st.bag.filter(b=>b!==ub.dataset.unbag);saveBag();bagUI();openBag();return}
+  if(e.target.closest("#bagbtn")){openBag();return}
   const w=e.target.closest(".chip[data-w]");if(w){st.weave=w.dataset.w;chips();render();return}
   const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave="";chips();render();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-document.querySelector(".ribbon").offsetHeight;scrollTo({top:y,behavior:"smooth"});return}
   const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
