@@ -252,7 +252,11 @@ html.diwali .mast .wrap{padding-top:44px}
 .fwmsg small{font-size:1rem;font-weight:700;color:#FFF3D6;text-shadow:0 1px 6px rgba(0,0,0,.7)}
 #fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60;display:none}
 html.diwali .launchband{background:linear-gradient(90deg,#FF8A00,#FFD54F 25%,#FF4FA3 50%,#FFD54F 75%,#FF8A00);background-size:200% 100%;animation:shimmer 10s linear infinite}
-@media (prefers-reduced-motion:reduce){.fsky,.fcard h2,.diya .glow,.diya .flame,html.diwali .launchband{animation:none}}
+@media (prefers-reduced-motion:reduce){.fcard h2,html.diwali .launchband{animation:none}
+  .diya .glow{animation:glowsoft 2.4s ease-in-out infinite alternate}.diya .flame{animation:flamesoft 1.6s ease-in-out infinite alternate}
+  .fwmsg,.fwmsg.show{transform:translate(-50%,-50%)}.fwmsg b{animation:none}}
+@keyframes glowsoft{from{opacity:.25}to{opacity:.6}}
+@keyframes flamesoft{from{opacity:.8}to{opacity:1}}
 /* Sunday launch band: gold, bold, runs just under the ribbon and scrolls away with the page */
 .launchband{position:relative;overflow:hidden;background:linear-gradient(90deg,#C98F1E,#F2C75C 30%,#E5AE3A 70%,#C98F1E);color:#4A0820;border-bottom:2px solid #8A5E14;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
 .lb-track{display:flex;width:max-content;white-space:nowrap;animation:lbrun 38s linear infinite;padding:9px 0}
@@ -262,7 +266,7 @@ html.diwali .launchband{background:linear-gradient(90deg,#FF8A00,#FFD54F 25%,#FF
 .launchband:hover .lb-track{animation-play-state:paused}
 .lb-static{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0}
 @keyframes lbrun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.lb-track{display:none}.lb-static{position:static;width:auto;height:auto;clip:auto;padding:9px 16px;text-align:center;font-weight:800;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em}}
+@media (prefers-reduced-motion:reduce){.lb-track{display:none}.lb-static{transition:opacity .5s ease;position:static;width:auto;height:auto;clip:auto;padding:9px 16px;text-align:center;font-weight:800;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em}}
 /* short landscape phones: let the ribbon scroll away so the shop has room */
 @media (max-height:500px){.ribbon{position:relative}}
 .was{color:var(--muted);font-weight:500;font-size:.85em}
@@ -615,8 +619,25 @@ const isRes=x=>!!x.reserved&&x.stock>0&&(!x.reservedUntil||x.reservedUntil>=istT
 /* ===== Diwali ===== */
 const FEST=(()=>{const f=SHOP.festival||{};if(!f.from||!f.to)return null;const p=istParts(),d=new Date(Date.UTC(p.y,p.m,p.d)).toISOString().slice(0,10);return d>=f.from&&d<=f.to?f:null})();
 const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
-function fireworks(ms){
-  const cv=document.getElementById("fireworks");if(!cv||reduceMotion)return;
+/* Reduce Motion: soft glitter that fades in place instead of flying rockets */
+function glitter(ms){
+  const cv=document.getElementById("fireworks");if(!cv)return;const g=cv.getContext("2d"),dpr=Math.min(2,devicePixelRatio||1);
+  const W=innerWidth,H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);cv.style.display="block";
+  const COLS=["#FFD54F","#FF8A3D","#FF4FA3","#7CFFB2","#6FD3FF","#FFFFFF"];const bursts=[];const t0=performance.now();let last=-1e9;
+  function frame(now){g.clearRect(0,0,W,H);
+    if(now-t0<ms&&now-last>450){last=now;const cx=W*(.15+Math.random()*.7),cy=H*(.12+Math.random()*.45),n=24,r=30+Math.random()*40,c=COLS[Math.random()*COLS.length|0];
+      bursts.push({cx,cy,r,c,n,born:now})}
+    for(let i=bursts.length-1;i>=0;i--){const b=bursts[i],age=(now-b.born)/1600;if(age>=1){bursts.splice(i,1);continue}
+      const a=age<.25?age/.25:1-(age-.25)/.75;g.fillStyle=b.c;g.globalAlpha=Math.max(0,a);
+      for(let k=0;k<b.n;k++){const ang=Math.PI*2*k/b.n;g.beginPath();g.arc(b.cx+Math.cos(ang)*b.r,b.cy+Math.sin(ang)*b.r,2.2,0,7);g.fill()}
+      g.beginPath();g.arc(b.cx,b.cy,3.5,0,7);g.fill()}
+    g.globalAlpha=1;
+    if(now-t0<ms||bursts.length)requestAnimationFrame(frame);else{cv.style.display="none";g.clearRect(0,0,W,H)}}
+  requestAnimationFrame(frame);
+}
+function fireworks(ms,tapped){
+  const cv=document.getElementById("fireworks");if(!cv)return;
+  if(reduceMotion&&!tapped)return glitter(ms);
   const g=cv.getContext("2d"),dpr=Math.min(2,devicePixelRatio||1);let W,H;
   const size=()=>{W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0)};size();
   cv.style.display="block";cv.style.opacity="1";cv.style.transition="";
@@ -638,13 +659,12 @@ function fireworks(ms){
 if(FEST){
   document.documentElement.classList.add("diwali");
   document.getElementById("festive").hidden=false;
-  document.getElementById("crackerBtn").addEventListener("click",()=>fireworks(2200));
+  document.getElementById("crackerBtn").addEventListener("click",()=>fireworks(2200,true));
   document.getElementById("festShop").addEventListener("click",()=>{const e=document.getElementById("edits");scrollTo({top:e.getBoundingClientRect().top+scrollY-ribH()-document.querySelector(".bar").offsetHeight,behavior:reduceMotion?"auto":"smooth"})});
-  if(reduceMotion)document.getElementById("crackerBtn").hidden=true;
   let seen=false;try{seen=sessionStorage.getItem("dk_fw")==="1";sessionStorage.setItem("dk_fw","1")}catch(e){}
   if(!seen){const m=document.getElementById("fwmsg");
     const dm=document.getElementById("fwdim");
-    setTimeout(()=>{fireworks(4500);if(!reduceMotion){[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),4600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),5500)}},400)}
+    setTimeout(()=>{fireworks(4500);{[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),4600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),5500)}},400)}
 }
 function launchUI(raw){
   const next=nextLaunchDate(),p=istParts(),liveToday=p.dow===0&&p.h>=LAUNCH_HOUR;
@@ -657,7 +677,8 @@ function launchUI(raw){
     :["Be the first, or miss the best","New launches every Sunday, 10 AM","Next drop: "+fmtLaunch(next)+(waiting>1?` · ${waiting} new pieces`:""),"One of each. Once it's gone, it's gone"];
   const run=lines.map((l,k)=>`<span class="${k===0?"big":""}">${esc(l)}</span><i>✦</i>`).join("");
   const tr=document.querySelector(".lb-track");if(tr)tr.innerHTML=run+run;
-  const st_=document.getElementById("lbText");if(st_)st_.textContent=lines.slice(0,3).join(". ")+".";
+  const st_=document.getElementById("lbText");
+  if(st_){clearInterval(launchUI.t);if(reduceMotion){let k=0;st_.textContent=lines[0];launchUI.t=setInterval(()=>{st_.style.opacity="0";setTimeout(()=>{k=(k+1)%lines.length;st_.textContent=lines[k];st_.style.opacity="1"},500)},3500)}else st_.textContent=lines.slice(0,3).join(". ")+"."}
 }
 launchUI([]);
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
