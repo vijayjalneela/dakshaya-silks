@@ -243,9 +243,9 @@ html.diwali .mast .wrap{padding-top:44px}
 .fbtn1,.fbtn2{border-radius:999px;padding:11px 20px;font-weight:800;font-size:.98rem;cursor:pointer;min-height:44px}
 .fbtn1{border:0;color:#3A0A12;background:linear-gradient(90deg,#FFD54F,#FF9F43);box-shadow:0 0 18px rgba(255,180,60,.55)}
 .fbtn2{border:1px solid rgba(255,213,79,.7);color:#FFE2A8;background:transparent}
-.fwdim{position:fixed;inset:0;z-index:59;pointer-events:none;background:radial-gradient(80% 60% at 50% 42%,rgba(40,8,40,.72),rgba(8,3,16,.88));opacity:0;display:none;transition:opacity .8s ease}
+.fwdim{position:fixed;inset:0;z-index:59;pointer-events:none;background:radial-gradient(80% 60% at 50% 42%,rgba(40,8,40,.45),rgba(8,3,16,.6));opacity:0;display:none;transition:opacity .35s ease}
 .fwdim.on{display:block}.fwdim.show{opacity:1}
-.fwmsg{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%) scale(.9);z-index:61;pointer-events:none;text-align:center;display:none;flex-direction:column;align-items:center;gap:4px;opacity:0;transition:opacity .8s ease,transform .8s ease;width:max-content;max-width:92vw}
+.fwmsg{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%) scale(.9);z-index:61;pointer-events:none;text-align:center;display:none;flex-direction:column;align-items:center;gap:4px;opacity:0;transition:opacity .35s ease,transform .35s ease;width:max-content;max-width:92vw}
 .fwmsg.on{display:flex}.fwmsg.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .fwmsg span{font-size:.85rem;letter-spacing:.25em;text-transform:uppercase;font-weight:800;color:#FFE08A;text-shadow:0 0 10px rgba(0,0,0,.6)}
 .fwmsg b{font-family:var(--display);font-weight:400;font-size:clamp(3rem,13vw,6rem);line-height:1;background:linear-gradient(90deg,#FFD54F,#FF8A3D,#FF4FA3,#FFD54F);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(255,170,60,.85)) drop-shadow(0 2px 2px rgba(0,0,0,.5));animation:shimmer 4s linear infinite}
@@ -567,7 +567,7 @@ const SHOP = {
   shipping: "",                       // e.g. "Free shipping across India on orders above ₹1,500. Delivered in 4–7 days."
   payment: "",                        // e.g. "UPI, bank transfer or cash at the shop."
   returns: "",                        // e.g. "Exchange within 3 days if the piece doesn't match the packing video."
-  festival: { name: "Diwali", from: "2026-11-03", to: "2026-11-10" },  // Diwali look shows on these dates (India time); change for next year
+  festival: { name: "Diwali", from: "2026-11-03", to: "2026-11-10", offer: 10, offerFrom: 3000 },  // Diwali look shows on these dates (India time); offer: % off every piece priced offerFrom or more (the Diwali Special), till "to"; change for next year
   exhibition: {                       // fill in when the next exhibition is fixed; leave dates "" to show "coming soon"
     dates: "",                        // e.g. "15–17 November 2026"
     timings: "",                      // e.g. "10 am – 8 pm"
@@ -734,7 +734,8 @@ if(FEST){
   let seen=false;try{seen=sessionStorage.getItem("dk_fw")==="1";sessionStorage.setItem("dk_fw","1")}catch(e){}
   if(!seen){const m=document.getElementById("fwmsg");
     const dm=document.getElementById("fwdim");
-    setTimeout(()=>{fireworks(4500);{[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),4600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),5500)}},400)}
+    /* short greeting: a quick burst and "Happy Diwali" for about 2 seconds, once per visit */
+    setTimeout(()=>{fireworks(1200);{[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),1600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),2000)}},200)}
 }
 function launchUI(raw){
   const next=nextLaunchDate(),p=istParts(),liveToday=p.dow===0&&p.h>=LAUNCH_HOUR;
@@ -752,7 +753,9 @@ function launchUI(raw){
 }
 launchUI([]);
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
-  const prep=x=>({...x,disc:Math.min(90,Math.max(0,+x.disc||0)),type:fixType(x.type),material:fixType(x.material),...(ds[x.code.split(" ")[0]]||{})});
+  const prep0=x=>({...x,disc:Math.min(90,Math.max(0,+x.disc||0)),type:fixType(x.type),material:fixType(x.material),...(ds[x.code.split(" ")[0]]||{})});
+  /* Diwali Special: during the festival dates, pieces priced FEST.offerFrom or more get FEST.offer % off till FEST.to, unless they already have a bigger offer */
+  const prep=x=>{const y=prep0(x);if(FEST&&FEST.offer&&+y.price>=(FEST.offerFrom||0)){y.diwali=true;if(!onOffer(y)||y.disc<FEST.offer){y.disc=FEST.offer;y.offerEnds=FEST.to}}return y};
   const ok=x=>+x.price>0&&x.code&&x.img;
   const fill=()=>{const live=d.items.filter(x=>ok(x)&&isLive(x)).map(x=>x.launch?{...x,added:Math.max(+x.added||0,launchAt(x.launch))}:x);
     st.items=live.filter(x=>x.stock>0).map(prep);st.sold=live.filter(x=>!(x.stock>0)).map(prep)};
@@ -781,12 +784,12 @@ function chips(){
   $("#cats").innerHTML=[...extra0,...COLLECTIONS,...extra].map(o=>{const c=o.key==="__offers"?o.count:n(o.key);if(o.key==="__offers")return `<button class="tile" data-c="__offers" aria-pressed="${st.cat==="__offers"}"><div class="ring"><div class="all" style="font:700 1.5rem var(--body);background:#B42318">%</div></div><span>${esc(o.label)}</span><small>${c} on offer</small></button>`;const pic=o.img||(st.items.find(x=>x.category===o.key)||{}).img&&`img/${st.items.find(x=>x.category===o.key).img}-s.jpg`;
     return `<button class="tile" data-c="${esc(o.key)}" aria-pressed="${st.cat===o.key}"><div class="ring"><img src="${esc(pic)}" alt=""></div><span>${esc(o.label)}</span><small>${c?c+" designs":"Coming soon"}</small></button>`}).join("");
 }
+/* during the Diwali dates the Diwali Special comes first, then New arrivals, then Clearance; afterwards it's New, Clearance, Wedding Edit again */
 const EDITS=[
+  ...(FEST?[{k:"dwl",t:"Diwali Special"+(FEST.offer?` · ${FEST.offer}% off`:""),d:"One of each. Rich silks for Diwali"+(FEST.offer?`, ${FEST.offer}% off till `+new Date(FEST.to+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):"")+". Once they're gone, they're gone.",limited:true,min:1,f:x=>!!x.diwali,sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.cat="__diwali"}}]:[]),
   {k:"new",t:"New arrivals",d:"Just in, one of each. Fresh pieces launch every Sunday at 10 AM.",f:x=>true,sort:(a,b)=>(b.added||0)-(a.added||0),apply:()=>{st.sort="new";$("#sort").value="new"}},
-  {k:"clr",t:"Clearance sale",d:"Reduced prices on the last few pieces. Once they're gone, they're gone.",min:1,f:x=>inOffers(x),sort:(a,b)=>(+b.disc||0)-(+a.disc||0)||pNow(a)-pNow(b),apply:()=>{st.cat="__offers"}},
-  /* during the Diwali dates this row becomes the Diwali Special; afterwards it's the Wedding Edit again */
-  FEST?{k:"wed",t:"Diwali Special",d:"One of each. Festive silks and zari for Diwali; once they're gone, they're gone.",limited:true,f:x=>/festiv|pooja/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Festive"}}
-      :{k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}},
+  {k:"clr",t:"Clearance sale",d:"Reduced prices on the last few pieces. Once they're gone, they're gone.",min:1,f:x=>inOffers(x)&&!x.diwali,sort:(a,b)=>(+b.disc||0)-(+a.disc||0)||pNow(a)-pNow(b),apply:()=>{st.cat="__offers"}},
+  ...(FEST?[]:[{k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}}]),
 ];
 function edits(){
   $("#edits").innerHTML=`<div class="wrap">`+EDITS.map(e=>{const r=st.items.filter(e.f).sort(e.sort).slice(0,10);return r.length>=(e.min||3)?`<div class="edit${e.limited?" limited":""}"><div class="eh"><div><h2>${esc(e.t)}${e.limited?` <span class="ltag">Limited stock</span>`:""}</h2><p>${esc(e.d)}</p></div><button data-edit="${e.k}">View all →</button></div><div class="row">${r.map(cardHTML).join("")}</div></div>`:""}).join("")+`</div>`;
@@ -804,7 +807,7 @@ function filtered(){
 }
 function title(x){return tidy(x.title||x.name)}
 const PRICES=[["0-1000","Under ₹1,000"],["1000-2000","₹1,000 – ₹1,999"],["2000-3000","₹2,000 – ₹2,999"],["3000-9999999","₹3,000 and above"]];
-function inCat(x){return st.cat==="__offers"?inOffers(x):(!st.cat||x.category===st.cat)}
+function inCat(x){return st.cat==="__offers"?inOffers(x):st.cat==="__diwali"?!!x.diwali:(!st.cat||x.category===st.cat)}
 function pass(x,skip){
   if(!inCat(x))return false;
   if(skip!=="weave"&&st.weave&&tidy(x.type)!==st.weave)return false;
@@ -817,7 +820,7 @@ function pass(x,skip){
 const nFilters=()=>[st.occ,st.col,st.weave,st.price].filter(Boolean).length;
 function activeUI(){
   const n=nFilters();$("#fcount").hidden=!n;$("#fcount").textContent=n;
-  const catLab=st.cat==="__offers"?"Offers & Clearance":st.cat?(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label:"";
+  const catLab=st.cat==="__offers"?"Offers & Clearance":st.cat==="__diwali"?"Diwali Special":st.cat?(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label:"";
   const pills=[catLab&&["cat",catLab],st.occ&&["occ",st.occ],st.col&&["col",st.col],st.weave&&["weave",st.weave],st.price&&["price",(PRICES.find(p=>p[0]===st.price)||[,""])[1]]].filter(Boolean);
   $("#active").innerHTML=pills.map(([k,l])=>`<button class="pill" data-unset="${k}" aria-label="Remove ${esc(l)}">${esc(l)} <b aria-hidden="true">×</b></button>`).join("")+(pills.length>1?`<button class="clearall" data-unset="all">Clear all</button>`:"");
   $("#active").hidden=!pills.length;
@@ -845,15 +848,15 @@ function openFilters(){
 }
 function refresh(){chips();render();activeUI()}
 function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isRes(x)?`<span class="flag res">RESERVED</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.diwali?'<span class="lg">DIWALI </span>':x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isRes(x)?`<span class="flag res">RESERVED</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`}
 function syncSort(){const el=$("#sort");el.classList.toggle("sorted",st.sort!=="az");el.setAttribute("aria-label","Sort: "+el.options[el.selectedIndex].text);el.title="Sorted "+el.options[el.selectedIndex].text}
 function render(){
   syncSort();
   const r=filtered();
-  const lab=st.cat==="__offers"?"Offers & Clearance":(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
+  const lab=st.cat==="__offers"?"Offers & Clearance":st.cat==="__diwali"?"Diwali Special":(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
   $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}`;
-  if(!r.length&&st.cat&&st.cat!=="__offers"&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
+  if(!r.length&&st.cat&&st.cat!=="__offers"&&st.cat!=="__diwali"&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
   $("#grid").innerHTML=r.length?r.map(x=>cardHTML(x)).join("")
     :`<div class="empty" style="grid-column:1/-1">No sarees match that. Try another colour or clear the filters.</div>`;
 }
@@ -865,7 +868,7 @@ function open(x,push=true){
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
     <div class="big" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}" data-zoom="img/${esc(x.img)}.jpg"><span class="zoomhint">🔍 Tap to zoom</span>${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
     <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
-      <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:isClear(x)?` <span class="offtag">Clearance${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
+      <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.diwali?"Diwali offer · ":x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:isClear(x)?` <span class="offtag">Clearance${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
       ${x.desc?`<p class="desc">${esc(x.desc)}</p>`:""}
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
       ${isRes(x)?`<p class="promise resnote"><b>Reserved for another customer.</b> If their order doesn't go through, the first person on the waiting list gets it.</p>
