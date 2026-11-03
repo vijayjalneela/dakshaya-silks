@@ -255,6 +255,27 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .sw[aria-pressed="true"]{color:var(--ink)}
 .sw small{font-weight:500;opacity:.8}
 .edits .wrap{padding-top:18px;padding-bottom:6px}
+/* Face of the Day: one customer photo in a gold frame, or the invitation when there isn't one */
+.faces .wrap{padding-top:22px;padding-bottom:6px;display:flex;flex-direction:column;gap:14px}
+.face{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;position:relative;overflow:hidden}
+.face::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:repeating-linear-gradient(90deg,var(--zari) 0 8px,transparent 8px 12px,var(--zari) 12px 14px,transparent 14px 22px)}
+@media (min-width:700px){.face{grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:28px;padding:22px 28px}}
+.facepic{aspect-ratio:4/5;max-width:100%;border-radius:120px 120px 12px 12px;padding:5px;background:linear-gradient(160deg,#F8E3A3,#C9962F 45%,#8A5E14 70%,#F3D27A)}
+.facepic img,.faceempty{width:100%;height:100%;display:block;border-radius:115px 115px 8px 8px;object-fit:cover}
+.faceempty{background:var(--sunk);color:var(--mtext);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-weight:600;font-size:.85rem;line-height:1.25}
+.facetxt{min-width:0;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.faceeye{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--zari)}
+.facetxt h2{font-family:var(--display);font-weight:400;font-size:clamp(1.4rem,4vw,2rem);line-height:1.1;margin:0;text-wrap:balance}
+.facetxt p{margin:0;color:var(--muted);max-width:52ch}
+.facetxt .who{color:var(--ink);font-weight:600}
+.faceshare{gap:8px;font-size:.98rem;padding:11px 16px;max-width:100%}
+.facefine{font-size:.8rem}
+.facequote{margin:0;font-family:var(--display);font-size:clamp(1.05rem,2.6vw,1.3rem);line-height:1.4;color:var(--ink);border-left:3px solid var(--zari);padding-left:12px;max-width:52ch}
+@media (max-width:480px){.face{grid-template-columns:1fr;text-align:left}.facepic{max-width:190px;margin:0 auto;width:100%}}
+.happy h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px;font-weight:700}
+.happyrow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(110px,140px);gap:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.happyrow button{border:0;background:none;padding:0;text-align:left;color:var(--ink);font-size:.82rem;line-height:1.3}
+.happyrow img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;display:block;margin-bottom:5px;border:2px solid var(--zari-light)}
 .edit{margin-bottom:22px}
 .soldout{border-top:1px solid var(--line)}
 .soldout .wrap{padding-top:26px;padding-bottom:36px;display:flex;flex-direction:column;gap:14px}
@@ -348,6 +369,21 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 
 
 
+<section class="faces" id="faces" aria-labelledby="facesTitle">
+  <div class="wrap">
+    <div class="face" id="faceCard">
+      <div class="facepic" id="facePic"><div class="faceempty"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Your photo<br>here</span></div></div>
+      <div class="facetxt">
+        <span class="faceeye">Face of the Day</span>
+        <h2 id="facesTitle">Be the face of Dakshaya</h2>
+        <p id="faceLine">Share your happy moment in our saree, with a few words on what you loved, and you could be on our website for a day.</p>
+        <a class="cta faceshare" id="faceShare" href="#" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>Share your photo on WhatsApp</a>
+        <p class="facefine">We show your first name and your words as you wrote them. Want your photo removed? Just message us.</p>
+      </div>
+    </div>
+    <div class="happy" id="happy" hidden><h3>Our happy customers</h3><div class="happyrow" id="happyRow"></div></div>
+  </div>
+</section>
 <section class="edits" id="edits"></section>
 <section class="shopby" id="collections"><div class="wrap"><h2 class="sbh">Collections for you</h2><div class="tiles" id="cats" role="group" aria-label="Collections"></div></div></section>
 
@@ -491,6 +527,7 @@ Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("d
   st.sold=d.items.filter(x=>!(x.stock>0)&&ok(x)).map(prep);
   if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
   facts();chips();edits();render();soldUI();activeUI();bagUI();openFromHash();
+  fetch("faces.json",{cache:"no-cache"}).then(r=>r.ok?r.json():[]).then(facesUI).catch(()=>facesUI([]));
 }).catch(()=>{$("#count").textContent="The collection couldn't load. Please refresh the page."});
 
 function facts(){
@@ -603,6 +640,25 @@ function open(x,push=true){
 function soldCardHTML(x){const code=codeOf(x);return `<button class="card sold" data-sold="${esc(x.code)}" aria-label="${esc(title(x))}, sold out">
     <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480"><span class="flag so">SOLD OUT</span></div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">Was ${inr(x.price)}</span><span class="code num">${esc(code)}</span></div></button>`}
+/* Face of the Day: faces.json lists approved customer photos as {img, name, occasion, code, date:"YYYY-MM-DD"}.
+   Today's entry shows, or the most recent earlier one; nothing shows before its date. */
+const FACE_MSG="Hello Dakshaya Boutique, here's my photo for Face of the Day!\nName (first name is fine): \nOccasion: \nSaree code, if you know it: \nWhat you loved about it: \nI'm happy for Dakshaya Boutique to show this photo and my words on its website.";
+$("#faceShare").href=wa(FACE_MSG);
+function faceCaption(f){const it=f.code&&[...st.items,...st.sold].find(x=>codeOf(x)===String(f.code).toUpperCase());return [esc(f.name||"Our customer"),f.occasion?"at "+esc(f.occasion):"",it?"in "+esc(title(it)):f.code?"in "+esc(String(f.code).toUpperCase()):""].filter(Boolean).join(", ")}
+function facesUI(list){
+  $("#faceShare").href=wa(FACE_MSG);
+  const ok=f=>f&&f.img&&f.date&&f.date<=today()&&/^[a-z0-9._-]+$/i.test(f.img);
+  const all=(Array.isArray(list)?list:[]).filter(ok).sort((a,b)=>b.date.localeCompare(a.date));
+  if(!all.length)return;
+  const f=all[0];
+  $("#facePic").innerHTML=`<img src="img/faces/${esc(f.img)}" alt="${esc((f.name||"A customer")+" wearing a Dakshaya saree")}" loading="lazy" decoding="async">`;
+  $("#facesTitle").textContent=f.date===today()?"Today's Face of Dakshaya":"Face of Dakshaya";
+  $("#faceLine").innerHTML=`<span class="who">${faceCaption(f)}</span><br>Want to be next? Share your happy moment in our saree, with a few words on what you loved.`;
+  if(f.review){const q=document.createElement("blockquote");q.className="facequote";q.textContent="“"+String(f.review).trim().slice(0,280)+"”";$("#faceLine").before(q)}
+  if(f.code)$("#facePic").dataset.code=String(f.code).toUpperCase();
+  const rest=all.slice(1,13);
+  if(rest.length){$("#happy").hidden=false;$("#happyRow").innerHTML=rest.map(r=>`<button type="button" ${r.code?`data-face="${esc(String(r.code).toUpperCase())}"`:""}><img src="img/faces/${esc(r.img)}" alt="" loading="lazy">${faceCaption(r)}</button>`).join("")}
+}
 function soldUI(){
   const r=[...st.sold].sort((a,b)=>title(a).localeCompare(title(b),"en",{sensitivity:"base"}));
   $("#soldout").hidden=false;
@@ -701,6 +757,7 @@ document.addEventListener("click",e=>{
   const ub=e.target.closest("[data-unbag]");if(ub){st.bag=st.bag.filter(b=>b!==ub.dataset.unbag);saveBag();bagUI();openBag();return}
   if(e.target.closest("#bagbtn")){openBag();return}
   const c=e.target.closest(".tile");if(c){st.cat=st.cat===c.dataset.c?"":c.dataset.c;st.weave=st.occ=st.col=st.price=st.q="";$("#q").value="";refresh();const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-ribH();scrollTo({top:y,behavior:"smooth"});return}
+  const fc=e.target.closest("[data-face],#facePic[data-code]");if(fc){const c=fc.dataset.face||fc.dataset.code;const x=st.items.find(i=>codeOf(i)===c);if(x){open(x);return}const y=st.sold.find(i=>codeOf(i)===c);if(y){openSold(y);return}}
   const sc=e.target.closest("[data-sold]");if(sc){const x=st.sold.find(i=>i.code===sc.dataset.sold);if(x)openSold(x);return}
   const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
   const pv=e.target.closest(".playbtn");if(pv){$("#bigMedia").innerHTML=`<video src="${esc(pv.dataset.video)}" poster="${esc(pv.dataset.poster)}" controls autoplay playsinline muted></video>`;return}

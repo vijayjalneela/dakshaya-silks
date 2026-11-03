@@ -17,3 +17,9 @@ Run: `python3 tools/enhance.py photos-raw img` (needs Pillow and numpy). It read
 - `_headers` – security and caching headers that Cloudflare Pages adds to every response.
 - `robots.txt`, `sitemap.xml` – help search engines find the site.
 - `img/icon-180.png` – the icon shown when someone adds the site to their phone's home screen.
+
+## Face of the Day
+Customers send a photo with their first name, occasion, saree code and what they loved, on WhatsApp, with permission to show it.
+To feature one: put the photo in `img/faces/` (e.g. `lakshmi-2026-11-05.jpg`) and add an entry to `faces.json`:
+`{"img":"lakshmi-2026-11-05.jpg","name":"Lakshmi","occasion":"her sister's wedding","code":"DS-002","review":"Their words, as written","date":"2026-11-05"}`
+The entry for today shows; otherwise the most recent earlier one. Older entries appear under "Our happy customers". Entries dated in the future wait until their day. To remove a photo, delete its entry and file.
