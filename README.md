@@ -4,7 +4,7 @@ Public storefront for Dakshaya Boutique. Static site served by Cloudflare Pages 
 
 - `index.html` – the page. Shop settings (WhatsApp number, address) are at the top of the script.
 - `descriptions.json` – display names, descriptions and "best for" per item code (kept separately so a new catalog export does not wipe them).
-- `catalog.json` – in-stock items exported from the shop book app. Selling prices only; no cost data.
+- `catalog.json` – items exported from the shop book app, including sold-out ones (stock 0), which show in the "Sold out" section with a restock request. Selling prices only; no cost data.
 - `img/` – item photos (`<code>.jpg` large, `<code>-s.jpg` small).
 
 To refresh the collection, export again from the shop book, replace `catalog.json`, put the exported photos in `photos-raw/`, then run the photo enhancement below.
