@@ -335,6 +335,8 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .happyrow button{border:0;background:none;padding:0;text-align:left;color:var(--ink);font-size:.82rem;line-height:1.3}
 .happyrow img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;display:block;margin-bottom:5px;border:2px solid var(--zari-light)}
 .edit{margin-bottom:22px}
+.ltag{display:inline-block;vertical-align:4px;margin-left:6px;font-family:var(--body);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#3A0A12;background:linear-gradient(90deg,#FFD54F,#FF9F43);border-radius:999px;padding:3px 10px;box-shadow:0 0 12px rgba(255,170,60,.45)}
+.edit.limited .eh h2{color:var(--mtext)}
 .soldout{border-top:1px solid var(--line)}
 .soldout .wrap{padding-top:26px;padding-bottom:36px;display:flex;flex-direction:column;gap:14px}
 .soldout .sbh{margin:0}
@@ -686,10 +688,12 @@ function chips(){
 const EDITS=[
   {k:"new",t:"New arrivals",d:"Just in, one of each. Fresh pieces launch every Sunday at 10 AM.",f:x=>true,sort:(a,b)=>(b.added||0)-(a.added||0),apply:()=>{st.sort="new";$("#sort").value="new"}},
   {k:"clr",t:"Clearance sale",d:"Reduced prices on the last few pieces. Once they're gone, they're gone.",min:1,f:x=>inOffers(x),sort:(a,b)=>(+b.disc||0)-(+a.disc||0)||pNow(a)-pNow(b),apply:()=>{st.cat="__offers"}},
-  {k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}},
+  /* during the Diwali dates this row becomes the Diwali Special; afterwards it's the Wedding Edit again */
+  FEST?{k:"wed",t:"Diwali Special",d:"One of each. Festive silks and zari for Diwali; once they're gone, they're gone.",limited:true,f:x=>/festiv|pooja/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Festive"}}
+      :{k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}},
 ];
 function edits(){
-  $("#edits").innerHTML=`<div class="wrap">`+EDITS.map(e=>{const r=st.items.filter(e.f).sort(e.sort).slice(0,10);return r.length>=(e.min||3)?`<div class="edit"><div class="eh"><div><h2>${esc(e.t)}</h2><p>${esc(e.d)}</p></div><button data-edit="${e.k}">View all →</button></div><div class="row">${r.map(cardHTML).join("")}</div></div>`:""}).join("")+`</div>`;
+  $("#edits").innerHTML=`<div class="wrap">`+EDITS.map(e=>{const r=st.items.filter(e.f).sort(e.sort).slice(0,10);return r.length>=(e.min||3)?`<div class="edit${e.limited?" limited":""}"><div class="eh"><div><h2>${esc(e.t)}${e.limited?` <span class="ltag">Limited stock</span>`:""}</h2><p>${esc(e.d)}</p></div><button data-edit="${e.k}">View all →</button></div><div class="row">${r.map(cardHTML).join("")}</div></div>`:""}).join("")+`</div>`;
 }
 function toShop(){const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-ribH();scrollTo({top:y,behavior:"smooth"})}
 function filtered(){
