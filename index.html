@@ -178,7 +178,11 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 .story-fig{order:-1;max-width:290px;margin:0 auto;width:100%}
 @media (min-width:860px){.story-fig{order:2;max-width:460px}}
 .story-fig{position:relative;padding:10px;border-radius:220px 220px 18px 18px;background:linear-gradient(160deg,#F8E3A3,#C9962F 45%,#8A5E14 70%,#F3D27A);box-shadow:0 24px 50px rgba(0,0,0,.4)}
-.story-fig img{width:100%;height:auto;display:block;border-radius:210px 210px 10px 10px;aspect-ratio:3/4;object-fit:cover;object-position:50% 20%}
+.story-fig .slides{position:relative;aspect-ratio:3/4;max-width:100%;border-radius:210px 210px 10px 10px;overflow:hidden;background:#4A0820}
+/* three photos, one at a time: each fades softly into the next while drifting very slightly larger */
+.story-fig img{position:absolute;top:0;left:0;width:100%;height:100%;display:block;object-fit:cover;object-position:50% 30%;opacity:0;transform:scale(1.04);transition:opacity 1.8s ease-in-out,transform 7s ease-out}
+.story-fig img.on{opacity:1;transform:scale(1)}
+@media (prefers-reduced-motion:reduce){.story-fig img{transform:none;transition:opacity 1.2s ease-in-out}}
 .story-fig::after{content:"";position:absolute;top:10px;right:10px;bottom:10px;left:10px;border-radius:210px 210px 10px 10px;box-shadow:inset 0 0 0 1px rgba(248,227,163,.6),inset 0 -60px 60px -30px rgba(74,8,32,.35);pointer-events:none}
 .story-txt{display:flex;flex-direction:column;gap:16px;text-align:center;max-width:36rem;margin:0 auto}
 @media (min-width:860px){.story-txt{text-align:left;margin:0}}
@@ -288,7 +292,11 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
       </a></div>
     </div>
 <div class="story-in" id="our-story">
-    <div class="story-fig"><img src="img/our-story.jpg" alt="A smiling Indian woman in a purple silk saree with a gold border and jasmine in her hair, seated in a garden" width="900" height="1200" fetchpriority="high"></div>
+    <div class="story-fig" id="storyFig"><div class="slides">
+      <img class="on" src="img/story/young.jpg" alt="Illustration of a smiling young woman in a white top, relaxing in a carved armchair beside a garden window" width="900" height="1200" fetchpriority="high">
+      <img src="img/story/graceful.jpg" alt="Illustration of a woman in a purple silk saree with a gold border and jasmine in her hair, seated in a garden" width="900" height="1200" decoding="async">
+      <img src="img/story/timeless.jpg" alt="Illustration of a smiling older woman in a mustard silk saree with a maroon blouse, seated beside a brass lamp" width="900" height="1200" decoding="async">
+    </div></div>
     <div class="story-txt">
       <p class="s-eyebrow gold" id="storyTitle">Our story</p>
       <p class="s-lead gold">At Dakshaya Boutique, our name comes from <span class="s-name">Dakshayani</span>, the goddess of strength and devotion.</p>
@@ -386,6 +394,11 @@ const COLS=[["Red","#B3122B",/\bred\b/],["Maroon","#6E0F2B",/maroon/],["Pink","#
 const colOf=(x,re)=>re.test(String(x.color||"").toLowerCase());
 const isNew=x=>x.added&&Date.now()-x.added<14*864e5;
 const codeOf=x=>x.code.split(" ")[0];
+/* Our story frame: show the three photos one by one */
+(function(){const box=document.getElementById("storyFig");if(!box)return;const imgs=[...box.querySelectorAll("img")];if(imgs.length<2)return;
+ let i=0,t=null;const next=()=>{imgs[i].classList.remove("on");i=(i+1)%imgs.length;imgs[i].classList.add("on")};
+ const go=()=>{clearInterval(t);t=document.hidden?null:setInterval(next,5500)};
+ document.addEventListener("visibilitychange",go);go()})();
 /* Collections shown as picture tiles. Replace an image by changing its path (e.g. "img/cat/saree.jpg"). */
 /* today's date on the shopper's own clock (not UTC), so an offer "till 1 Dec" ends at midnight in India */
 const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
