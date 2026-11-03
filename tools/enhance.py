@@ -32,8 +32,9 @@ def save(im, base):
     sm = im.copy(); sm.thumbnail((480, 600), Image.LANCZOS)
     sm.save(base + "-s.jpg", quality=72, optimize=True, progressive=True)
 
-# any item code photo: ds-001.jpg, kt-004.jpg, jw-12.jpg ... (not the "-s" small copies, not our-story.jpg)
-CODE_PHOTO = re.compile(r"^[a-z]{1,5}-\d+\.jpg$", re.I)
+# any item code photo: ds-001.jpg, kt-004.jpg, jw-12.jpg, and extra views ds-001-2.jpg ... ds-001-9.jpg
+# (not the "-s" small copies, not our-story.jpg)
+CODE_PHOTO = re.compile(r"^[a-z]{1,5}-\d+(-[2-9])?\.jpg$", re.I)
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:

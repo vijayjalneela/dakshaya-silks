@@ -49,6 +49,22 @@ def usable(x):
         and re.match(r"^[A-Z]{1,5}-\d+", str(x.get("code", "")))
 
 
+KIND_LABEL = {"design": "Design", "pallu": "Pallu", "blouse": "Blouse piece", "border": "Border", "fabric": "Fabric"}
+
+
+def views(x):
+    """All photos of an item in order, as [(img_name, asset, label)]. The first is the cover (img/<code>.jpg);
+    extra views from the shop book's "photos" list become img/<code>-2.jpg ... -9.jpg."""
+    base = img_name(x["code"])
+    ids = [a for a in (x.get("photos") or []) if isinstance(a, str) and a] or [x["photo"]]
+    kinds = x.get("photoKinds") or []
+    out = []
+    for i, a in enumerate(ids[:9]):
+        k = kinds[i] if i < len(kinds) else ""
+        out.append((base if i == 0 else f"{base}-{i + 1}", a, KIND_LABEL.get(k, f"Photo {i + 1}")))
+    return out
+
+
 def manifest():
     try:
         return json.load(open(MANIFEST))
@@ -62,10 +78,10 @@ def plan(docs_dir):
     for x in load_docs(docs_dir):
         if not usable(x):
             continue
-        img = img_name(x["code"])
-        have = os.path.exists(os.path.join(IMG, img + ".jpg")) and os.path.exists(os.path.join(IMG, img + "-s.jpg"))
-        if not have or m.get(img) != x["photo"]:
-            need.append({"code": x["code"], "img": img, "asset": x["photo"]})
+        for img, asset, _ in views(x):
+            have = os.path.exists(os.path.join(IMG, img + ".jpg")) and os.path.exists(os.path.join(IMG, img + "-s.jpg"))
+            if not have or m.get(img) != asset:
+                need.append({"code": x["code"], "img": img, "asset": asset})
     print(json.dumps(need, indent=1))
 
 
@@ -99,12 +115,12 @@ def build(docs_dir, photos_dir):
     for x in docs:
         if not usable(x):
             continue
-        img = img_name(x["code"])
-        if x["photo"] in got and (m.get(img) != x["photo"] or not os.path.exists(os.path.join(IMG, img + ".jpg"))):
-            from PIL import Image
-            im = Image.open(got[x["photo"]]); im.verify()
-            Image.open(got[x["photo"]]).convert("RGB").save(os.path.join(staged, img + ".jpg"), quality=95)
-            todo.append((img, x["photo"]))
+        for img, asset, _ in views(x):
+            if asset in got and (m.get(img) != asset or not os.path.exists(os.path.join(IMG, img + ".jpg"))):
+                from PIL import Image
+                im = Image.open(got[asset]); im.verify()
+                Image.open(got[asset]).convert("RGB").save(os.path.join(staged, img + ".jpg"), quality=95)
+                todo.append((img, asset))
     if todo:
         subprocess.run([sys.executable, "-I", os.path.join(ROOT, "tools", "enhance.py"), staged, IMG], check=True)
         for img, asset in todo:
@@ -125,6 +141,7 @@ def build(docs_dir, photos_dir):
                       "border": x.get("fabric", ""), "color": x.get("color", ""), "blouse": bool(x.get("blouse")),
                       "dupatta": bool(x.get("dupatta")), "length": x.get("length", ""), "price": x.get("sp"),
                       "stock": int(x.get("stock") or 0), "img": img, "added": x.get("addedAt", 0),
+                      **({"photos": [{"img": v, "l": l} for v, _, l in vs]} if len(vs := [t for t in views(x) if os.path.exists(os.path.join(IMG, t[0] + "-s.jpg"))]) > 1 else {}),
                       "disc": x.get("disc") or 0, "clearance": bool(x.get("clearance")), "offerEnds": x.get("offerEnds", ""),
                       **({"reserved": True, "reservedUntil": str(x.get("reservedUntil") or "")} if x.get("reserved") and int(x.get("stock") or 0) > 0 else {}),
                       **({"launch": x["launch"]} if re.match(r"^\d{4}-\d{2}-\d{2}$", str(x.get("launch") or "")) else {})})
