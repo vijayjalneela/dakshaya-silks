@@ -270,6 +270,8 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .reqgrid label,.soreq label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;font-weight:600;color:var(--muted);min-width:0}
 .reqgrid input,.reqgrid select,.soreq input,.soreq select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 11px;min-height:42px;font:inherit;font-size:16px;width:100%}
 .reqbox .cta{border:0;align-self:flex-start;cursor:pointer}
+.promise{margin:0;background:var(--sunk);border-left:3px solid var(--zari);border-radius:0 10px 10px 0;padding:10px 14px;font-size:.92rem;line-height:1.5;color:var(--ink)}
+.promise b{display:block;font-family:var(--display);font-weight:400;font-size:1.05rem;color:var(--mtext);margin-bottom:2px}
 .soreq{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .sotag{display:inline-block;background:#3A2B3F;color:#fff;border-radius:999px;font-size:.8rem;font-weight:700;padding:2px 10px;letter-spacing:.04em;vertical-align:middle}
 .edit .eh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
@@ -371,6 +373,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
         <label>Budget<select id="rq_budget"><option value="">Any</option><option>Under ₹1,000</option><option>₹1,000 – ₹2,000</option><option>₹2,000 – ₹3,000</option><option>₹3,000 – ₹5,000</option><option>Above ₹5,000</option></select></label>
         <label>Occasion<select id="rq_occ"><option value="">Any</option><option>Wedding</option><option>Festival / pooja</option><option>Function / party</option><option>Office</option><option>Daily wear</option><option>Gift</option></select></label>
       </div>
+      <p class="promise"><b>A gentle note from us</b>We can't promise we'll find it, but we'll do our very best. As soon as we find something you'd love, we'll message you with photos. If it's the one, a small advance keeps it aside just for you until it's on its way.</p>
       <a class="cta" id="rqSend" href="#" target="_blank" rel="noopener">Send request on WhatsApp</a>
       <p class="note" id="rq_msg" role="status"></p>
     </form>
@@ -624,6 +627,7 @@ function openSold(x,push=true){
         <label>Budget<select id="sq_budget"><option value="">Any</option>${BUDGETS.map(b=>`<option>${b}</option>`).join("")}</select></label>
         <label>Occasion<select id="sq_occ"><option value="">Any</option><option>Wedding</option><option>Festival / pooja</option><option>Function / party</option><option>Office</option><option>Daily wear</option><option>Gift</option></select></label>
       </div>
+      <p class="promise"><b>A gentle note from us</b>We can't promise this piece will come back. Each one we choose is hand-picked, and weavers don't always make the same design twice. But we'll do our very best to find it, or one very close to it, for you. As soon as we do, we'll message you with photos. If you love it, a small advance keeps it aside just for you until it's on its way.</p>
       <a class="cta stick" id="sqSend" href="${wa(soldMsg(x))}" target="_blank" rel="noopener">Ask for a restock on WhatsApp</a>
       <p class="note">Quote code <b>${esc(code)}</b> so we know which piece you mean.</p>${relHTML(x)}</div>`;
   showSheet(push,"#"+code.toLowerCase());cur=code;S_sold=x;
