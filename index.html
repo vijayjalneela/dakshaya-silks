@@ -382,13 +382,48 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .bagrow button{border:1px solid var(--line);background:none;border-radius:999px;padding:4px 10px;font-size:.82rem}
 .btnrow{display:flex;gap:8px;margin-top:8px}.btnrow .ghost{flex:1}
 .contact a{color:inherit}
+
+/* ---- Diwali decor: hanging diyas + marigold strands at the sides, rangoli corners ---- */
+:root{--festbg:#FFF8EC;--festdot:rgba(214,120,20,.10)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--festbg:#1C1210;--festdot:rgba(255,190,90,.07)}}
+:root[data-theme="dark"]{--festbg:#1C1210;--festdot:rgba(255,190,90,.07)}
+html.diwali body{background-color:var(--festbg);
+  background-image:radial-gradient(circle at 50% 50%,var(--festdot) 0 2px,transparent 2.5px),radial-gradient(circle at 50% 50%,var(--festdot) 0 1.5px,transparent 2px);
+  background-size:36px 36px,36px 36px;background-position:0 0,18px 18px}
+html.diwali .bar{background:var(--festbg)}
+.dside,.drang{display:none}
+html.diwali .dside{display:block;position:fixed;top:0;bottom:0;width:var(--gut);z-index:4;pointer-events:none;overflow:hidden}
+html.diwali .dside.l{left:0}html.diwali .dside.r{right:0}
+.dside .strand{position:absolute;top:-10px;transform-origin:50% 0;animation:sway 5s ease-in-out infinite alternate}
+.dside .strand:nth-child(2){animation-duration:6.2s;animation-delay:-2s}.dside .strand:nth-child(3){animation-duration:4.4s;animation-delay:-1s}
+.dside .strand:nth-child(4){animation-duration:5.6s;animation-delay:-3s}
+@keyframes sway{from{transform:rotate(-2.2deg)}to{transform:rotate(2.2deg)}}
+.dside .fl{animation:fl 1.3s ease-in-out infinite alternate;transform-origin:50% 100%;transform-box:fill-box}
+@keyframes fl{from{opacity:.85;transform:scaleY(.92)}to{opacity:1;transform:scaleY(1.08)}}
+.dside .halo{animation:halo 2.2s ease-in-out infinite alternate}
+@keyframes halo{from{opacity:.35}to{opacity:.8}}
+html.diwali .drang{display:block;position:fixed;bottom:-14%;width:min(calc(var(--gut) * 1.4),280px);aspect-ratio:1;z-index:3;pointer-events:none;opacity:.95}
+html.diwali .drang.l{left:calc(min(calc(var(--gut) * 1.4),280px) * -.32)}html.diwali .drang.r{right:calc(min(calc(var(--gut) * 1.4),280px) * -.32)}
+.drang svg{width:100%;height:100%;animation:spin 120s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.dside .strand,.drang svg,.dside .fl{animation:none}}
+/* wide screens: give the content a little less width so the sides can carry the decor */
+html.diwali{--gut:0px}
+@media (min-width:1200px){html.diwali{--wr:min(1160px,calc(100vw - 320px));--gut:calc((100vw - var(--wr)) / 2)}html.diwali .wrap{max-width:var(--wr)}}
+@media (min-width:1600px){html.diwali{--wr:min(1480px,calc(100vw - 360px))}}
+@media (min-width:2200px){html.diwali{--wr:min(1840px,calc(100vw - 420px))}}
+/* phones and tablets: two short diya strands hang from the header corners */
+.mdiya{display:none}
+@media (max-width:1199px){html.diwali .mdiya{display:block;position:absolute;top:22px;width:34px;z-index:3;pointer-events:none}
+  html.diwali .mdiya.l{left:4px}html.diwali .mdiya.r{right:4px}html.diwali .mast{position:relative}
+  html.diwali .mast .wrap{padding-left:max(44px,env(safe-area-inset-left,0px));padding-right:max(44px,env(safe-area-inset-right,0px))}}
 </style>
 </head>
 <body>
 
 <div class="ribbon" role="note" title="Tap to pause or play" aria-label="Hand-picked, one-of-a-kind pieces. No bulk, no repeats. Love a piece? Message us before it finds another home. Real photos in natural daylight. Packing video before every shipment."><div class="tick"><div class="track"><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span></div></div></div>
 <div class="launchband" id="launchband" role="note"><div class="lb-track" aria-hidden="true"></div><p class="lb-static" id="lbText">Be the first, or miss the best. New launches every Sunday at 10 AM.</p></div>
-<header class="mast"><div class="toran" aria-hidden="true"></div>
+<header class="mast"><div class="toran" aria-hidden="true"></div><div class="mdiya l" aria-hidden="true"></div><div class="mdiya r" aria-hidden="true"></div>
   <div class="wrap">
     <div class="topline">
       <div class="logo">Dakshaya Boutique</div>
@@ -449,6 +484,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
   </div></div>
 </section>
 <canvas id="fireworks" aria-hidden="true"></canvas>
+<div class="dside l" aria-hidden="true"></div><div class="dside r" aria-hidden="true"></div><div class="drang l" aria-hidden="true"></div><div class="drang r" aria-hidden="true"></div>
 <div class="fwdim" id="fwdim" aria-hidden="true"></div>
 <div class="fwmsg" id="fwmsg" aria-hidden="true"><span>Shubh Deepavali</span><b>Happy Diwali</b><small>from Dakshaya Boutique</small></div>
 <section class="faces" id="faces" aria-labelledby="facesTitle">
@@ -658,6 +694,40 @@ function fireworks(ms,tapped){
 }
 if(FEST){
   document.documentElement.classList.add("diwali");
+  /* decor: marigold strands ending in hanging brass diyas, and rangoli corners */
+  (function(){
+    const MG=["#FF8A00","#FFB300","#FFD000","#F57C00"];
+    function flower(x,y,r,c){let p="";for(let k=0;k<10;k++){const a=k*Math.PI/5;p+=`<circle cx="${(x+Math.cos(a)*r*.55).toFixed(1)}" cy="${(y+Math.sin(a)*r*.55).toFixed(1)}" r="${(r*.5).toFixed(1)}" fill="${c}"/>`}
+      return p+`<circle cx="${x}" cy="${y}" r="${(r*.45).toFixed(1)}" fill="#E65100" opacity=".55"/>`}
+    function diya(x,y){return `<g transform="translate(${x} ${y})">
+      <circle class="halo" cx="0" cy="-14" r="20" fill="url(#dglow)"/>
+      <path d="M-4 -40 L4 -40 M0 -40 V-26" stroke="#B8862B" stroke-width="1.5"/>
+      <path d="M-16 -26 Q0 -32 16 -26 L13 -22 H-13 Z" fill="#C9962E"/>
+      <path d="M-13 -22 H13 L8 -18 H-8 Z" fill="#8C5A12"/>
+      <path d="M-18 -4 Q0 -10 18 -4 Q14 10 0 12 Q-14 10 -18 -4Z" fill="#B5651D"/>
+      <path d="M-18 -4 Q0 -10 18 -4 Q0 1 -18 -4Z" fill="#7A3A0E"/>
+      <path d="M-16 0 Q0 6 16 0" stroke="#FFD54F" stroke-width="1.6" fill="none"/>
+      <circle cx="-8" cy="4" r="1.6" fill="#FFD54F"/><circle cx="0" cy="6" r="1.6" fill="#FF4FA3"/><circle cx="8" cy="4" r="1.6" fill="#FFD54F"/>
+      <path class="fl" d="M0 -20 Q6 -12 0 -6 Q-6 -12 0 -20Z" fill="#FFB300"/><path class="fl" d="M0 -16 Q3 -11 0 -8 Q-3 -11 0 -16Z" fill="#FFF3B0"/>
+      <path d="M-5 12 L0 22 L5 12" fill="#C9962E"/><circle cx="0" cy="24" r="3" fill="#E0B040"/></g>`}
+    function strand(len,seed){let s=`<svg width="56" height="${len+70}" viewBox="0 0 56 ${len+70}"><defs><radialGradient id="dglow"><stop offset="0" stop-color="#FFD54F" stop-opacity=".9"/><stop offset="1" stop-color="#FFB300" stop-opacity="0"/></radialGradient></defs>
+      <line x1="28" y1="0" x2="28" y2="${len}" stroke="#7A4A12" stroke-width="1.2"/>`;
+      for(let y=14,k=seed;y<len-6;y+=12,k++){s+=flower(28,y,7,MG[k%4]);if(k%5===2)s+=`<path d="M28 ${y+5} q-14 4 -16 14 q10 -2 16 -14Z" fill="#2E7D32"/><path d="M28 ${y+5} q14 4 16 14 q-10 -2 -16 -14Z" fill="#388E3C"/>`}
+      return s+diya(28,len+40)+"</svg>"}
+    function side(el,flip){const H=Math.max(600,innerHeight),lens=[.32,.55,.22,.44].map(f=>Math.round(H*f)),xs=[.02,.36,.68,1];
+      el.innerHTML=lens.map((L,i)=>`<div class="strand" style="left:calc((100% - 56px) * ${flip?1-xs[i]:xs[i]})">${strand(L,i+(flip?2:0))}</div>`).join("")}
+    document.querySelectorAll(".dside").forEach((el,i)=>side(el,i===1));
+    document.querySelectorAll(".mdiya").forEach((el,i)=>{el.innerHTML=strand(i?70:110,i).replace('width="56"','width="34"').replace(/height="(\d+)"/,(m,h)=>`height="${Math.round(h*34/56)}"`)});
+    function rangoli(){const C=["#E91E63","#FF9800","#FFEB3B","#4CAF50","#2196F3","#9C27B0","#FFFFFF"];let g=`<svg viewBox="-100 -100 200 200">`;
+      const rings=[[90,24,"#9C27B0",18],[78,24,"#E91E63",16],[64,16,"#FF9800",16],[50,16,"#FFEB3B",13],[36,12,"#4CAF50",11],[24,8,"#2196F3",9]];
+      g+=`<circle r="96" fill="#E91E63" opacity=".18"/>`;
+      rings.forEach(([r,n,c,w],ri)=>{for(let k=0;k<n;k++){const a=(k+(ri%2?.5:0))*360/n;g+=`<ellipse cx="0" cy="${-r+w*.7}" rx="${w*.42}" ry="${w*.9}" fill="${c}" transform="rotate(${a.toFixed(1)})"/>`}
+        g+=`<circle r="${r-w*1.55}" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 4" opacity=".8"/>`});
+      for(let k=0;k<24;k++)g+=`<circle cx="0" cy="-95" r="2.4" fill="${C[k%7]}" transform="rotate(${k*15})"/>`;
+      return g+`<circle r="12" fill="#FFD54F"/><circle r="6" fill="#E65100"/></svg>`}
+    document.querySelectorAll(".drang").forEach(el=>el.innerHTML=rangoli());
+  })();
+
   document.getElementById("festive").hidden=false;
   document.getElementById("crackerBtn").addEventListener("click",()=>fireworks(2200,true));
   document.getElementById("festShop").addEventListener("click",()=>{const e=document.getElementById("edits");scrollTo({top:e.getBoundingClientRect().top+scrollY-ribH()-document.querySelector(".bar").offsetHeight,behavior:reduceMotion?"auto":"smooth"})});
