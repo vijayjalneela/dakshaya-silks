@@ -126,6 +126,7 @@ def build(docs_dir, photos_dir):
                       "dupatta": bool(x.get("dupatta")), "length": x.get("length", ""), "price": x.get("sp"),
                       "stock": int(x.get("stock") or 0), "img": img, "added": x.get("addedAt", 0),
                       "disc": x.get("disc") or 0, "clearance": bool(x.get("clearance")), "offerEnds": x.get("offerEnds", ""),
+                      **({"reserved": True, "reservedUntil": str(x.get("reservedUntil") or "")} if x.get("reserved") and int(x.get("stock") or 0) > 0 else {}),
                       **({"launch": x["launch"]} if re.match(r"^\d{4}-\d{2}-\d{2}$", str(x.get("launch") or "")) else {})})
     cat = {"updated": datetime.now(IST).strftime("%Y-%m-%d"), "items": items}
     json.dump(cat, open(os.path.join(ROOT, "catalog.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))

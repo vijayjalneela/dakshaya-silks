@@ -327,6 +327,8 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .faceshare{gap:8px;font-size:.98rem;padding:11px 16px;max-width:100%}
 .facefine{font-size:.8rem}
 .quoteby{display:block;font-family:var(--body);font-size:.85rem;color:var(--muted);margin-top:4px}
+.card .flag.res{background:#3A2B3F;color:#FFE08A;top:auto;bottom:8px}
+.resnote{border-left-color:#3A2B3F}
 .samplechip{display:inline-block;background:var(--zari);color:#2B1A08;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:1px 8px;margin-right:4px;vertical-align:1px}
 .facequote{margin:0;font-family:var(--display);font-size:clamp(1.05rem,2.6vw,1.3rem);line-height:1.4;color:var(--ink);border-left:3px solid var(--zari);padding-left:12px;max-width:52ch}
 @media (max-width:480px){.face{grid-template-columns:1fr;text-align:left}.facepic{max-width:190px;margin:0 auto;width:100%}}
@@ -607,6 +609,9 @@ const fmtLaunch=d=>new Date(d+"T12:00:00+05:30").toLocaleDateString("en-IN",{wee
 const PREVIEW=/[?&]preview\b/.test(location.search);
 const isLive=x=>PREVIEW||!x.launch||Date.now()>=launchAt(x.launch);
 const queued=x=>x.launch&&Date.now()<launchAt(x.launch);
+/* Reserved: booked by another customer; shown with a waiting-list option instead of ordering. Lapses after its hold date. */
+const istToday=()=>{const p=istParts();return new Date(Date.UTC(p.y,p.m,p.d)).toISOString().slice(0,10)};
+const isRes=x=>!!x.reserved&&x.stock>0&&(!x.reservedUntil||x.reservedUntil>=istToday());
 /* ===== Diwali ===== */
 const FEST=(()=>{const f=SHOP.festival||{};if(!f.from||!f.to)return null;const p=istParts(),d=new Date(Date.UTC(p.y,p.m,p.d)).toISOString().slice(0,10);return d>=f.from&&d<=f.to?f:null})();
 const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -749,7 +754,7 @@ function openFilters(){
 }
 function refresh(){chips();render();activeUI()}
 function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isRes(x)?`<span class="flag res">RESERVED</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`}
 function syncSort(){const el=$("#sort");el.classList.toggle("sorted",st.sort!=="az");el.setAttribute("aria-label","Sort: "+el.options[el.selectedIndex].text);el.title="Sorted "+el.options[el.selectedIndex].text}
 function render(){
@@ -772,8 +777,9 @@ function open(x,push=true){
       <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:isClear(x)?` <span class="offtag">Clearance${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
       ${x.desc?`<p class="desc">${esc(x.desc)}</p>`:""}
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
-      <a class="cta stick" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp · ${inr(pNow(x))}</a>
-      <div class="btnrow"><button class="ghost" data-bag="${esc(code)}">${st.bag.includes(code)?"✓ In your bag":"Add to bag"}</button><button class="ghost" data-share="${esc(code)}">Share</button></div>
+      ${isRes(x)?`<p class="promise resnote"><b>Reserved for another customer.</b> If their order doesn't go through, the first person on the waiting list gets it.</p>
+      <a class="cta stick" href="${wa(`Hello Dakshaya Boutique, I love ${code} – ${title(x)} (${inr(pNow(x))}), which is reserved right now. Please add me to the waiting list.`)}" target="_blank" rel="noopener">Join the waiting list on WhatsApp</a>`:`<a class="cta stick" href="${wa(msg)}" target="_blank" rel="noopener">Order on WhatsApp · ${inr(pNow(x))}</a>`}
+      <div class="btnrow">${isRes(x)?"":`<button class="ghost" data-bag="${esc(code)}">${st.bag.includes(code)?"✓ In your bag":"Add to bag"}</button>`}<button class="ghost" data-share="${esc(code)}">Share</button></div>
       <p class="note">Quote code <b>${esc(code)}</b> when you call or visit.</p>${relHTML(x)}</div>`;
   showSheet(push,"#"+code.toLowerCase());cur=code;
   $("#panel").scrollTop=0;$("[data-close]").focus();
@@ -849,11 +855,11 @@ function relHTML(x){
 function bagUI(){const n=st.bag.filter(c=>st.items.some(x=>codeOf(x)===c)).length;$("#bagbtn").hidden=!n;document.body.classList.toggle("hasbag",!!n);$("#bagbtn").textContent=`🛍 Bag (${n})`}
 function openBag(){
   $("#panel").classList.remove("fp");
-  const its=st.bag.map(c=>st.items.find(x=>codeOf(x)===c)).filter(Boolean);
+  const all=st.bag.map(c=>st.items.find(x=>codeOf(x)===c)).filter(Boolean),its=all.filter(x=>!isRes(x)),held=all.filter(isRes);
   const tot=its.reduce((a,x)=>a+pNow(x),0);
   const msg="Hello Dakshaya Boutique, I'd like these pieces:\n"+its.map((x,i)=>`${i+1}. ${codeOf(x)} – ${title(x)} (${inr(pNow(x))})`).join("\n")+`\nTotal ${inr(tot)}. Are they available?`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button><div class="info"><span class="eyebrow">Your bag</span><h2 id="sheetTitle">${its.length} piece${its.length===1?"":"s"} · ${inr(tot)}</h2>
-   ${its.length?its.map(x=>`<div class="bagrow"><img src="img/${esc(x.img)}-s.jpg" alt=""><div><b>${esc(title(x))}</b><br><span class="num">${esc(codeOf(x))} · ${inr(pNow(x))}</span></div><button data-unbag="${esc(codeOf(x))}">Remove</button></div>`).join("")+`<a class="cta" style="margin-top:14px" href="${wa(msg)}" target="_blank" rel="noopener">Send all on WhatsApp</a><p class="note">Every piece is one of a kind, so we'll confirm availability and send a packing video before shipping.</p>`:`<p>Your bag is empty.</p>`}</div>`;
+   ${its.length?its.map(x=>`<div class="bagrow"><img src="img/${esc(x.img)}-s.jpg" alt=""><div><b>${esc(title(x))}</b><br><span class="num">${esc(codeOf(x))} · ${inr(pNow(x))}</span></div><button data-unbag="${esc(codeOf(x))}">Remove</button></div>`).join("")+`<a class="cta" style="margin-top:14px" href="${wa(msg)}" target="_blank" rel="noopener">Send all on WhatsApp</a>${held.length?`<p class="note">${held.map(x=>esc(codeOf(x))).join(", ")} ${held.length===1?"was":"were"} reserved by another customer, so ${held.length===1?"it's":"they're"} not in this message. Open ${held.length===1?"it":"them"} to join the waiting list.</p>`:""}<p class="note">Every piece is one of a kind, so we'll confirm availability and send a packing video before shipping.</p>`:`<p>Your bag is empty.</p>`}</div>`;
   const fresh=$("#sheet").hidden;showSheet(true);cur="";$("#panel").scrollTop=0;if(fresh)$("[data-close]").focus();
 }
 /* Opening a sheet adds a history step, so the phone's Back button closes it instead of leaving the site. */
