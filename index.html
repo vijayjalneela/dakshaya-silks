@@ -264,6 +264,9 @@ html.diwali .launchband{background:linear-gradient(90deg,#FF8A00,#FFD54F 25%,#FF
 .lb-track span.big{font-weight:900;font-size:1.02rem;letter-spacing:.08em;color:#7A0C33;text-shadow:0 1px 0 rgba(255,255,255,.35)}
 .lb-track i{font-style:normal;color:#8E1442}
 .launchband:hover .lb-track{animation-play-state:paused}
+.annc{margin:10px 0 0;display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:linear-gradient(90deg,#F2C75C,#FFD54F);color:#5A0A26;font-weight:800;font-size:.92rem;letter-spacing:.02em;line-height:1.3;border:1px solid #8A5E14;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.annc::before{content:"✦";color:#8E1442}
+.annc[hidden]{display:none}
 .lb-static{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0}
 @keyframes lbrun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.lb-track{display:none}.lb-static{transition:opacity .5s ease;position:static;width:auto;height:auto;clip:auto;padding:9px 16px;text-align:center;font-weight:800;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em}}
@@ -432,6 +435,7 @@ html.diwali{--gut:0px}
         WhatsApp us
       </a></div>
     </div>
+    <p class="annc" id="annc" hidden></p>
 <div class="story-in" id="our-story">
     <div class="story-fig" id="storyFig"><div class="slides">
       <img class="on" src="img/story/young.jpg" srcset="img/story/young-s.jpg 600w, img/story/young.jpg 1050w" sizes="(min-width:860px) 440px, 270px" alt="Illustration of a smiling young woman in a white top, relaxing in a carved armchair by a city-view window" width="1050" height="1400" fetchpriority="high">
@@ -568,6 +572,7 @@ const SHOP = {
   payment: "",                        // e.g. "UPI, bank transfer or cash at the shop."
   returns: "",                        // e.g. "Exchange within 3 days if the piece doesn't match the packing video."
   festival: { name: "Diwali", from: "2026-11-03", to: "2026-11-10", offer: 10, offerFrom: 3000 },  // Diwali look shows on these dates (India time); offer: % off every piece priced offerFrom or more (the Diwali Special), till "to"; change for next year
+  announce: { text: "Website launch with more options on 25 Nov at 5:15 PM", until: "2026-11-25T17:15:00+05:30" },  // shown at the top of the site until this time (India time); set text "" to hide
   exhibition: {                       // fill in when the next exhibition is fixed; leave dates "" to show "coming soon"
     dates: "",                        // e.g. "15–17 November 2026"
     timings: "",                      // e.g. "10 am – 8 pm"
@@ -737,6 +742,9 @@ if(FEST){
     /* short greeting: a quick burst and "Happy Diwali" for about 2 seconds, once per visit */
     setTimeout(()=>{fireworks(1200);{[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),1600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),2000)}},200)}
 }
+/* announcement from SHOP.announce: first in the top band and a pill under the shop name, until its time passes */
+const ANNC=(()=>{const a=SHOP.announce||{};return a.text&&(!a.until||Date.now()<new Date(a.until).getTime())?a.text:""})();
+if(ANNC){const el=document.getElementById("annc");if(el){el.textContent=ANNC;el.hidden=false}}
 function launchUI(raw){
   const next=nextLaunchDate(),p=istParts(),liveToday=p.dow===0&&p.h>=LAUNCH_HOUR;
   const waiting=(raw||[]).filter(x=>x.launch===next&&x.stock>0).length;
@@ -746,6 +754,7 @@ function launchUI(raw){
     :liveToday
     ?["Today's drop is live","Be the first, or miss the best","One of each. Once it's gone, it's gone","Next drop: "+fmtLaunch(next)+", 10 AM"]
     :["Be the first, or miss the best","New launches every Sunday, 10 AM","Next drop: "+fmtLaunch(next)+(waiting>1?` · ${waiting} new pieces`:""),"One of each. Once it's gone, it's gone"];
+  if(ANNC)lines.unshift(ANNC);
   const run=lines.map((l,k)=>`<span class="${k===0?"big":""}">${esc(l)}</span><i>✦</i>`).join("");
   const tr=document.querySelector(".lb-track");if(tr)tr.innerHTML=run+run;
   const st_=document.getElementById("lbText");
