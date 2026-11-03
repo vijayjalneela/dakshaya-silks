@@ -653,7 +653,7 @@ function facesUI(list){
   const all=(Array.isArray(list)?list:[]).filter(ok).sort((a,b)=>b.date.localeCompare(a.date));
   if(!all.length)return;
   const f=all[0];
-  $("#facePic").innerHTML=`<img src="img/faces/${esc(f.img)}" alt="${esc(f.sample?"Sample photo: a happy family together in colourful kurtis":(f.name||"A customer")+" wearing Dakshaya")}" loading="lazy" decoding="async">`;
+  $("#facePic").innerHTML=`<img src="img/faces/${esc(f.img)}" alt="${esc(f.sample?"Sample photo: a happy family in colourful kurtis on a road trip":(f.name||"A customer")+" wearing Dakshaya")}" loading="lazy" decoding="async">`;
   if(f.sample){$("#facesTitle").textContent="Be the face of Dakshaya";const l=$("#faceLine");
     if(f.quote){const q=document.createElement("blockquote");q.className="facequote";q.textContent=f.quote;const by=document.createElement("span");by.className="quoteby";by.textContent="— "+(f.by||"Team Dakshaya");q.appendChild(by);l.before(q)}
     l.innerHTML=`<span class="samplechip">Sample photo</span> ${esc(f.line||"Your happy moment could be here next.")}`;return}
