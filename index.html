@@ -373,7 +373,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
         <label>Budget<select id="rq_budget"><option value="">Any</option><option>Under ₹1,000</option><option>₹1,000 – ₹2,000</option><option>₹2,000 – ₹3,000</option><option>₹3,000 – ₹5,000</option><option>Above ₹5,000</option></select></label>
         <label>Occasion<select id="rq_occ"><option value="">Any</option><option>Wedding</option><option>Festival / pooja</option><option>Function / party</option><option>Office</option><option>Daily wear</option><option>Gift</option></select></label>
       </div>
-      <p class="promise"><b>A gentle note from us</b>We can't promise we'll find it, but we'll do our very best. As soon as we have something you'd love in stock, we'll send you a WhatsApp message with photos. If it's the one, a small advance keeps it aside just for you until it's on its way.</p>
+      <p class="promise">We can't promise we'll find it, but we'll try our best and WhatsApp you once it's in stock; a small advance then keeps it for you.</p>
       <a class="cta" id="rqSend" href="#" target="_blank" rel="noopener">Send request on WhatsApp</a>
       <p class="note" id="rq_msg" role="status"></p>
     </form>
@@ -627,7 +627,7 @@ function openSold(x,push=true){
         <label>Budget<select id="sq_budget"><option value="">Any</option>${BUDGETS.map(b=>`<option>${b}</option>`).join("")}</select></label>
         <label>Occasion<select id="sq_occ"><option value="">Any</option><option>Wedding</option><option>Festival / pooja</option><option>Function / party</option><option>Office</option><option>Daily wear</option><option>Gift</option></select></label>
       </div>
-      <p class="promise"><b>A gentle note from us</b>We can't promise this piece will come back. Each one we choose is hand-picked, and weavers don't always make the same design twice. But we'll do our very best to find it, or one very close to it, for you. As soon as it's back in stock, we'll send you a WhatsApp message with photos. If you love it, a small advance keeps it aside just for you until it's on its way.</p>
+      <p class="promise">We can't promise it will come back, but we'll try our best and WhatsApp you once it's in stock; a small advance then keeps it for you.</p>
       <a class="cta stick" id="sqSend" href="${wa(soldMsg(x))}" target="_blank" rel="noopener">Ask for a restock on WhatsApp</a>
       <p class="note">Quote code <b>${esc(code)}</b> so we know which piece you mean.</p>${relHTML(x)}</div>`;
   showSheet(push,"#"+code.toLowerCase());cur=code;S_sold=x;
