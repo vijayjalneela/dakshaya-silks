@@ -23,3 +23,13 @@ Customers send a photo with their first name, occasion, saree code and what they
 To feature one: put the photo in `img/faces/` (e.g. `lakshmi-2026-11-05.jpg`) and add an entry to `faces.json`:
 `{"img":"lakshmi-2026-11-05.jpg","name":"Lakshmi","occasion":"her sister's wedding","code":"DS-002","review":"Their words, as written","date":"2026-11-05"}`
 The entry for today shows; otherwise the most recent earlier one. Older entries appear under "Our happy customers". Entries dated in the future wait until their day. To remove a photo, delete its entry and file.
+
+## Sunday launches and the weekly update
+- In the shop book, every item has a "Launch on website" date (new items default to the coming Sunday).
+- The website hides an item until 5:00 AM India time on its launch date, then shows it in New arrivals. The ribbon shows the next launch date.
+- Every Saturday night a scheduled task copies the shop book to the website: new items with their photos, stock, prices and offers. Run by hand the same way:
+  1. Save the shop book's `sarees` collection as JSON files into a folder (ArtifactData `list`, `out_dir`).
+  2. `python3 -I tools/sync_catalog.py plan <folder>` lists photos to download (shop book asset ids).
+  3. Download each listed photo as `<asset>.jpg` into a photos folder (Artifact `read` with `path` = asset id).
+  4. `python3 -I tools/sync_catalog.py build <folder> <photos folder>`, then commit and push.
+- `img/.photos.json` remembers which shop-book photo each website image came from, so only new or changed photos are downloaded.
