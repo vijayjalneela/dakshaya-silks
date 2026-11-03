@@ -611,7 +611,7 @@ function soldUI(){
 }
 const BUDGETS=["Under ₹1,000","₹1,000 – ₹2,000","₹2,000 – ₹3,000","₹3,000 – ₹5,000","Above ₹5,000"];
 function reqLines(pre){const v=id=>tidy(($("#"+pre+id)||{}).value);return [["Looking for",v("what")],["Colour",v("col")],["Budget",v("budget")],["Occasion",v("occ")]].filter(r=>r[1]).map(([k,x])=>k+": "+x)}
-function soldMsg(x){const code=codeOf(x);return [`Hello Dakshaya Boutique, restock request for ${code} – ${title(x)} (${tidy(x.type)}, sold out, was ${inr(x.price)}). Please let me know if you get this piece or something similar.`,...reqLines("sq_")].join("\n")}
+function soldMsg(x){const code=codeOf(x);return [`Hello Dakshaya Boutique, restock request for ${code} – ${title(x)} (${tidy(x.type)}, sold out, was ${inr(x.price)}). Please let me know when it's back in stock.`,...reqLines("sq_")].join("\n")}
 function openSold(x,push=true){
   $("#panel").classList.remove("fp");
   const code=codeOf(x);
@@ -620,14 +620,12 @@ function openSold(x,push=true){
     <div class="big" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}" data-zoom="img/${esc(x.img)}.jpg" style="filter:grayscale(.35)"><span class="zoomhint">🔍 Tap to zoom</span></div>
     <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
       <div><span class="sotag">SOLD OUT</span></div>
-      <p class="desc">This piece has found a new home. Want one like it? Tell us what you'd like and we'll look for it, or something close, when we restock.</p>
+      <p class="desc">This piece has found a new home. Want the same one again, or in another colour? Tell us and we'll look for it when we restock.</p>
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
       <div class="soreq">
-        <label>Colour you'd like<input id="sq_col" maxlength="60" placeholder="Same, or another colour"></label>
-        <label>Budget<select id="sq_budget"><option value="">Any</option>${BUDGETS.map(b=>`<option>${b}</option>`).join("")}</select></label>
-        <label>Occasion<select id="sq_occ"><option value="">Any</option><option>Wedding</option><option>Festival / pooja</option><option>Function / party</option><option>Office</option><option>Daily wear</option><option>Gift</option></select></label>
+        <label>Colour you'd like<input id="sq_col" maxlength="60" placeholder="Same colour, or tell us another"></label>
       </div>
-      <p class="promise">We can't promise it will come back, but we'll try our best and WhatsApp you once it's in stock; a small advance then keeps it for you.</p>
+      <p class="promise">We can't promise it will come back, but we'll try our best and WhatsApp you once it's in stock; prices may vary from before, and a small advance then keeps it for you.</p>
       <a class="cta stick" id="sqSend" href="${wa(soldMsg(x))}" target="_blank" rel="noopener">Ask for a restock on WhatsApp</a>
       <p class="note">Quote code <b>${esc(code)}</b> so we know which piece you mean.</p>${relHTML(x)}</div>`;
   showSheet(push,"#"+code.toLowerCase());cur=code;S_sold=x;
