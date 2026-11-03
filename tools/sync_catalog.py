@@ -15,6 +15,7 @@ Used by the weekly automatic update (and by hand). Two steps:
 
 Items keep their "launch" date (YYYY-MM-DD). The website hides an item until
 10:00 AM India time on that date, so new pieces can be synced any time before.
+Items marked dormant ("hold") in the shop book are never copied.
 Cost price and supplier never leave the shop book.
 """
 import sys, os, json, glob, re, shutil, tempfile, subprocess
@@ -44,7 +45,7 @@ def img_name(code):
 
 
 def usable(x):
-    return (not x.get("sample")) and x.get("photo") and float(x.get("sp") or 0) > 0 \
+    return (not x.get("sample")) and (not x.get("hold")) and x.get("photo") and float(x.get("sp") or 0) > 0 \
         and re.match(r"^[A-Z]{1,5}-\d+", str(x.get("code", "")))
 
 

@@ -25,7 +25,7 @@ To feature one: put the photo in `img/faces/` (e.g. `lakshmi-2026-11-05.jpg`) an
 The entry for today shows; otherwise the most recent earlier one. Older entries appear under "Our happy customers". Entries dated in the future wait until their day. To remove a photo, delete its entry and file.
 
 ## Sunday launches and the weekly update
-- In the shop book, every item has a "Launch on website" date (new items default to the coming Sunday).
+- In the shop book, every item has an "On the website" choice: Keep dormant (never copied to the website; new items start dormant), Launch on a date (live at 10 AM that day), or Show at next website update. Existing items count as on the website.
 - The website hides an item until 10:00 AM India time on its launch date, then shows it in New arrivals. The ribbon shows the next launch date.
 - A daily scheduled task prepares an update from the shop book on the `pending-sync` branch (preview: add `?preview` to the preview link to see queued pieces) and publishes it to `main` only after the owner approves; on Saturdays it asks for approval of Sunday's launch by 5 PM: new items with their photos, stock, prices and offers. Run by hand the same way:
   1. Save the shop book's `sarees` collection as JSON files into a folder (ArtifactData `list`, `out_dir`).
