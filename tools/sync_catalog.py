@@ -14,7 +14,7 @@ Used by the weekly automatic update (and by hand). Two steps:
        Prints a summary of what changed.
 
 Items keep their "launch" date (YYYY-MM-DD). The website hides an item until
-5:00 AM India time on that date, so new pieces can be synced any time before.
+10:00 AM India time on that date, so new pieces can be synced any time before.
 Cost price and supplier never leave the shop book.
 """
 import sys, os, json, glob, re, shutil, tempfile, subprocess
@@ -144,7 +144,7 @@ def build(docs_dir, photos_dir):
     new_codes = [i["code"] for i in items if i["code"] not in old_codes]
     upcoming = {}
     for i in items:
-        if i.get("launch", "") > now or (i.get("launch") == now and datetime.now(IST).hour < 5):
+        if i.get("launch", "") > now or (i.get("launch") == now and datetime.now(IST).hour < 10):
             upcoming.setdefault(i["launch"], []).append(i["code"])
     print(json.dumps({"items": len(items), "in_stock": sum(1 for i in items if i["stock"] > 0),
                       "sold_out": sum(1 for i in items if i["stock"] <= 0), "new_on_site": new_codes,

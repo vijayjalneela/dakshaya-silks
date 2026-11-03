@@ -322,7 +322,7 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 </head>
 <body>
 
-<div class="ribbon" role="note" title="Tap to pause or play" aria-label="New launches every Sunday at 5 AM. Hand-picked, one-of-a-kind pieces. No bulk, no repeats. Love a piece? Message us before it finds another home. Real photos in natural daylight. Packing video before every shipment."><div class="tick"><div class="track"><span class="launchmsg">New launches every Sunday at 5 AM</span><span aria-hidden="true">✦</span><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span><span class="launchmsg" aria-hidden="true">New launches every Sunday at 5 AM</span><span aria-hidden="true">✦</span><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span></div></div></div>
+<div class="ribbon" role="note" title="Tap to pause or play" aria-label="New launches every Sunday at 10 AM. Hand-picked, one-of-a-kind pieces. No bulk, no repeats. Love a piece? Message us before it finds another home. Real photos in natural daylight. Packing video before every shipment."><div class="tick"><div class="track"><span class="launchmsg">New launches every Sunday at 10 AM</span><span aria-hidden="true">✦</span><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span><span class="launchmsg" aria-hidden="true">New launches every Sunday at 10 AM</span><span aria-hidden="true">✦</span><span>Hand-picked, one-of-a-kind pieces</span><span aria-hidden="true">✦</span><span>No bulk, no repeats</span><span aria-hidden="true">✦</span><span>Love a piece? Message us before it finds another home</span><span aria-hidden="true">✦</span><span>Real photos in natural daylight</span><span aria-hidden="true">✦</span><span>Packing video before every shipment</span><span aria-hidden="true">✦</span></div></div></div>
 <header class="mast">
   <div class="wrap">
     <div class="topline">
@@ -523,17 +523,19 @@ function unlockScroll(){const h=document.documentElement;if(!$("#sheet").hidden|
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
 
 /* ===== Sunday launches =====
-   An item with "launch":"YYYY-MM-DD" stays hidden until 5:00 AM India time on that date, for every visitor in any time zone. */
-const LAUNCH_HOUR=5;
-const launchAt=d=>Date.parse(d+"T0"+LAUNCH_HOUR+":00:00+05:30");
+   An item with "launch":"YYYY-MM-DD" stays hidden until 10:00 AM India time on that date, for every visitor in any time zone. */
+const LAUNCH_HOUR=10;
+const launchAt=d=>Date.parse(d+"T"+String(LAUNCH_HOUR).padStart(2,"0")+":00:00+05:30");
 const istParts=(t=Date.now())=>{const x=new Date(t+5.5*36e5);return {y:x.getUTCFullYear(),m:x.getUTCMonth(),d:x.getUTCDate(),dow:x.getUTCDay(),h:x.getUTCHours()}};
 function nextLaunchDate(){const p=istParts();let add=(7-p.dow)%7;if(add===0&&p.h>=LAUNCH_HOUR)add=7;const x=new Date(Date.UTC(p.y,p.m,p.d+add));return x.toISOString().slice(0,10)}
 const fmtLaunch=d=>new Date(d+"T12:00:00+05:30").toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short",timeZone:"Asia/Kolkata"});
-const isLive=x=>!x.launch||Date.now()>=launchAt(x.launch);
+const PREVIEW=/[?&]preview\b/.test(location.search);
+const isLive=x=>PREVIEW||!x.launch||Date.now()>=launchAt(x.launch);
+const queued=x=>x.launch&&Date.now()<launchAt(x.launch);
 function launchUI(raw){
   const next=nextLaunchDate(),p=istParts(),liveToday=p.dow===0&&p.h>=LAUNCH_HOUR;
   const waiting=(raw||[]).filter(x=>x.launch===next&&x.stock>0).length;
-  const txt=(liveToday?"Today's new launches are live":"New launches every Sunday at 5 AM")+" · Next drop: "+fmtLaunch(next)+(waiting>1?` · ${waiting} new pieces coming`:"");
+  const txt=(liveToday?"Today's new launches are live":"New launches every Sunday at 10 AM")+" · Next drop: "+fmtLaunch(next)+(waiting>1?` · ${waiting} new pieces coming`:"");
   document.querySelectorAll(".launchmsg").forEach(el=>el.textContent=txt);
   const rb=document.querySelector(".ribbon");if(rb)rb.setAttribute("aria-label",rb.getAttribute("aria-label").replace(/^[^.]*\./,txt+"."));
 }
@@ -544,7 +546,7 @@ Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("d
   const fill=()=>{const live=d.items.filter(x=>ok(x)&&isLive(x)).map(x=>x.launch?{...x,added:Math.max(+x.added||0,launchAt(x.launch))}:x);
     st.items=live.filter(x=>x.stock>0).map(prep);st.sold=live.filter(x=>!(x.stock>0)).map(prep)};
   fill();launchUI(d.items);
-  /* if the page is open when 5 AM arrives, show the new pieces without a reload */
+  /* if the page is open when 10 AM arrives, show the new pieces without a reload */
   {const soon=d.items.filter(x=>x.launch&&!isLive(x)).map(x=>launchAt(x.launch)).sort((a,b)=>a-b)[0];
    if(soon&&soon-Date.now()<864e5)setTimeout(()=>{fill();launchUI(d.items);facts();chips();edits();render();soldUI();toast("New launches are live!")},soon-Date.now()+1000)}
   if(d.updated)$("#upd").textContent="Collection updated "+new Date(d.updated+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
@@ -569,7 +571,7 @@ function chips(){
     return `<button class="tile" data-c="${esc(o.key)}" aria-pressed="${st.cat===o.key}"><div class="ring"><img src="${esc(pic)}" alt=""></div><span>${esc(o.label)}</span><small>${c?c+" designs":"Coming soon"}</small></button>`}).join("");
 }
 const EDITS=[
-  {k:"new",t:"New arrivals",d:"Just in, one of each. Fresh pieces launch every Sunday at 5 AM.",f:x=>true,sort:(a,b)=>(b.added||0)-(a.added||0),apply:()=>{st.sort="new";$("#sort").value="new"}},
+  {k:"new",t:"New arrivals",d:"Just in, one of each. Fresh pieces launch every Sunday at 10 AM.",f:x=>true,sort:(a,b)=>(b.added||0)-(a.added||0),apply:()=>{st.sort="new";$("#sort").value="new"}},
   {k:"clr",t:"Clearance sale",d:"Reduced prices on the last few pieces. Once they're gone, they're gone.",min:1,f:x=>inOffers(x),sort:(a,b)=>(+b.disc||0)-(+a.disc||0)||pNow(a)-pNow(b),apply:()=>{st.cat="__offers"}},
   {k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}},
 ];
@@ -630,7 +632,7 @@ function openFilters(){
 }
 function refresh(){chips();render();activeUI()}
 function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isNew(x)&&!inOffers(x)?`<span class="flag new">NEW</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`}
 function syncSort(){const el=$("#sort");el.classList.toggle("sorted",st.sort!=="az");el.setAttribute("aria-label","Sort: "+el.options[el.selectedIndex].text);el.title="Sorted "+el.options[el.selectedIndex].text}
 function render(){

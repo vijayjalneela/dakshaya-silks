@@ -26,8 +26,8 @@ The entry for today shows; otherwise the most recent earlier one. Older entries 
 
 ## Sunday launches and the weekly update
 - In the shop book, every item has a "Launch on website" date (new items default to the coming Sunday).
-- The website hides an item until 5:00 AM India time on its launch date, then shows it in New arrivals. The ribbon shows the next launch date.
-- Every Saturday night a scheduled task copies the shop book to the website: new items with their photos, stock, prices and offers. Run by hand the same way:
+- The website hides an item until 10:00 AM India time on its launch date, then shows it in New arrivals. The ribbon shows the next launch date.
+- A daily scheduled task prepares an update from the shop book on the `pending-sync` branch (preview: add `?preview` to the preview link to see queued pieces) and publishes it to `main` only after the owner approves; on Saturdays it asks for approval of Sunday's launch by 5 PM: new items with their photos, stock, prices and offers. Run by hand the same way:
   1. Save the shop book's `sarees` collection as JSON files into a folder (ArtifactData `list`, `out_dir`).
   2. `python3 -I tools/sync_catalog.py plan <folder>` lists photos to download (shop book asset ids).
   3. Download each listed photo as `<asset>.jpg` into a photos folder (Artifact `read` with `path` = asset id).
