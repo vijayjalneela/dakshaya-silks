@@ -122,6 +122,9 @@ main .wrap{padding-top:18px;padding-bottom:40px}
 @media (hover:hover){.card:hover .pic img{transform:scale(1.05)}}
 .zoomhint{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:.78rem;font-weight:600;border-radius:999px;padding:4px 10px;pointer-events:none}
 .panel .big{position:relative}.panel .big img{cursor:zoom-in}
+.panel .big.multi img{touch-action:pan-y pinch-zoom}
+.zoom:not(.on).multi{touch-action:pan-y pinch-zoom}
+.pswap{animation:pswap .22s ease-out}@keyframes pswap{from{opacity:.35}to{opacity:1}}@media (prefers-reduced-motion:reduce){.pswap{animation:none}}
 .zoom{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:#000;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
 .zoom img{display:block;width:100%;height:100%;object-fit:contain;cursor:zoom-in}
 .zoom.on img{width:max(150%,1100px);height:auto;max-width:none;object-fit:initial;cursor:zoom-out}
@@ -884,7 +887,7 @@ function open(x,push=true){
   const pv=(x.photos||[]).filter(p=>p&&/^[a-z0-9-]+$/i.test(p.img));
   const msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}, ${tidy(x.type)} (${inr(pNow(x))}${onOffer(x)?", offer price":""}). Is it available?`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
-    <div class="media"><div class="big" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}${pv.length>1?" – "+esc(pv[0].l):""}" data-zoom="img/${esc(x.img)}.jpg"><span class="zoomhint">🔍 Tap to zoom</span>${pv.length>1?`<span class="viewtag" id="viewTag">${esc(pv[0].l)} · 1/${pv.length}</span>`:""}${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
+    <div class="media"><div class="big${pv.length>1?" multi":""}" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}${pv.length>1?" – "+esc(pv[0].l):""}" data-zoom="img/${esc(x.img)}.jpg"><span class="zoomhint">🔍 Tap to zoom</span>${pv.length>1?`<span class="viewtag" id="viewTag">${esc(pv[0].l)} · 1/${pv.length}</span>`:""}${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
     ${pv.length>1?`<div class="gstrip" role="group" aria-label="More photos">${pv.map((p,i)=>`<button type="button" data-view="${i}" aria-current="${i===0}" aria-label="Show ${esc(p.l)} photo"><img src="img/${esc(p.img)}-s.jpg" alt="" loading="lazy">${esc(p.l)}</button>`).join("")}</div>`:""}</div>
     <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
       <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.diwali?"Diwali offer · ":x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:isClear(x)?` <span class="offtag">Clearance${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
@@ -1001,12 +1004,35 @@ window.addEventListener("popstate",()=>{
   openFromHash();
 });
 let zopener=null,zpushed=false,skipPop=false;
-function openZoom(src,alt){zopener=document.activeElement;history.pushState(Object.assign({},history.state,{dk:1,z:1}),"");zpushed=true;$("#zimg").src=src;$("#zimg").alt=alt||"";$("#zoom").classList.remove("on");$("#zoom").hidden=false;lockScroll();$("#zoom .zx").focus()}
+function openZoom(src,alt){zopener=document.activeElement;history.pushState(Object.assign({},history.state,{dk:1,z:1}),"");zpushed=true;$("#zimg").src=src;$("#zimg").alt=alt||"";$("#zoom").classList.remove("on");zoomMulti();$("#zoom").hidden=false;lockScroll();$("#zoom .zx").focus()}
 function closeZoom(fromBack){if(zpushed){zpushed=false;if(!fromBack){skipPop=true;history.back()}}$("#zoom").hidden=true;$("#zoom").classList.remove("on");unlockScroll();if(zopener&&document.contains(zopener))zopener.focus({preventScroll:true});zopener=null}
+
+/* ---- Several photos of one piece: thumbnails, swipe and arrow keys ---- */
+let swipedAt=0;
+function curPhotos(){const x=st.items.find(i=>codeOf(i)===cur);const ps=x?(x.photos||[]).filter(p=>p&&/^[a-z0-9-]+$/i.test(p.img)):[];return ps.length>1?{x,ps}:null}
+function viewIdx(){const b=[...document.querySelectorAll(".gstrip [data-view]")];return Math.max(0,b.findIndex(el=>el.getAttribute("aria-current")==="true"))}
+function zoomMulti(){const c=curPhotos(),z=$("#zoom"),src=$("#zimg").getAttribute("src")||"";const m=!!(c&&c.ps.some(p=>"img/"+p.img+".jpg"===src));z.classList.toggle("multi",m);
+  const t=z.querySelector(".zt");if(t){const i=m?c.ps.findIndex(p=>"img/"+p.img+".jpg"===src):-1;t.textContent=m?c.ps[i].l+" · "+(i+1)+"/"+c.ps.length+" · swipe for more · tap to zoom":"Tap to zoom in or out · drag to look around"}}
+function showView(i){const c=curPhotos();if(!c)return;const n=c.ps.length;i=((i%n)+n)%n;const p=c.ps[i],x=c.x;
+  let im=$("#bigMedia img");if(!im){$("#bigMedia").innerHTML=`<img alt=""><span class="zoomhint">🔍 Tap to zoom</span><span class="viewtag" id="viewTag"></span>`;im=$("#bigMedia img")}
+  im.src="img/"+p.img+".jpg";im.dataset.zoom="img/"+p.img+".jpg";im.alt=title(x)+" – "+p.l;
+  im.classList.remove("pswap");void im.offsetWidth;im.classList.add("pswap");
+  const t=$("#viewTag");if(t)t.textContent=p.l+" · "+(i+1)+"/"+n;
+  document.querySelectorAll(".gstrip [data-view]").forEach(b=>{const on=+b.dataset.view===i;b.setAttribute("aria-current",on);if(on){const g=b.parentElement;g.scrollTo({left:b.offsetLeft-(g.clientWidth-b.offsetWidth)/2,behavior:"smooth"})}});
+  const z=$("#zoom");if(!z.hidden&&z.classList.contains("multi")){const zi=$("#zimg");zi.src=im.dataset.zoom;zi.alt=im.alt;zi.classList.remove("pswap");void zi.offsetWidth;zi.classList.add("pswap");zoomMulti()}}
+function stepView(d){const z=$("#zoom");if(!z.hidden){if(!z.classList.contains("multi")||z.classList.contains("on"))return}else if($("#sheet").hidden)return;if(!curPhotos())return;showView(viewIdx()+d)}
+(function(){let sx=0,sy=0,t0=0,ok=false;
+  function where(el){return el&&(el.closest("#bigMedia.multi")||el.closest("#zoom.multi:not(.on)"))}
+  document.addEventListener("touchstart",e=>{ok=e.touches.length===1&&!!where(e.target)&&!(window.visualViewport&&visualViewport.scale>1.05)&&!e.target.closest("video,.playbtn");if(!ok)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;t0=Date.now()},{passive:true});
+  document.addEventListener("touchmove",e=>{if(ok&&e.touches.length>1)ok=false},{passive:true});
+  document.addEventListener("touchend",e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Math.abs(dx)>40&&Math.abs(dx)>1.5*Math.abs(dy)&&Date.now()-t0<900){swipedAt=Date.now();stepView(dx<0?1:-1)}},{passive:true});
+})();
 
 document.addEventListener("click",e=>{
   if(e.target.closest(".ribbon")){e.target.closest(".ribbon").classList.toggle("paused");return}
   if(e.target.closest("[data-zclose]")){closeZoom();return}
+  if((e.target.id==="zimg"||e.target.closest("#bigMedia"))&&Date.now()-swipedAt<450)return;
   if(e.target.id==="zimg"){const z=$("#zoom"),im=e.target,r=im.getBoundingClientRect(),fx=(e.clientX-r.left)/r.width,fy=(e.clientY-r.top)/r.height;
     z.classList.toggle("on");if(z.classList.contains("on")){requestAnimationFrame(()=>{z.scrollLeft=fx*im.offsetWidth-z.clientWidth/2;z.scrollTop=fy*im.offsetHeight-z.clientHeight/2})}return}
   const zm=e.target.closest("[data-zoom]");if(zm){openZoom(zm.dataset.zoom,zm.alt);return}
@@ -1023,11 +1049,7 @@ document.addEventListener("click",e=>{
   const fc=e.target.closest("[data-face],#facePic[data-code]");if(fc){const c=fc.dataset.face||fc.dataset.code;const x=st.items.find(i=>codeOf(i)===c);if(x){open(x);return}const y=st.sold.find(i=>codeOf(i)===c);if(y){openSold(y);return}}
   const sc=e.target.closest("[data-sold]");if(sc){const x=st.sold.find(i=>i.code===sc.dataset.sold);if(x)openSold(x);return}
   const k=e.target.closest(".card");if(k){const x=st.items.find(i=>i.code===k.dataset.code);if(x)open(x);return}
-  const gv=e.target.closest("[data-view]");if(gv){const x=st.items.find(i=>codeOf(i)===cur);const p=x&&(x.photos||[])[+gv.dataset.view];if(!p)return;
-    let im=$("#bigMedia img");if(!im){$("#bigMedia").innerHTML=`<img alt=""><span class="zoomhint">🔍 Tap to zoom</span><span class="viewtag" id="viewTag"></span>`;im=$("#bigMedia img")}
-    im.src="img/"+p.img+".jpg";im.dataset.zoom="img/"+p.img+".jpg";im.alt=title(x)+" – "+p.l;
-    const t=$("#viewTag");if(t)t.textContent=p.l+" · "+(+gv.dataset.view+1)+"/"+x.photos.length;
-    document.querySelectorAll(".gstrip [data-view]").forEach(b=>b.setAttribute("aria-current",b===gv));return}
+  const gv=e.target.closest("[data-view]");if(gv){showView(+gv.dataset.view);return}
   const pv=e.target.closest(".playbtn");if(pv){$("#bigMedia").innerHTML=`<video src="${esc(pv.dataset.video)}" poster="${esc(pv.dataset.poster)}" controls autoplay playsinline muted></video>`;return}
   if(e.target.closest("[data-close]")||e.target.id==="sheet"){closeSheet();return}
   const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
@@ -1037,6 +1059,7 @@ document.addEventListener("click",e=>{
     else show();}
 });
 document.addEventListener("keydown",e=>{
+  if((e.key==="ArrowLeft"||e.key==="ArrowRight")&&!e.target.closest("input,select,textarea,video")&&(!$("#zoom").hidden||!$("#sheet").hidden)&&curPhotos()){stepView(e.key==="ArrowRight"?1:-1);return}
   if(e.key==="Escape"){if(!$("#zoom").hidden){closeZoom();return}if(!$("#sheet").hidden)closeSheet();return}
   /* keep Tab inside an open sheet or zoom so keyboard users can't wander behind it */
   if(e.key!=="Tab")return;
