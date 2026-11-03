@@ -625,7 +625,7 @@ function openSold(x,push=true){
       <div class="soreq">
         <label>Colour you'd like<input id="sq_col" maxlength="60" placeholder="Same colour, or tell us another"></label>
       </div>
-      <p class="promise">We can't promise it will come back, but we'll try our best and WhatsApp you once it's in stock; prices may vary from before, and a small advance then keeps it for you.</p>
+      <p class="promise">Prices may vary.</p>
       <a class="cta stick" id="sqSend" href="${wa(soldMsg(x))}" target="_blank" rel="noopener">Ask for a restock on WhatsApp</a>
       <p class="note">Quote code <b>${esc(code)}</b> so we know which piece you mean.</p>${relHTML(x)}</div>`;
   showSheet(push,"#"+code.toLowerCase());cur=code;S_sold=x;
