@@ -290,6 +290,17 @@ html.diwali .launchband{background:linear-gradient(90deg,#FF8A00,#FFD54F 25%,#FF
 .was{color:var(--muted);font-weight:500;font-size:.85em}
 .offtag{display:inline-block;background:#B42318;color:#fff;font-size:.75rem;font-weight:700;border-radius:999px;padding:2px 10px;vertical-align:middle}
 /* about + footer */
+/* WhatsApp group: QR for computers, a Join button for phones */
+.wagroup{background:var(--sunk);border-top:1px solid var(--line)}
+.wagroup .wrap{padding-top:32px;padding-bottom:32px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.wg-qr{flex:0 0 auto;background:#fff;padding:10px;border-radius:16px;border:2px solid var(--zari);box-shadow:0 8px 24px rgba(62,6,27,.12)}
+.wg-qr img{display:block;width:180px;height:180px}
+.wg-txt{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.wg-txt p{margin:0;color:var(--muted);max-width:36rem}
+.wg-txt .wg-eyebrow{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+.wagroup h2{font-family:var(--display);font-weight:400;font-size:1.8rem;line-height:1.15;margin:0;color:var(--mtext)}
+.wg-txt .wg-hint{font-size:.85rem}
+@media (max-width:620px){.wg-qr{order:2}.wg-qr img{width:150px;height:150px}}
 .about{border-top:1px solid var(--line);background:var(--surface)}
 .about .wrap{padding-top:32px;padding-bottom:32px;display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .about h3{font-family:var(--display);font-weight:400;font-size:1.35rem;margin:0 0 6px}
@@ -554,6 +565,17 @@ html.diwali{--gut:0px}
 </section>
 
 
+<section class="wagroup" id="join" aria-labelledby="joinTitle"><div class="wrap">
+  <div class="wg-qr"><img src="img/wa-group-qr.png" width="450" height="450" alt="QR code to join the Dakshaya Boutique WhatsApp group" loading="lazy"></div>
+  <div class="wg-txt">
+    <p class="wg-eyebrow">Dakshaya Boutique WhatsApp group</p>
+    <h2 id="joinTitle">See every new piece first</h2>
+    <p>New pieces go up every Sunday at 10 AM, and one-of-a-kind pieces don't wait. Join our group to get launch photos, offers and exhibition invites straight on WhatsApp.</p>
+    <a class="cta" id="joinBtn" href="https://chat.whatsapp.com/J7upwC0bPud7qQS94H8Aoa" target="_blank" rel="noopener">Join the WhatsApp group</a>
+    <p class="wg-hint">On a computer? Scan the code with your phone's WhatsApp camera.</p>
+  </div>
+</div></section>
+
 <section class="about">
   <div class="wrap">
     <div><h3>How to order</h3><p>Tap any piece, then "Order on WhatsApp". Want more than one? Add them to your bag and send them all in one message. The item codes go with it, so we know exactly which pieces you mean.</p></div>
@@ -580,6 +602,7 @@ html.diwali{--gut:0px}
 /* ===== Shop settings: change these ===== */
 const SHOP = {
   whatsapp: "919180605055",          // country code + number, digits only
+  group: "https://chat.whatsapp.com/J7upwC0bPud7qQS94H8Aoa",  // WhatsApp group invite link; the QR picture is img/wa-group-qr.png (set "" to hide the group section)
   address: "",                        // e.g. "12, Main Road, Bengaluru 560001"
   map: "",                            // Google Maps link to the shop (optional)
   instagram: "",                      // e.g. "https://instagram.com/dakshaya.boutique"
@@ -639,7 +662,8 @@ function setH(){document.documentElement.style.setProperty("--ribh",ribH()+"px")
 setH();addEventListener("resize",setH);if(document.fonts)document.fonts.ready.then(setH);
 {const ex=SHOP.exhibition||{};if(ex.dates){$("#expo").innerHTML=`<b>${esc(ex.dates)}</b>${ex.timings?" · "+esc(ex.timings):""}<br>${esc(ex.venue||"")}${ex.map?` · <a href="${esc(ex.map)}" target="_blank" rel="noopener">Map</a>`:""}<br>Come see and feel the full collection in person.`}}
 {const pol=[SHOP.shipping,SHOP.payment,SHOP.returns].filter(Boolean);if(pol.length){$("#policy").hidden=false;$("#policyTxt").innerHTML=pol.map(esc).join("<br>")}
- $("#contact").innerHTML=[SHOP.address?(SHOP.map?`<a href="${esc(SHOP.map)}" target="_blank" rel="noopener">${esc(SHOP.address)}</a>`:esc(SHOP.address)):"",SHOP.instagram?`<a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener">Instagram</a>`:"",/^91?9{10}$/.test(SHOP.whatsapp)?"":`<a href="${wa("Hello Dakshaya Boutique")}" target="_blank" rel="noopener">WhatsApp +${esc(SHOP.whatsapp)}</a>`].filter(Boolean).join(" · ")}
+ $("#contact").innerHTML=[SHOP.address?(SHOP.map?`<a href="${esc(SHOP.map)}" target="_blank" rel="noopener">${esc(SHOP.address)}</a>`:esc(SHOP.address)):"",SHOP.instagram?`<a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener">Instagram</a>`:"",/^91?9{10}$/.test(SHOP.whatsapp)?"":`<a href="${wa("Hello Dakshaya Boutique")}" target="_blank" rel="noopener">WhatsApp +${esc(SHOP.whatsapp)}</a>`,SHOP.group?`<a href="${esc(SHOP.group)}" target="_blank" rel="noopener">Join our WhatsApp group</a>`:""].filter(Boolean).join(" · ")}
+if(SHOP.group)$("#joinBtn").href=SHOP.group;else $("#join").hidden=true;
 $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Boutique, I'd like to know more about your sarees.");
 
 /* Lock the page behind a sheet. Pinning <body> (not just overflow:hidden) also stops older iPhones scrolling the page underneath. */
