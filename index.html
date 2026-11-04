@@ -14,7 +14,7 @@
 <meta property="og:locale" content="en_IN">
 <link rel="canonical" href="https://dakshaya-boutique.pages.dev/">
 <link rel="apple-touch-icon" href="img/icon-180.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ClothingStore","name":"Dakshaya Boutique","url":"https://dakshaya-boutique.pages.dev/","image":"https://dakshaya-boutique.pages.dev/img/our-story.jpg","description":"Hand-picked, one-of-a-kind sarees. Order on WhatsApp.","currenciesAccepted":"INR"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ClothingStore","name":"Dakshaya Boutique","url":"https://dakshaya-boutique.pages.dev/","image":"https://dakshaya-boutique.pages.dev/img/our-story.jpg","description":"Hand-picked sarees, kurtis, dress materials and jewellery for every woman, every generation. Order on WhatsApp.","currenciesAccepted":"INR","paymentAccepted":"UPI","openingHours":["Mo-Sa 09:00-18:00","Su 10:00-12:00"]}</script>
 <meta property="og:image" content="https://dakshaya-boutique.pages.dev/img/our-story.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#A3164A">
@@ -302,6 +302,16 @@ html.diwali .launchband{background:linear-gradient(90deg,#FF8A00,#FFD54F 25%,#FF
 .wg-txt .wg-hint{font-size:.85rem}
 @media (max-width:620px){.wg-qr{order:2}.wg-qr img{width:150px;height:150px}}
 .about{border-top:1px solid var(--line);background:var(--surface)}
+.hours{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:0;color:var(--muted)}
+.hours dt{color:var(--ink)}.hours dd{margin:0}
+.upi{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-top:4px}
+.upi img{width:132px;height:132px;border:1px solid var(--line);border-radius:10px;padding:6px;background:#fff;flex:0 0 auto}
+.upi .ub{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1 1 160px}
+.upi code{font-family:inherit;font-weight:700;color:var(--ink);overflow-wrap:anywhere}
+.upi .cta{padding:10px 14px;font-size:.95rem}
+.upi .ghost{align-self:flex-start}
+@media (max-width:620px){.upi img{display:none}}
+@media (min-width:621px){.upi .payapp{display:none}}
 .about .wrap{padding-top:32px;padding-bottom:32px;display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .about h3{font-family:var(--display);font-weight:400;font-size:1.35rem;margin:0 0 6px}
 .about p{margin:0;color:var(--muted)}
@@ -581,12 +591,15 @@ html.diwali{--gut:0px}
     <div><h3>How to order</h3><p>Tap any piece, then "Order on WhatsApp". Want more than one? Add them to your bag and send them all in one message. The item codes go with it, so we know exactly which pieces you mean.</p></div>
     <div><h3>Our next exhibition</h3><p id="expo">Come see and feel the full collection in person. Dates and venue will be announced soon. Message us on WhatsApp to get an invite.</p></div>
     <div><h3>What you see is what you get</h3><p>Every photo is of the actual piece from our hand-picked collection, taken in natural daylight with no filters. Colours may look slightly different on some screens.</p></div>
+    <div><h3>Shop hours</h3><dl class="hours" id="hoursList"><dt>Monday to Saturday</dt><dd>9 AM – 6 PM</dd><dt>Sunday</dt><dd>10 AM – 12 noon</dd></dl></div>
+    <div id="upiBox"><h3>Pay by UPI</h3><p>Please pay only after we confirm your order on WhatsApp and you've seen the packing video. Then send us the payment screenshot on WhatsApp.</p>
+      <div class="upi"><img src="img/upi-qr.png" width="420" height="420" alt="UPI QR code for paying Dakshaya Boutique" loading="lazy"><div class="ub"><span>UPI ID: <code id="upiId">cjalneela-1@okaxis</code></span><a class="cta payapp" id="upiPay" href="upi://pay?pa=cjalneela-1@okaxis&amp;pn=Chandana%20Jalneela&amp;cu=INR">Pay with a UPI app</a><button type="button" class="ghost" data-copyupi>Copy UPI ID</button><span style="font-size:.85rem">Google Pay, PhonePe, Paytm or any UPI app.</span></div></div></div>
     <div id="policy" hidden><h3>Shipping, payment &amp; returns</h3><p id="policyTxt"></p></div>
     <div><h3>See it packed before we ship</h3><p>Once you order, we send you a short packing video on WhatsApp showing your item's colour, fabric, design and price, and the delivery address. We ship only after you reply to confirm.</p></div>
   </div>
 </section>
 
-<footer><div class="wrap"><span>© <span id="yr"></span> Dakshaya Boutique</span><span id="upd"></span><span class="contact" id="contact"></span></div></footer>
+<footer><div class="wrap"><span>© <span id="yr"></span> Dakshaya Boutique</span><span id="upd"></span><span id="hrsFoot"></span><span class="contact" id="contact"></span></div></footer>
 <button class="bagbtn" id="bagbtn" hidden></button>
 <button class="totop" id="totop" type="button" aria-label="Back to collections"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg><span>Collections</span></button>
 
@@ -602,6 +615,8 @@ html.diwali{--gut:0px}
 /* ===== Shop settings: change these ===== */
 const SHOP = {
   whatsapp: "919180605055",          // country code + number, digits only
+  upi: "cjalneela-1@okaxis",          // UPI ID for payments; the QR picture is img/upi-qr.png (set "" to hide "Pay by UPI")
+  hours: "Mon–Sat 9 AM–6 PM · Sun 10 AM–12 noon",  // short shop hours for the footer (the full list is in the "Shop hours" box)
   group: "https://chat.whatsapp.com/J7upwC0bPud7qQS94H8Aoa",  // WhatsApp group invite link; the QR picture is img/wa-group-qr.png (set "" to hide the group section)
   address: "",                        // e.g. "12, Main Road, Bengaluru 560001"
   map: "",                            // Google Maps link to the shop (optional)
@@ -664,6 +679,8 @@ setH();addEventListener("resize",setH);if(document.fonts)document.fonts.ready.th
 {const pol=[SHOP.shipping,SHOP.payment,SHOP.returns].filter(Boolean);if(pol.length){$("#policy").hidden=false;$("#policyTxt").innerHTML=pol.map(esc).join("<br>")}
  $("#contact").innerHTML=[SHOP.address?(SHOP.map?`<a href="${esc(SHOP.map)}" target="_blank" rel="noopener">${esc(SHOP.address)}</a>`:esc(SHOP.address)):"",SHOP.instagram?`<a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener">Instagram</a>`:"",/^91?9{10}$/.test(SHOP.whatsapp)?"":`<a href="${wa("Hello Dakshaya Boutique")}" target="_blank" rel="noopener">WhatsApp +${esc(SHOP.whatsapp)}</a>`,SHOP.group?`<a href="${esc(SHOP.group)}" target="_blank" rel="noopener">Join our WhatsApp group</a>`:""].filter(Boolean).join(" · ")}
 if(SHOP.group)$("#joinBtn").href=SHOP.group;else $("#join").hidden=true;
+if(!SHOP.upi)$("#upiBox").hidden=true;
+$("#hrsFoot").textContent=SHOP.hours?"Open "+SHOP.hours:"";
 $("#waTop").href=$("#fab").href=wa("Hello Dakshaya Boutique, I'd like to know more about your sarees.");
 
 /* Lock the page behind a sheet. Pinning <body> (not just overflow:hidden) also stops older iPhones scrolling the page underneath. */
@@ -1080,6 +1097,7 @@ document.addEventListener("click",e=>{
   const gv=e.target.closest("[data-view]");if(gv){showView(+gv.dataset.view);return}
   const pv=e.target.closest(".playbtn");if(pv){$("#bigMedia").innerHTML=`<video src="${esc(pv.dataset.video)}" poster="${esc(pv.dataset.poster)}" controls autoplay playsinline muted></video>`;return}
   if(e.target.closest("[data-close]")||e.target.id==="sheet"){closeSheet();return}
+  if(e.target.closest("[data-copyupi]")){const id=SHOP.upi;const show=()=>{try{prompt("Copy this UPI ID",id)}catch(_){toast(id)}};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(id).then(()=>toast("UPI ID copied"),show);else show();return}
   const s=e.target.closest("[data-share]");if(s){const url=location.origin+location.pathname+"#"+s.dataset.share.toLowerCase();
     const show=()=>{try{prompt("Copy this link to share",url)}catch(e){toast(url)}};
     if(navigator.share)navigator.share({title:"Dakshaya Boutique",url}).catch(()=>{});
