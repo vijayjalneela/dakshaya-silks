@@ -984,7 +984,7 @@ function open(x,push=true){
 }
 function soldCardHTML(x){const code=codeOf(x);return `<button class="card sold" data-sold="${esc(x.code)}" aria-label="${esc(title(x))}, sold out">
     <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480"><span class="flag so">SOLD OUT</span>${x._g?`<span class="gbadge">${esc(x._g)}</span>`:""}</div>
-    <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">Was ${inr(x.price)}</span><span class="code num">${esc(code)}</span></div></button>`}
+    <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr">Sold out</span><span class="code num">${esc(code)}</span></div></button>`}
 /* Face of the Day: faces.json lists approved customer photos as {img, name, occasion, code, date:"YYYY-MM-DD"}.
    Today's entry shows, or the most recent earlier one; nothing shows before its date. */
 const FACE_MSG="Hello Dakshaya Boutique, here's my photo for Face of the Day!\nName (first name is fine): \nOccasion: \nItem code, if you know it: \nWhat you loved about it: \nI'm happy for Dakshaya Boutique to show this photo and my words on its website.";
