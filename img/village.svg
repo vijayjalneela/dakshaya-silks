@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax slice">
+<!-- South Indian village Diwali at dawn: tiled-roof house, mango-leaf thoranam, kolam, agal vilakku, tulsi madam, banana plants, coconut palms, paddy fields -->
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FBF3E2" stop-opacity="0"/>
+    <stop offset=".55" stop-color="#F7E6C4" stop-opacity=".9"/>
+    <stop offset="1" stop-color="#EAF0D2"/>
+  </linearGradient>
+  <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#FFE7A3"/><stop offset=".6" stop-color="#FFD27A" stop-opacity=".7"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#FFF2B0" stop-opacity=".95"/><stop offset=".4" stop-color="#FFC233" stop-opacity=".45"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2582F"/><stop offset="1" stop-color="#94381E"/></linearGradient>
+  <linearGradient id="field" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9CC65E"/><stop offset="1" stop-color="#6E9F3C"/></linearGradient>
+  <!-- one clay agal vilakku with flame -->
+  <g id="diya">
+    <circle cx="0" cy="-9" r="14" fill="url(#glow)"/>
+    <path d="M-9 0 Q0 9 9 0 Q4 -3 0 -3 Q-4 -3 -9 0Z" fill="#A8512A"/>
+    <path d="M-9 0 Q0 4 9 0" fill="none" stroke="#7A3518" stroke-width="1"/>
+    <path class="fl" d="M0 -14 Q3.6 -8 0 -3.5 Q-3.6 -8 0 -14Z" fill="#FFB020"/>
+    <path class="fl" d="M0 -11 Q1.8 -7.5 0 -5 Q-1.8 -7.5 0 -11Z" fill="#FFF3B0"/>
+  </g>
+  <!-- mango leaf for thoranam -->
+  <path id="leaf" d="M0 0 Q4 7 0 16 Q-4 7 0 0Z" fill="#3E8A34" stroke="#2C6A25" stroke-width=".6"/>
+  <!-- marigold ball -->
+  <circle id="mg" r="3.4" fill="#FF9F1A" stroke="#E07800" stroke-width=".8"/>
+  <!-- coconut palm -->
+  <g id="palm">
+    <path d="M0 0 Q-6 -60 6 -130" fill="none" stroke="#8A6A45" stroke-width="9" stroke-linecap="round"/>
+    <path d="M0 0 Q-6 -60 6 -130" fill="none" stroke="#6E5235" stroke-width="9" stroke-dasharray="2 9"/>
+    <g fill="#3F8A3A" transform="translate(6 -130)">
+      <path d="M0 0 Q-40 -18 -78 8 Q-40 -6 0 4Z"/>
+      <path d="M0 0 Q40 -18 80 10 Q40 -6 0 4Z"/>
+      <path d="M0 0 Q-30 -40 -62 -38 Q-28 -28 0 2Z" fill="#4C9A40"/>
+      <path d="M0 0 Q30 -42 66 -36 Q28 -28 0 2Z" fill="#4C9A40"/>
+      <path d="M0 0 Q-24 18 -44 52 Q-16 22 0 4Z" fill="#357A30"/>
+      <path d="M0 0 Q24 18 46 50 Q16 22 0 4Z" fill="#357A30"/>
+      <path d="M0 0 Q4 -30 -6 -56 Q8 -30 2 0Z" fill="#4C9A40"/>
+      <circle cx="-4" cy="6" r="4.5" fill="#7A5A2E"/><circle cx="4" cy="7" r="4.5" fill="#6E4F27"/><circle cx="0" cy="11" r="4.5" fill="#7A5A2E"/>
+    </g>
+  </g>
+  <!-- banana plant -->
+  <g id="banana">
+    <path d="M0 0 L0 -46" stroke="#7FAF4A" stroke-width="7" stroke-linecap="round"/>
+    <path d="M0 -40 Q-34 -70 -56 -48 Q-30 -54 0 -36Z" fill="#5DA444"/>
+    <path d="M0 -44 Q30 -84 58 -62 Q30 -62 0 -40Z" fill="#6BB34E"/>
+    <path d="M0 -46 Q-10 -88 -30 -96 Q-6 -78 2 -44Z" fill="#4E9638"/>
+    <path d="M0 -46 Q14 -84 30 -92 Q10 -74 -2 -44Z" fill="#5DA444"/>
+    <path d="M-30 -52 Q-36 -50 -44 -50 M30 -66 Q40 -64 48 -62" stroke="#3E7A2C" stroke-width="1" fill="none"/>
+  </g>
+  <style>
+    .fl{transform-box:fill-box;transform-origin:50% 100%;animation:flk 1.6s ease-in-out infinite alternate}
+    @keyframes flk{from{transform:scaleY(1) scaleX(1)}to{transform:scaleY(1.12) scaleX(.9)}}
+    @media (prefers-reduced-motion:reduce){.fl{animation:none}}
+  </style>
+</defs>
+
+<rect width="1200" height="340" fill="url(#sky)"/>
+<circle cx="860" cy="150" r="70" fill="url(#sun)"/>
+
+<!-- far and near hills -->
+<path d="M0 172 Q140 128 300 160 T600 150 T900 140 T1200 158 V340 H0Z" fill="#B7D493" opacity=".75"/>
+<path d="M0 196 Q200 162 420 190 T820 180 T1200 192 V340 H0Z" fill="#94C06E"/>
+
+<!-- paddy fields -->
+<path d="M0 212 Q300 200 600 210 T1200 208 V340 H0Z" fill="url(#field)"/>
+<g stroke="#6A9A3E" stroke-width="1.4" opacity=".55" fill="none">
+  <path d="M0 224 Q300 214 600 222 T1200 220"/><path d="M0 238 Q300 228 600 236 T1200 234"/>
+  <path d="M0 254 Q300 244 600 252 T1200 250"/><path d="M0 272 Q300 262 600 270 T1200 268"/>
+</g>
+<g stroke="#5E8F34" stroke-width="1.2" opacity=".5">
+  <path d="M40 230 v-6 M70 229 v-6 M100 228 v-6 M130 228 v-6 M160 227 v-6 M1040 226 v-6 M1070 227 v-6 M1100 228 v-6 M1130 228 v-6 M1160 229 v-6"/>
+  <path d="M20 262 v-7 M55 261 v-7 M90 260 v-7 M125 260 v-7 M1060 258 v-7 M1095 259 v-7 M1130 260 v-7 M1165 261 v-7"/>
+</g>
+
+<!-- coconut palms -->
+<use href="#palm" x="110" y="232"/>
+<use href="#palm" x="210" y="226" transform="translate(210 226) scale(.8) translate(-210 -226)"/>
+<use href="#palm" x="1000" y="226" transform="translate(1000 226) scale(-.85 .85) translate(-1000 -226)"/>
+<use href="#palm" x="1100" y="234"/>
+
+<!-- mud courtyard in front of the house -->
+<ellipse cx="600" cy="302" rx="440" ry="54" fill="#ECD9B2"/>
+<ellipse cx="600" cy="302" rx="440" ry="54" fill="none" stroke="#D9BF8E" stroke-width="2"/>
+
+<!-- house: white walls with kaavi (ochre-red) base stripe, tiled roof, thinnai verandah -->
+<g>
+  <rect x="470" y="168" width="260" height="86" fill="#FFF8EC"/>
+  <rect x="470" y="236" width="260" height="18" fill="#B5532F"/>
+  <rect x="470" y="168" width="260" height="86" fill="none" stroke="#E2D2B4" stroke-width="1.5"/>
+  <path d="M446 172 L506 118 H694 L754 172Z" fill="url(#roof)"/>
+  <g stroke="#7E2E16" stroke-width="1.2" opacity=".65">
+    <path d="M458 161 H742 M470 150 H730 M482 139 H718 M494 128 H706"/>
+    <path d="M520 118 L496 172 M560 118 L548 172 M600 118 V172 M640 118 L652 172 M680 118 L704 172"/>
+  </g>
+  <rect x="440" y="170" width="320" height="6" rx="2" fill="#7E2E16"/>
+  <!-- thinnai pillars -->
+  <rect x="482" y="176" width="8" height="60" fill="#EFE2C8"/><rect x="710" y="176" width="8" height="60" fill="#EFE2C8"/>
+  <!-- door with wooden frame -->
+  <rect x="574" y="184" width="52" height="70" fill="#7A4A26"/>
+  <rect x="580" y="190" width="40" height="64" fill="#5A3418"/>
+  <path d="M600 190 V254" stroke="#7A4A26" stroke-width="2"/>
+  <circle cx="595" cy="222" r="1.8" fill="#D4A23C"/><circle cx="605" cy="222" r="1.8" fill="#D4A23C"/>
+  <!-- small windows -->
+  <rect x="510" y="192" width="34" height="28" fill="#5A3418"/><path d="M518 192 V220 M527 192 V220 M536 192 V220" stroke="#C9A36A" stroke-width="2"/>
+  <rect x="656" y="192" width="34" height="28" fill="#5A3418"/><path d="M664 192 V220 M673 192 V220 M682 192 V220" stroke="#C9A36A" stroke-width="2"/>
+  <!-- kolam-dot border on the step -->
+  <rect x="560" y="254" width="80" height="7" fill="#E9D7B4"/>
+  <g fill="#fff"><circle cx="568" cy="257.5" r="1.3"/><circle cx="578" cy="257.5" r="1.3"/><circle cx="588" cy="257.5" r="1.3"/><circle cx="598" cy="257.5" r="1.3"/><circle cx="608" cy="257.5" r="1.3"/><circle cx="618" cy="257.5" r="1.3"/><circle cx="628" cy="257.5" r="1.3"/></g>
+  <!-- mango leaf thoranam over the door, with marigolds -->
+  <path d="M560 182 Q600 190 640 182" fill="none" stroke="#6E5235" stroke-width="1.2"/>
+  <g>
+    <use href="#leaf" x="564" y="183"/><use href="#leaf" x="573" y="185"/><use href="#leaf" x="582" y="186.5"/><use href="#leaf" x="591" y="187.5"/>
+    <use href="#leaf" x="600" y="188"/><use href="#leaf" x="609" y="187.5"/><use href="#leaf" x="618" y="186.5"/><use href="#leaf" x="627" y="185"/><use href="#leaf" x="636" y="183"/>
+    <use href="#mg" x="568.5" y="185"/><use href="#mg" x="586.5" y="188"/><use href="#mg" x="604.5" y="189"/><use href="#mg" x="622.5" y="187"/>
+  </g>
+  <!-- marigold strands on the pillars -->
+  <g><use href="#mg" x="486" y="182"/><use href="#mg" x="486" y="189"/><use href="#mg" x="486" y="196"/><use href="#mg" x="486" y="203"/><use href="#mg" x="486" y="210"/>
+     <use href="#mg" x="714" y="182"/><use href="#mg" x="714" y="189"/><use href="#mg" x="714" y="196"/><use href="#mg" x="714" y="203"/><use href="#mg" x="714" y="210"/></g>
+  <!-- lamps on the thinnai -->
+  <use href="#diya" x="500" y="236"/><use href="#diya" x="530" y="236"/><use href="#diya" x="560" y="236"/>
+  <use href="#diya" x="640" y="236"/><use href="#diya" x="670" y="236"/><use href="#diya" x="700" y="236"/>
+</g>
+
+<!-- banana plants tied at the entrance -->
+<use href="#banana" x="452" y="258"/>
+<use href="#banana" x="748" y="258" transform="translate(748 258) scale(-1 1) translate(-748 -258)"/>
+
+<!-- tulsi madam -->
+<g transform="translate(380 272)">
+  <path d="M-16 0 H16 L13 -26 H-13Z" fill="#F4E9D4" stroke="#C9A36A" stroke-width="1.2"/>
+  <rect x="-17" y="-30" width="34" height="5" fill="#B5532F"/>
+  <path d="M-6 -18 h12 M-3 -12 h6" stroke="#B5532F" stroke-width="1.5"/>
+  <circle cx="0" cy="-10" r="2" fill="#D4A23C"/>
+  <path d="M0 -30 V-50 M0 -40 L-9 -48 M0 -40 L9 -48 M0 -46 L-6 -55 M0 -46 L6 -55" stroke="#3E7A2C" stroke-width="2" fill="none"/>
+  <g fill="#4C9A40"><ellipse cx="-9" cy="-48" rx="4" ry="2.4"/><ellipse cx="9" cy="-48" rx="4" ry="2.4"/><ellipse cx="-6" cy="-56" rx="3.4" ry="2"/><ellipse cx="6" cy="-56" rx="3.4" ry="2"/><ellipse cx="0" cy="-53" rx="3" ry="4"/></g>
+  <use href="#diya" x="0" y="6"/>
+</g>
+
+<!-- kolam in the courtyard (seen at an angle) -->
+<g transform="translate(600 298) scale(1 .3)" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round">
+  <circle r="20"/>
+  <path d="M0 -20 Q14 -52 0 -78 Q-14 -52 0 -20Z M0 20 Q14 52 0 78 Q-14 52 0 20Z M-20 0 Q-52 14 -78 0 Q-52 -14 -20 0Z M20 0 Q52 14 78 0 Q52 -14 20 0Z"/>
+  <path d="M14 -14 Q44 -32 56 -56 Q32 -44 14 -14Z M-14 -14 Q-44 -32 -56 -56 Q-32 -44 -14 -14Z M14 14 Q44 32 56 56 Q32 44 14 14Z M-14 14 Q-44 32 -56 56 Q-32 44 -14 14Z"/>
+  <circle r="104" stroke-dasharray="1 15"/>
+  <path d="M-130 0 Q-118 -60 -60 -96 Q0 -132 60 -96 Q118 -60 130 0 Q118 60 60 96 Q0 132 -60 96 Q-118 60 -130 0Z" stroke-width="2.6"/>
+  <g fill="#E8443A" stroke="none"><circle r="7"/></g>
+  <g fill="#FF9F1A" stroke="none"><circle cx="0" cy="-49" r="5"/><circle cx="0" cy="49" r="5"/><circle cx="-49" cy="0" r="5"/><circle cx="49" cy="0" r="5"/></g>
+</g>
+
+<!-- lamps around the kolam and along the yard -->
+<use href="#diya" x="470" y="296"/><use href="#diya" x="520" y="302"/><use href="#diya" x="680" y="302"/><use href="#diya" x="730" y="296"/>
+<use href="#diya" x="560" y="306"/><use href="#diya" x="640" y="306"/><use href="#diya" x="600" y="308"/>
+<use href="#diya" x="290" y="292"/><use href="#diya" x="330" y="298"/><use href="#diya" x="870" y="298"/><use href="#diya" x="910" y="292"/>
+
+<!-- birds at dawn -->
+<g fill="none" stroke="#7E5A3A" stroke-width="1.6" stroke-linecap="round" opacity=".6">
+  <path d="M300 90 q6 -6 12 0 q6 -6 12 0"/><path d="M330 76 q5 -5 10 0 q5 -5 10 0"/><path d="M820 70 q5 -5 10 0 q5 -5 10 0"/>
+</g>
+</svg>

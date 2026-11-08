@@ -466,6 +466,10 @@ html.diwali{--gut:0px}
 </style>
 <style>
 /* ===== Light cream header (was deep maroon) ===== */
+/* South Indian village Diwali scene at the foot of the header (Diwali dates only) */
+.village{display:none}
+html.diwali .village{display:block;position:relative;height:clamp(150px,24vw,300px);margin-top:-6px}
+.village img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%}
 .mast{background:radial-gradient(120% 90% at 75% 30%,#FFFDF7 0%,#FBF3E2 50%,#F3E5C8 100%);color:#5A0A26}
 .mast::before{opacity:.10;background-image:radial-gradient(circle at 10px 10px,#B4871C 1.2px,transparent 1.5px)}
 .mast .gold{background:linear-gradient(100deg,#7E0F38 0%,#A3164A 35%,#A8741A 60%,#7E0F38 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -510,6 +514,7 @@ html.diwali{--gut:0px}
     </div>
   </div>
   </div>
+  <div class="village" aria-hidden="true"><img src="img/village.svg" alt="" width="1200" height="340" decoding="async"></div>
   <div class="zari"></div>
 </header>
 <div class="bar">
