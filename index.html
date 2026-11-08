@@ -1017,7 +1017,7 @@ function soldUI(){
 }
 const BUDGETS=["Under ₹1,000","₹1,000 – ₹2,000","₹2,000 – ₹3,000","₹3,000 – ₹5,000","Above ₹5,000"];
 function reqLines(pre){const v=id=>tidy(($("#"+pre+id)||{}).value);return [["Looking for",v("what")],["Colour",v("col")],["Budget",v("budget")],["Occasion",v("occ")]].filter(r=>r[1]).map(([k,x])=>k+": "+x)}
-function soldMsg(x){const code=codeOf(x);return [`Hello Dakshaya Boutique, restock request for ${code} – ${title(x)} (${tidy(x.type)}, sold out, was ${inr(x.price)}). Please let me know when it's back in stock.`,...reqLines("sq_")].join("\n")}
+function soldMsg(x){const code=codeOf(x);return [`Hello Dakshaya Boutique, restock request for ${code} – ${title(x)}${tidy(x.type)&&!title(x).toLowerCase().includes(tidy(x.type).toLowerCase())?" ("+tidy(x.type)+")":""}, which is sold out. Please let me know when it's back in stock.`,...reqLines("sq_")].join("\n")}
 function openSold(x,push=true){
   $("#panel").classList.remove("fp");
   const code=codeOf(x);
