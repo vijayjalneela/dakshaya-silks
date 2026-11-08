@@ -810,7 +810,7 @@ if(ANNC){const el=document.getElementById("annc");if(el){el.innerHTML="<b><i>"+e
 function launchUI(raw){
   const next=nextLaunchDate(),p=istParts(),liveToday=p.dow===0&&p.h>=LAUNCH_HOUR;
   const waiting=(raw||[]).filter(x=>x.launch===next&&x.stock>0).length;
-  if(FEST&&next<=FEST.to){const dl=document.getElementById("festDrop");if(dl&&liveToday)dl.innerHTML="Our <b>Diwali drop is live</b>. Find your festive drape before it finds another home."}
+  if(FEST&&(liveToday||next>FEST.to)){const dl=document.getElementById("festDrop");if(dl)dl.innerHTML="Our <b>Diwali drop is live</b>. Find your festive drape before it finds another home."}
   const lines=FEST&&(next<=FEST.to||liveToday)
     ?[liveToday?"Diwali drop is live":"Diwali drop: "+fmtLaunch(next)+", 10 AM","Be the first, or miss the best","Happy Diwali from Dakshaya","One of each. Once it's gone, it's gone"]
     :liveToday
