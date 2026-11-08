@@ -885,7 +885,7 @@ function dwlGroups(){
     return {pr,now:pNow(l[0]),l,g,tag}})}
 function dwlRow(e){
   const G=dwlGroups();if(!G.length)return "";
-  const cards=G.map(g=>[...g.l.map(x=>cardHTML({...x,_g:g.tag})),...g.g.map(soldCardHTML)].join("")).join("");
+  const cards=G.map(g=>[...g.l.map(x=>cardHTML(x)),...g.g.map(soldCardHTML)].join("")).join("");
   const chips=G.map(g=>`<span class="gchip"><b>${inr(g.now)}</b> ${esc(g.tag)}</span>`).join("");
   return `<div class="edit limited"><div class="eh"><div><h2>${esc(e.t)} <span class="ltag">Limited stock</span></h2><p>${esc(e.d)}</p><div class="gchips">${chips}<span class="gchip grab">Grab the offer!</span></div></div></div><div class="grid dwgrid">${cards}</div></div>`}
 function edits(){
