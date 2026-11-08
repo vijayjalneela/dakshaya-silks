@@ -815,6 +815,8 @@ if(FEST){
 /* announcement from SHOP.announce: first in the top band and a pill under the shop name, until its time passes */
 const ANNC=(()=>{const a=SHOP.announce||{};return a.text&&(!a.until||Date.now()<new Date(a.until).getTime())?a.text:""})();
 const DSP=(()=>{const a=SHOP.dispatch||{};return a.text&&(!a.until||Date.now()<new Date(a.until).getTime())?a:null})();
+/* one closing line for WhatsApp orders, e.g. " I understand dispatch is after 15 Nov and shipping is extra." */
+const ackLine=()=>{const a=[DSP?"dispatch is after 15 Nov":"",SHOP.shipping?"shipping is extra":""].filter(Boolean);return a.length?" I understand "+a.join(" and ")+".":""};
 const dspNote=()=>(DSP?`<p class="promise dspnote"><b>🪔 ${esc(DSP.text)}</b></p>`:"")+(SHOP.shipping?`<p class="promise dspnote shipnote"><b>🚚 ${esc(SHOP.shipping)}</b></p>`:"");
 if(DSP){const el=document.getElementById("dspBox");if(el){el.querySelector("p").textContent=DSP.text;el.hidden=false}}
 if(ANNC){const el=document.getElementById("annc");if(el){el.innerHTML="<b><i>"+esc(ANNC)+"</i></b>";el.hidden=false}}
@@ -967,7 +969,7 @@ function open(x,push=true){
   const code=x.code.split(" ")[0];
   const spec=[["Code",code],["Weave / type",tidy(x.type)],["Material",x.material&&tidy(x.material).toLowerCase()!==tidy(x.type).toLowerCase()?tidy(x.material):""],["Colour",tidy(x.color)],["Border",x.border&&x.border!=="No"?(x.border==="Yes"?"With border":x.border):"Borderless"],["Size",x.size],["Length",x.length?x.length+" m":""],["Blouse piece",x.category==="Saree"?(x.blouse?"Included":"Not included"):""],["Dupatta",x.dupatta?"Included":""],["Best for",x.for],["Available",x.stock>1?x.stock+" pieces":"Only 1 piece"]].filter(r=>r[1]);
   const pv=(x.photos||[]).filter(p=>p&&/^[a-z0-9-]+$/i.test(p.img));
-  const msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}, ${tidy(x.type)} (${inr(pNow(x))}${onOffer(x)?", offer price":""}). Is it available?${DSP?" I understand dispatch will be after 15 Nov.":""}${SHOP.shipping?" I understand shipping charges are extra.":""}`;
+  const ty=tidy(x.type),msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}${ty&&!title(x).toLowerCase().includes(ty.toLowerCase())?", "+ty:""} (${inr(pNow(x))}${onOffer(x)?(x.diwali?", Diwali offer price":", offer price"):""}). Is it available?${ackLine()}`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
     <div class="media"><div class="big${pv.length>1?" multi":""}" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}${pv.length>1?" – "+esc(pv[0].l):""}" data-zoom="img/${esc(x.img)}.jpg"><span class="zoomhint">🔍 Tap to zoom</span>${pv.length>1?`<span class="viewtag" id="viewTag">${esc(pv[0].l)} · 1/${pv.length}</span>`:""}${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
     ${pv.length>1?`<div class="gstrip" role="group" aria-label="More photos">${pv.map((p,i)=>`<button type="button" data-view="${i}" aria-current="${i===0}" aria-label="Show ${esc(p.l)} photo"><img src="img/${esc(p.img)}-s.jpg" alt="" loading="lazy">${esc(p.l)}</button>`).join("")}</div>`:""}</div>
@@ -1055,7 +1057,7 @@ function openBag(){
   $("#panel").classList.remove("fp");
   const all=st.bag.map(c=>st.items.find(x=>codeOf(x)===c)).filter(Boolean),its=all.filter(x=>!isRes(x)),held=all.filter(isRes);
   const tot=its.reduce((a,x)=>a+pNow(x),0);
-  const msg="Hello Dakshaya Boutique, I'd like these pieces:\n"+its.map((x,i)=>`${i+1}. ${codeOf(x)} – ${title(x)} (${inr(pNow(x))})`).join("\n")+`\nTotal ${inr(tot)}. Are they available?`+(DSP?" I understand dispatch will be after 15 Nov.":"")+(SHOP.shipping?" I understand shipping charges are extra.":"");
+  const msg="Hello Dakshaya Boutique, I'd like these pieces:\n"+its.map((x,i)=>`${i+1}. ${codeOf(x)} – ${title(x)} (${inr(pNow(x))})`).join("\n")+`\nTotal ${inr(tot)}. Are they available?`+ackLine();
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button><div class="info"><span class="eyebrow">Your bag</span><h2 id="sheetTitle">${its.length} piece${its.length===1?"":"s"} · ${inr(tot)}</h2>
    ${its.length?its.map(x=>`<div class="bagrow"><img src="img/${esc(x.img)}-s.jpg" alt=""><div><b>${esc(title(x))}</b><br><span class="num">${esc(codeOf(x))} · ${inr(pNow(x))}</span></div><button data-unbag="${esc(codeOf(x))}">Remove</button></div>`).join("")+`<div style="margin-top:14px">${dspNote()}</div><a class="cta" style="margin-top:10px" href="${wa(msg)}" target="_blank" rel="noopener">Send all on WhatsApp</a>${held.length?`<p class="note">${held.map(x=>esc(codeOf(x))).join(", ")} ${held.length===1?"was":"were"} reserved by another customer, so ${held.length===1?"it's":"they're"} not in this message. Open ${held.length===1?"it":"them"} to join the waiting list.</p>`:""}<p class="note">Every piece is one of a kind, so we'll confirm availability and send a packing video before shipping.</p>`:`<p>Your bag is empty.</p>`}</div>`;
   const fresh=$("#sheet").hidden;showSheet(true);cur="";$("#panel").scrollTop=0;if(fresh)$("[data-close]").focus();
