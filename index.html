@@ -874,7 +874,7 @@ const EDITS=[
   {k:"clr",t:"Clearance sale",d:"Reduced prices on the last few pieces. Once they're gone, they're gone.",min:1,f:x=>inOffers(x)&&!x.diwali,sort:(a,b)=>(+b.disc||0)-(+a.disc||0)||pNow(a)-pNow(b),apply:()=>{st.cat="__offers"}},
   ...(FEST?[]:[{k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}}]),
 ];
-/* Diwali row: pieces grouped by price, each price with its sold-out pieces too, e.g. "2 gone · 3 remaining" */
+/* Diwali sale: every sale piece shown right here in a full grid (no "View all"), grouped by price, each price with its sold-out pieces too, e.g. "2 gone · 3 remaining" */
 function dwlGroups(){
   const on=st.items.filter(x=>x.diwali),gone=DWOFF?st.sold.filter(x=>+x.price>=(FEST.soldFrom||FEST.offerAbove||0)):[];
   const prices=[...new Set(on.map(x=>+x.price))].sort((a,b)=>b-a);
@@ -885,9 +885,9 @@ function dwlGroups(){
     return {pr,now:pNow(l[0]),l,g,tag}})}
 function dwlRow(e){
   const G=dwlGroups();if(!G.length)return "";
-  const cards=G.map(g=>[...g.l.map(x=>cardHTML({...x,_g:g.tag})),...g.g.map(x=>soldCardHTML({...x,_g:"Sold out"}))].join("")).join("");
+  const cards=G.map(g=>[...g.l.map(x=>cardHTML({...x,_g:g.tag})),...g.g.map(soldCardHTML)].join("")).join("");
   const chips=G.map(g=>`<span class="gchip"><b>${inr(g.now)}</b> ${esc(g.tag)}</span>`).join("");
-  return `<div class="edit limited"><div class="eh"><div><h2>${esc(e.t)} <span class="ltag">Limited stock</span></h2><p>${esc(e.d)}</p><div class="gchips">${chips}<span class="gchip grab">Grab the offer!</span></div></div><button data-edit="${e.k}">View all →</button></div><div class="row">${cards}</div></div>`}
+  return `<div class="edit limited"><div class="eh"><div><h2>${esc(e.t)} <span class="ltag">Limited stock</span></h2><p>${esc(e.d)}</p><div class="gchips">${chips}<span class="gchip grab">Grab the offer!</span></div></div></div><div class="grid dwgrid">${cards}</div></div>`}
 function edits(){
   const one=e=>{const r=st.items.filter(e.f).sort(e.sort).slice(0,10);return r.length>=(e.min||3)?`<div class="edit${e.limited?" limited":""}"><div class="eh"><div><h2>${esc(e.t)}${e.limited?` <span class="ltag">Limited stock</span>`:""}</h2><p>${esc(e.d)}</p></div><button data-edit="${e.k}">View all →</button></div><div class="row">${r.map(cardHTML).join("")}</div></div>`:""};
   /* the Diwali sale sits at the very top of the page, above the greeting card */
