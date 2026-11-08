@@ -354,6 +354,11 @@ footer .wrap{padding-top:18px;padding-bottom:calc(18px + env(safe-area-inset-bot
 .sw[aria-pressed="true"]{color:var(--ink)}
 .sw small{font-weight:500;opacity:.8}
 .edits .wrap{padding-top:18px;padding-bottom:6px}
+.gchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.gchip{font-size:.8rem;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--surface);border:1px solid #E8890C;color:var(--ink)}
+.gchip b{color:#B42318}.gchip.grab{background:linear-gradient(90deg,#FFD54F,#FF9F43);color:#3A0A12;border-color:transparent}
+.card .gbadge{position:absolute;left:8px;bottom:8px;background:rgba(58,10,18,.88);color:#FFD54F;font-size:.72rem;font-weight:800;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.card .pbadge~.gbadge{bottom:36px}
 .dwpill{margin-top:8px}.dwpill a{color:inherit;text-decoration:none;display:block}
 /* Face of the Day: one customer photo in a gold frame, or the invitation when there isn't one */
 .faces .wrap{padding-top:22px;padding-bottom:6px;display:flex;flex-direction:column;gap:14px}
@@ -629,7 +634,7 @@ const SHOP = {
   shipping: "Shipping charges extra.",  // shown in the policy box, on every item and in the bag; e.g. "Free shipping across India on orders above ₹1,500. Delivered in 4–7 days."
   payment: "",                        // e.g. "UPI, bank transfer or cash at the shop."
   returns: "",                        // e.g. "Exchange within 3 days if the piece doesn't match the packing video."
-  festival: { name: "Diwali", from: "2026-11-03", to: "2026-11-10", offer: 10, offerAbove: 3000, offerDay: "2026-11-08" },  // Diwali look shows on these dates (India time); offer: % off every in-stock piece priced above offerAbove (the Diwali Special), on offerDay only; change for next year
+  festival: { name: "Diwali", from: "2026-11-03", to: "2026-11-10", offer: 10, offerAbove: 3000, offerDay: "2026-11-08", soldFrom: 2999 },  // soldFrom: sold-out pieces from this price show in the Diwali row as "gone"  // Diwali look shows on these dates (India time); offer: % off every in-stock piece priced above offerAbove (the Diwali Special), on offerDay only; change for next year
   announce: { text: "Website launch with more options on 25 Nov 26 at 05:15 PM", until: "2026-11-25T17:15:00+05:30" },  // shown at the top of the site until this time (India time); set text "" to hide
   dispatch: { text: "Orders open for Diwali. All dispatches after 15 Nov 26. Offer prices stay as on the day you order.", short: "Order now · Dispatch after 15 Nov · Offer price locked on order day · Shipping extra", until: "2026-11-15T23:59:00+05:30" },  // festive dispatch notice; shown until this time (India time); set text "" to hide
   exhibition: {                       // fill in when the next exhibition is fixed; leave dates "" to show "coming soon"
@@ -869,10 +874,24 @@ const EDITS=[
   {k:"clr",t:"Clearance sale",d:"Reduced prices on the last few pieces. Once they're gone, they're gone.",min:1,f:x=>inOffers(x)&&!x.diwali,sort:(a,b)=>(+b.disc||0)-(+a.disc||0)||pNow(a)-pNow(b),apply:()=>{st.cat="__offers"}},
   ...(FEST?[]:[{k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}}]),
 ];
+/* Diwali row: pieces grouped by price, each price with its sold-out pieces too, e.g. "2 gone · 3 remaining" */
+function dwlGroups(){
+  const on=st.items.filter(x=>x.diwali),gone=DWOFF?st.sold.filter(x=>+x.price>=(FEST.soldFrom||FEST.offerAbove||0)):[];
+  const prices=[...new Set(on.map(x=>+x.price))].sort((a,b)=>b-a);
+  /* a sold-out piece joins the lowest price group at or above what it sold for (e.g. ₹2,999 sold pieces join the ₹3,332 group) */
+  const home=x=>prices.filter(pr=>pr>=+x.price).pop();
+  return prices.map(pr=>{const l=on.filter(x=>+x.price===pr),g=gone.filter(x=>home(x)===pr);
+    const tag=(g.length?`${g.length} gone · `:"")+(l.length===1?"Last one":`${l.length} remaining`);
+    return {pr,now:pNow(l[0]),l,g,tag}})}
+function dwlRow(e){
+  const G=dwlGroups();if(!G.length)return "";
+  const cards=G.map(g=>[...g.l.map(x=>cardHTML({...x,_g:g.tag})),...g.g.map(x=>soldCardHTML({...x,_g:"Sold out"}))].join("")).join("");
+  const chips=G.map(g=>`<span class="gchip"><b>${inr(g.now)}</b> ${esc(g.tag)}</span>`).join("");
+  return `<div class="edit limited"><div class="eh"><div><h2>${esc(e.t)} <span class="ltag">Limited stock</span></h2><p>${esc(e.d)}</p><div class="gchips">${chips}<span class="gchip grab">Grab the offer!</span></div></div><button data-edit="${e.k}">View all →</button></div><div class="row">${cards}</div></div>`}
 function edits(){
   const one=e=>{const r=st.items.filter(e.f).sort(e.sort).slice(0,10);return r.length>=(e.min||3)?`<div class="edit${e.limited?" limited":""}"><div class="eh"><div><h2>${esc(e.t)}${e.limited?` <span class="ltag">Limited stock</span>`:""}</h2><p>${esc(e.d)}</p></div><button data-edit="${e.k}">View all →</button></div><div class="row">${r.map(cardHTML).join("")}</div></div>`:""};
   /* the Diwali sale sits at the very top of the page, above the greeting card */
-  const top=EDITS.filter(e=>e.k==="dwl").map(one).join(""),rest=EDITS.filter(e=>e.k!=="dwl").map(one).join("");
+  const top=EDITS.filter(e=>e.k==="dwl").map(dwlRow).join(""),rest=EDITS.filter(e=>e.k!=="dwl").map(one).join("");
   const dt=$("#dwtop");if(dt){dt.innerHTML=top?`<div class="wrap">${top}</div>`:"";dt.hidden=!top}
   const dp=$("#dwpill");if(dp){dp.hidden=!(top&&DWOFF);if(!dp.hidden)$("#dwgo").textContent=`🪔 Diwali Sale · ${DWOFF}% off sarees above ${inr(FEST.offerAbove||0)} · today only →`}
   $("#edits").innerHTML=`<div class="wrap">${rest}</div>`;
@@ -931,7 +950,7 @@ function openFilters(){
 }
 function refresh(){chips();render();activeUI()}
 function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${(x.photos||[]).length>1?`<span class="pbadge">📷 ${x.photos.length} photos</span>`:""}${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.diwali?'<span class="lg">DIWALI </span>':x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isRes(x)?`<span class="flag res">RESERVED</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${(x.photos||[]).length>1?`<span class="pbadge">📷 ${x.photos.length} photos</span>`:""}${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.diwali?'<span class="lg">DIWALI </span>':x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isRes(x)?`<span class="flag res">RESERVED</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}${x._g?`<span class="gbadge">${esc(x._g)}</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`}
 function syncSort(){const el=$("#sort");el.classList.toggle("sorted",st.sort!=="az");el.setAttribute("aria-label","Sort: "+el.options[el.selectedIndex].text);el.title="Sorted "+el.options[el.selectedIndex].text}
 function render(){
@@ -964,7 +983,7 @@ function open(x,push=true){
   $("#panel").scrollTop=0;$("[data-close]").focus();
 }
 function soldCardHTML(x){const code=codeOf(x);return `<button class="card sold" data-sold="${esc(x.code)}" aria-label="${esc(title(x))}, sold out">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480"><span class="flag so">SOLD OUT</span></div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480"><span class="flag so">SOLD OUT</span>${x._g?`<span class="gbadge">${esc(x._g)}</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">Was ${inr(x.price)}</span><span class="code num">${esc(code)}</span></div></button>`}
 /* Face of the Day: faces.json lists approved customer photos as {img, name, occasion, code, date:"YYYY-MM-DD"}.
    Today's entry shows, or the most recent earlier one; nothing shows before its date. */
