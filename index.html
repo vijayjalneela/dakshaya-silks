@@ -467,12 +467,14 @@ html.diwali{--gut:0px}
 <style>
 /* ===== Light cream header (was deep maroon) ===== */
 /* Karthika Deepam look: mango-leaf thoranam on top, Arunachala and lamps at the foot of the header, lit lamps in the greeting card */
-html.fest-karthika .toran{height:36px;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2234%22%20viewBox%3D%220%200%2040%2034%22%3E%3Cpath%20d%3D%22M0%203%20Q20%208%2040%203%22%20fill%3D%22none%22%20stroke%3D%22%236E5235%22%20stroke-width%3D%221.4%22/%3E%3Cpath%20d%3D%22M10%205%20Q15%2015%2010%2030%20Q5%2015%2010%205Z%22%20fill%3D%22%233E8A34%22%20stroke%3D%22%232C6A25%22%20stroke-width%3D%22.7%22/%3E%3Cpath%20d%3D%22M10%207%20V27%22%20stroke%3D%22%232C6A25%22%20stroke-width%3D%22.6%22/%3E%3Cpath%20d%3D%22M30%205%20Q34%2013%2030%2025%20Q26%2013%2030%205Z%22%20fill%3D%22%234C9A40%22%20stroke%3D%22%232C6A25%22%20stroke-width%3D%22.7%22/%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%228%22%20r%3D%223.6%22%20fill%3D%22%23FFB300%22%20stroke%3D%22%23E07800%22%20stroke-width%3D%22.8%22/%3E%3C/svg%3E") 0 0/40px 34px repeat-x;filter:drop-shadow(0 2px 2px rgba(60,30,10,.25))}
+html.fest-karthika .toran{height:38px;background-size:48px 36px!important;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2248%22%20height%3D%2236%22%20viewBox%3D%220%200%2048%2036%22%3E%3Cpath%20d%3D%22M0%203%20Q24%209%2048%203%22%20fill%3D%22none%22%20stroke%3D%22%236E5235%22%20stroke-width%3D%221.4%22/%3E%3Cpath%20d%3D%22M8%205%20Q14%2016%208%2032%20Q2%2016%208%205Z%22%20fill%3D%22%232E9E3A%22%20stroke%3D%22%231E6E28%22%20stroke-width%3D%22.7%22/%3E%3Cpath%20d%3D%22M8%207%20V29%22%20stroke%3D%22%231E6E28%22%20stroke-width%3D%22.6%22/%3E%3Cpath%20d%3D%22M32%206%20Q37%2015%2032%2028%20Q27%2015%2032%206Z%22%20fill%3D%22%2343B04A%22%20stroke%3D%22%231E6E28%22%20stroke-width%3D%22.7%22/%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%229%22%20r%3D%224.2%22%20fill%3D%22%23FFB300%22%20stroke%3D%22%23E07800%22%20stroke-width%3D%22.8%22/%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2216%22%20r%3D%223.4%22%20fill%3D%22%23FF7A1A%22/%3E%3Ccircle%20cx%3D%2244%22%20cy%3D%228%22%20r%3D%223.6%22%20fill%3D%22%23E91E63%22/%3E%3Ccircle%20cx%3D%2244%22%20cy%3D%228%22%20r%3D%221.4%22%20fill%3D%22%23FFE14A%22/%3E%3C/svg%3E") 0 0/40px 34px repeat-x;filter:drop-shadow(0 2px 2px rgba(60,30,10,.25))}
 html.fest-karthika .toran::after{display:none}
 .kscene{display:none}
 html.fest-karthika .kscene{display:block;position:relative;height:clamp(140px,28.75vw,400px);margin-top:-6px}
 .kscene img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%}
-html.fest-karthika .fcard{background:radial-gradient(120% 90% at 50% 110%,#9E3B22 0,#5A1A2E 50%,#2A0F24 100%)}
+html.fest-karthika .fcard{background:radial-gradient(130% 95% at 50% 115%,#FF5C8A 0,#C2185B 30%,#6A1B6A 62%,#0E4C6E 100%);box-shadow:0 18px 40px rgba(110,20,90,.35),inset 0 0 0 2px rgba(255,210,74,.6)}
+html.fest-karthika .fcard #festTitle{color:#FFE14A;text-shadow:0 2px 14px rgba(255,160,0,.55)}
+html.fest-karthika .gchip.grab{background:linear-gradient(90deg,#FFE14A,#FF7A1A,#E91E63);color:#fff}
 .fcard.lit .diya{filter:drop-shadow(0 0 10px #FFC233) drop-shadow(0 0 22px rgba(255,170,40,.7));transition:filter .6s}
 .mast{background:radial-gradient(120% 90% at 75% 30%,#FFFDF7 0%,#FBF3E2 50%,#F3E5C8 100%);color:#5A0A26}
 .mast::before{opacity:.10;background-image:radial-gradient(circle at 10px 10px,#B4871C 1.2px,transparent 1.5px)}
@@ -807,8 +809,10 @@ if(FEST){
   /* decor: marigold strands ending in hanging brass diyas, and rangoli corners */
   (function(){
     /* Karthika: strings of jasmine (malli); Diwali: marigolds */
-    const KT=FKEY==="karthika",MG=KT?["#FFFFFF","#FFFDF4","#FFF9E6","#FFFFFF"]:["#FF8A00","#FFB300","#FFD000","#F57C00"];
-    function flower(x,y,r,c){if(KT){r*=.8;let p="";for(let k=0;k<6;k++){const a=k*Math.PI/3;p+=`<ellipse cx="${(x+Math.cos(a)*r*.45).toFixed(1)}" cy="${(y+Math.sin(a)*r*.45).toFixed(1)}" rx="${(r*.42).toFixed(1)}" ry="${(r*.3).toFixed(1)}" transform="rotate(${(a*57.3).toFixed(0)} ${(x+Math.cos(a)*r*.45).toFixed(1)} ${(y+Math.sin(a)*r*.45).toFixed(1)})" fill="${c}" stroke="#B8AA7E" stroke-width=".9"/>`}
+    const KT=FKEY==="karthika",MG=KT?["#FFFFFF","#FF7A1A","#FFFFFF","#E91E63"]:["#FF8A00","#FFB300","#FFD000","#F57C00"];
+    function flower(x,y,r,c){if(KT&&c!=="#FFFFFF"){let p="";for(let k=0;k<5;k++){const a=k*Math.PI*2/5;p+=`<circle cx="${(x+Math.cos(a)*r*.42).toFixed(1)}" cy="${(y+Math.sin(a)*r*.42).toFixed(1)}" r="${(r*.42).toFixed(1)}" fill="${c}"/>`}
+        return p+`<circle cx="${x}" cy="${y}" r="${(r*.24).toFixed(1)}" fill="#FFE14A"/>`}
+      if(KT){r*=.8;let p="";for(let k=0;k<6;k++){const a=k*Math.PI/3;p+=`<ellipse cx="${(x+Math.cos(a)*r*.45).toFixed(1)}" cy="${(y+Math.sin(a)*r*.45).toFixed(1)}" rx="${(r*.42).toFixed(1)}" ry="${(r*.3).toFixed(1)}" transform="rotate(${(a*57.3).toFixed(0)} ${(x+Math.cos(a)*r*.45).toFixed(1)} ${(y+Math.sin(a)*r*.45).toFixed(1)})" fill="${c}" stroke="#B8AA7E" stroke-width=".9"/>`}
         return p+`<circle cx="${x}" cy="${y}" r="${(r*.26).toFixed(1)}" fill="#E8C64A"/>`}
       let p="";for(let k=0;k<10;k++){const a=k*Math.PI/5;p+=`<circle cx="${(x+Math.cos(a)*r*.55).toFixed(1)}" cy="${(y+Math.sin(a)*r*.55).toFixed(1)}" r="${(r*.5).toFixed(1)}" fill="${c}"/>`}
       return p+`<circle cx="${x}" cy="${y}" r="${(r*.45).toFixed(1)}" fill="#E65100" opacity=".55"/>`}
@@ -840,10 +844,11 @@ if(FEST){
       return g+`<circle r="12" fill="#FFD54F"/><circle r="6" fill="#E65100"/></svg>`}
     /* Karthika: a white kolam on a red-earth floor with agal lamps */
     function kolam(){let g=`<svg viewBox="-100 -100 200 200"><defs><radialGradient id="kg"><stop offset="0" stop-color="#FFF2B0"/><stop offset=".45" stop-color="#FFC233" stop-opacity=".5"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/></radialGradient></defs>
-      <circle r="97" fill="#9E3B22"/><circle r="97" fill="none" stroke="#7A2A16" stroke-width="3"/><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">`;
-      for(let k=0;k<8;k++)g+=`<path d="M0 -14 Q16 -44 0 -70 Q-16 -44 0 -14Z" transform="rotate(${k*45})"/>`;
+      <circle r="97" fill="#B0146A"/><circle r="97" fill="none" stroke="#FFD24A" stroke-width="3"/>`;
+      for(let k=0;k<8;k++)g+=`<path d="M0 -14 Q16 -44 0 -70 Q-16 -44 0 -14Z" fill="${k%2?"#00BFA5":"#FFD24A"}" transform="rotate(${k*45})"/>`;
+      g+=`<g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">`;
       for(let k=0;k<8;k++)g+=`<path d="M0 -70 Q22 -86 0 -92 Q-22 -86 0 -70Z" transform="rotate(${k*45+22.5})"/>`;
-      g+=`<circle r="14"/><circle r="80" stroke-dasharray="1 9"/></g><g fill="#fff">`;
+      g+=`<circle r="14" fill="#FF7043"/><circle r="80" stroke-dasharray="1 9"/></g><g fill="#fff">`;
       for(let k=0;k<16;k++)g+=`<circle cx="0" cy="-48" r="2" transform="rotate(${k*22.5+11.25})"/>`;
       g+=`</g>`;
       for(let k=0;k<8;k++){g+=`<g transform="rotate(${k*45}) translate(0 -82) rotate(${-k*45})"><circle cy="-6" r="10" fill="url(#kg)"/><path d="M-6 0 Q0 6 6 0 Q0 -2 -6 0Z" fill="#C8692E"/><path class="fl" d="M0 -10 Q2.6 -5 0 -2 Q-2.6 -5 0 -10Z" fill="#FFC233"/></g>`}
