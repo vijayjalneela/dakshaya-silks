@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 345" preserveAspectRatio="xMidYMax slice">
+<!-- Karthigai Deepam at dusk: Arunachala hill with the Maha Deepam, temple gopuram, rows of agal vilakku, white kolam -->
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FBF3E2" stop-opacity="0"/>
+    <stop offset=".35" stop-color="#F9DFB0" stop-opacity=".85"/>
+    <stop offset=".75" stop-color="#F2A65A"/>
+    <stop offset="1" stop-color="#C8553D"/>
+  </linearGradient>
+  <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6B3A3A"/><stop offset="1" stop-color="#3E1F2A"/></linearGradient>
+  <linearGradient id="hill2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A4E44"/><stop offset="1" stop-color="#5A2E33"/></linearGradient>
+  <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A2433"/><stop offset="1" stop-color="#3A1424"/></linearGradient>
+  <radialGradient id="maha" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#FFF6C8"/><stop offset=".25" stop-color="#FFD24A" stop-opacity=".9"/><stop offset=".6" stop-color="#FF8A00" stop-opacity=".35"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#FFF2B0" stop-opacity=".95"/><stop offset=".4" stop-color="#FFC233" stop-opacity=".5"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/>
+  </radialGradient>
+  <g id="diya">
+    <circle cx="0" cy="-9" r="13" fill="url(#glow)"/>
+    <path d="M-8 0 Q0 8 8 0 Q4 -3 0 -3 Q-4 -3 -8 0Z" fill="#B5612E"/>
+    <path d="M-8 0 Q0 3.5 8 0" fill="none" stroke="#7A3518" stroke-width="1"/>
+    <path class="fl" d="M0 -13 Q3.4 -7.5 0 -3.5 Q-3.4 -7.5 0 -13Z" fill="#FFB020"/>
+    <path class="fl" d="M0 -10.5 Q1.7 -7 0 -5 Q-1.7 -7 0 -10.5Z" fill="#FFF3B0"/>
+  </g>
+  <style>
+    .fl{transform-box:fill-box;transform-origin:50% 100%;animation:flk 1.6s ease-in-out infinite alternate}
+    .mh{transform-box:fill-box;transform-origin:50% 100%;animation:flk 2.4s ease-in-out infinite alternate}
+    @keyframes flk{from{transform:scaleY(1) scaleX(1)}to{transform:scaleY(1.12) scaleX(.9)}}
+    @media (prefers-reduced-motion:reduce){.fl,.mh{animation:none}}
+  </style>
+</defs>
+
+<rect width="1200" height="345" fill="url(#sky)"/>
+<!-- first stars -->
+<g fill="#FFF8E1" opacity=".8"><circle cx="160" cy="70" r="1.6"/><circle cx="260" cy="44" r="1.2"/><circle cx="980" cy="58" r="1.6"/><circle cx="1080" cy="90" r="1.2"/><circle cx="420" cy="30" r="1.1"/><circle cx="820" cy="36" r="1.2"/></g>
+<!-- full moon of Karthika Pournami -->
+<circle cx="1010" cy="120" r="26" fill="#FFF6DC" opacity=".95"/><circle cx="1010" cy="120" r="40" fill="#FFF6DC" opacity=".18"/>
+
+<!-- Arunachala hill with the Maha Deepam at the top -->
+<path d="M120 300 Q300 230 430 160 Q520 108 600 92 Q690 112 790 170 Q900 236 1100 300Z" fill="url(#hill)"/>
+<path d="M0 300 Q140 250 300 262 Q420 270 520 300Z M700 300 Q820 262 960 258 Q1100 256 1200 286 V300Z" fill="url(#hill2)" opacity=".9"/>
+<circle cx="600" cy="80" r="64" fill="url(#maha)"/>
+<rect x="590" y="84" width="20" height="10" rx="2" fill="#7A3A18"/>
+<path class="mh" d="M600 50 Q614 70 606 84 H594 Q586 70 600 50Z" fill="#FFB020"/>
+<path class="mh" d="M600 62 Q606 74 602 84 H598 Q594 74 600 62Z" fill="#FFF3B0"/>
+
+<!-- temple gopuram at the foot of the hill -->
+<g transform="translate(600 300)">
+  <path d="M-62 0 V-30 H62 V0Z" fill="#E9C98A"/>
+  <path d="M-54 -30 L-46 -58 H46 L54 -30Z" fill="#E2BC78"/>
+  <path d="M-46 -58 L-38 -84 H38 L46 -58Z" fill="#DDB46C"/>
+  <path d="M-38 -84 L-30 -106 H30 L38 -84Z" fill="#D7AC60"/>
+  <path d="M-30 -106 L-22 -124 H22 L30 -106Z" fill="#D1A456"/>
+  <path d="M-24 -124 Q0 -142 24 -124Z" fill="#C89A4C"/>
+  <g fill="#D4A23C"><circle cx="-12" cy="-138" r="2.4"/><circle cx="0" cy="-142" r="2.6"/><circle cx="12" cy="-138" r="2.4"/></g>
+  <g stroke="#A8783A" stroke-width="1.2" opacity=".7"><path d="M-54 -30 H54 M-46 -58 H46 M-38 -84 H38 M-30 -106 H30"/>
+    <path d="M-30 -30 V-58 M-10 -30 V-58 M10 -30 V-58 M30 -30 V-58 M-22 -58 V-84 M0 -58 V-84 M22 -58 V-84 M-12 -84 V-106 M12 -84 V-106"/></g>
+  <path d="M-14 0 V-20 Q0 -30 14 -20 V0Z" fill="#5A2E1A"/>
+</g>
+
+<!-- steps / ground with rows of lamps (deepa varisai) -->
+<path d="M0 286 Q600 270 1200 286 V345 H0Z" fill="url(#ground)"/>
+<path d="M0 300 Q600 286 1200 300" fill="none" stroke="#7A3A3A" stroke-width="2"/>
+<g>
+  <use href="#diya" x="40" y="292"/><use href="#diya" x="90" y="290"/><use href="#diya" x="140" y="288"/><use href="#diya" x="190" y="286"/><use href="#diya" x="240" y="285"/><use href="#diya" x="290" y="284"/><use href="#diya" x="340" y="283"/><use href="#diya" x="390" y="282"/><use href="#diya" x="440" y="281"/><use href="#diya" x="490" y="280"/>
+  <use href="#diya" x="710" y="280"/><use href="#diya" x="760" y="281"/><use href="#diya" x="810" y="282"/><use href="#diya" x="860" y="283"/><use href="#diya" x="910" y="284"/><use href="#diya" x="960" y="285"/><use href="#diya" x="1010" y="286"/><use href="#diya" x="1060" y="288"/><use href="#diya" x="1110" y="290"/><use href="#diya" x="1160" y="292"/>
+  <use href="#diya" x="20" y="314"/><use href="#diya" x="75" y="312"/><use href="#diya" x="130" y="311"/><use href="#diya" x="185" y="310"/><use href="#diya" x="240" y="309"/><use href="#diya" x="295" y="308"/><use href="#diya" x="350" y="307"/><use href="#diya" x="405" y="306"/>
+  <use href="#diya" x="795" y="306"/><use href="#diya" x="850" y="307"/><use href="#diya" x="905" y="308"/><use href="#diya" x="960" y="309"/><use href="#diya" x="1015" y="310"/><use href="#diya" x="1070" y="311"/><use href="#diya" x="1125" y="312"/><use href="#diya" x="1180" y="314"/>
+</g>
+<!-- white kolam in front of the gopuram, with lamps -->
+<g transform="translate(600 318) scale(1 .22)" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".95">
+  <circle r="18"/>
+  <path d="M0 -18 Q14 -48 0 -72 Q-14 -48 0 -18Z M0 18 Q14 48 0 72 Q-14 48 0 18Z M-18 0 Q-48 14 -72 0 Q-48 -14 -18 0Z M18 0 Q48 14 72 0 Q48 -14 18 0Z"/>
+  <path d="M-120 0 Q-108 -56 -56 -88 Q0 -120 56 -88 Q108 -56 120 0 Q108 56 56 88 Q0 120 -56 88 Q-108 56 -120 0Z" stroke-width="2.4"/>
+  <circle r="96" stroke-dasharray="1 14"/>
+</g>
+<use href="#diya" x="600" y="322"/><use href="#diya" x="515" y="322"/><use href="#diya" x="685" y="322"/>
+</svg>

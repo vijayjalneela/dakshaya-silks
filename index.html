@@ -466,6 +466,14 @@ html.diwali{--gut:0px}
 </style>
 <style>
 /* ===== Light cream header (was deep maroon) ===== */
+/* Karthika Deepam look: mango-leaf thoranam on top, Arunachala and lamps at the foot of the header, lit lamps in the greeting card */
+html.fest-karthika .toran{height:36px;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2234%22%20viewBox%3D%220%200%2040%2034%22%3E%3Cpath%20d%3D%22M0%203%20Q20%208%2040%203%22%20fill%3D%22none%22%20stroke%3D%22%236E5235%22%20stroke-width%3D%221.4%22/%3E%3Cpath%20d%3D%22M10%205%20Q15%2015%2010%2030%20Q5%2015%2010%205Z%22%20fill%3D%22%233E8A34%22%20stroke%3D%22%232C6A25%22%20stroke-width%3D%22.7%22/%3E%3Cpath%20d%3D%22M10%207%20V27%22%20stroke%3D%22%232C6A25%22%20stroke-width%3D%22.6%22/%3E%3Cpath%20d%3D%22M30%205%20Q34%2013%2030%2025%20Q26%2013%2030%205Z%22%20fill%3D%22%234C9A40%22%20stroke%3D%22%232C6A25%22%20stroke-width%3D%22.7%22/%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%228%22%20r%3D%223.6%22%20fill%3D%22%23FFB300%22%20stroke%3D%22%23E07800%22%20stroke-width%3D%22.8%22/%3E%3C/svg%3E") 0 0/40px 34px repeat-x;filter:drop-shadow(0 2px 2px rgba(60,30,10,.25))}
+html.fest-karthika .toran::after{display:none}
+.kscene{display:none}
+html.fest-karthika .kscene{display:block;position:relative;height:clamp(140px,28.75vw,400px);margin-top:-6px}
+.kscene img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%}
+html.fest-karthika .fcard{background:radial-gradient(120% 90% at 50% 110%,#9E3B22 0,#5A1A2E 50%,#2A0F24 100%)}
+.fcard.lit .diya{filter:drop-shadow(0 0 10px #FFC233) drop-shadow(0 0 22px rgba(255,170,40,.7));transition:filter .6s}
 .mast{background:radial-gradient(120% 90% at 75% 30%,#FFFDF7 0%,#FBF3E2 50%,#F3E5C8 100%);color:#5A0A26}
 .mast::before{opacity:.10;background-image:radial-gradient(circle at 10px 10px,#B4871C 1.2px,transparent 1.5px)}
 .mast .gold{background:linear-gradient(100deg,#7E0F38 0%,#A3164A 35%,#A8741A 60%,#7E0F38 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -510,6 +518,7 @@ html.diwali{--gut:0px}
     </div>
   </div>
   </div>
+  <div class="kscene" aria-hidden="true"><img src="img/karthika.svg" alt="" width="1200" height="345" decoding="async"></div>
   <div class="zari"></div>
 </header>
 <div class="bar">
@@ -616,7 +625,7 @@ html.diwali{--gut:0px}
     <div id="upiBox"><h3>Pay by UPI</h3><p>Please pay only after we confirm your order on WhatsApp and you've seen the packing video. Then send us the payment screenshot on WhatsApp.</p>
       <div class="upi"><img src="img/upi-qr.png" width="420" height="420" alt="UPI QR code for paying Dakshaya Boutique" loading="lazy"><div class="ub"><span>UPI ID: <code id="upiId">cjalneela-1@okaxis</code></span><a class="cta payapp" id="upiPay" href="upi://pay?pa=cjalneela-1@okaxis&amp;pn=Chandana%20Jalneela&amp;cu=INR">Pay with a UPI app</a><button type="button" class="ghost" data-copyupi>Copy UPI ID</button><span style="font-size:.85rem">Google Pay, PhonePe, Paytm or any UPI app.</span></div></div></div>
     <div id="policy" hidden><h3>Shipping, payment &amp; returns</h3><p id="policyTxt"></p></div>
-    <div id="dspBox" hidden><h3>Diwali orders &amp; dispatch</h3><p></p></div>
+    <div id="dspBox" hidden><h3>Orders &amp; dispatch</h3><p></p></div>
     <div><h3>See it packed before we ship</h3><p>Once you order, we send you a short packing video on WhatsApp showing your item's colour, fabric, design and price, and the delivery address. We ship only after you reply to confirm.</p></div>
   </div>
 </section>
@@ -646,9 +655,14 @@ const SHOP = {
   shipping: "Shipping charges extra.",  // shown in the policy box, on every item and in the bag; e.g. "Free shipping across India on orders above ₹1,500. Delivered in 4–7 days."
   payment: "",                        // e.g. "UPI, bank transfer or cash at the shop."
   returns: "",                        // e.g. "Exchange within 3 days if the piece doesn't match the packing video."
-  festival: { name: "Diwali", from: "2026-11-03", to: "2026-11-10", offer: 10, offerAbove: 3000, offerDay: "2026-11-08", soldFrom: 2999 },  // soldFrom: sold-out pieces from this price show in the Diwali row as "gone"  // Diwali look shows on these dates (India time); offer: % off every in-stock piece priced above offerAbove (the Diwali Special), on offerDay only; change for next year
+  festival: { key: "karthika", name: "Karthika Deepam", tag: "KARTHIKA", from: "2026-11-10", to: "2026-11-24", offer: 10, offerAbove: 3000, offerFrom: "2026-11-10", offerTo: "2026-11-24", soldFrom: 2999,
+    eye: "Karthigai Deepam · Karthika Pournami", title: "Happy Karthika Deepam", greet: "Shubh Karthika Deepam",
+    msg: "From all of us at Dakshaya: may a thousand lamps light your home with peace, grace and prosperity.",
+    drop: "Our <b>Karthika Deepam Sale</b> is on: 10% off every saree above ₹3,000, till Karthika Pournami, 24 Nov." },
+    // festival look + sale between from and to (India time). key "karthika" = lamps, jasmine, kolam, Arunachala header, no crackers; key "diwali" = marigolds, rangoli, fireworks.
+    // offer: % off every in-stock piece priced above offerAbove, from offerFrom to offerTo (or on offerDay only). soldFrom: sold-out pieces from this price show in the sale as "gone".
   announce: { text: "Website launch with more options on 25 Nov 26 at 05:15 PM", until: "2026-11-25T17:15:00+05:30" },  // shown at the top of the site until this time (India time); set text "" to hide
-  dispatch: { text: "Orders open for Diwali. All dispatches after 15 Nov 26. Offer prices stay as on the day you order.", short: "Order now · Dispatch after 15 Nov · Offer price locked on order day · Shipping extra", until: "2026-11-15T23:59:00+05:30" },  // festive dispatch notice; shown until this time (India time); set text "" to hide
+  dispatch: { text: "Orders open now. All dispatches after 15 Nov 26. Offer prices stay as on the day you order.", short: "Order now · Dispatch after 15 Nov · Offer price locked on order day · Shipping extra", until: "2026-11-15T23:59:00+05:30" },  // festive dispatch notice; shown until this time (India time); set text "" to hide
   exhibition: {                       // fill in when the next exhibition is fixed; leave dates "" to show "coming soon"
     dates: "",                        // e.g. "15–17 November 2026"
     timings: "",                      // e.g. "10 am – 8 pm"
@@ -738,8 +752,13 @@ const istToday=()=>{const p=istParts();return new Date(Date.UTC(p.y,p.m,p.d)).to
 const isRes=x=>!!x.reserved&&x.stock>0&&(!x.reservedUntil||x.reservedUntil>=istToday());
 /* ===== Diwali ===== */
 const FEST=(()=>{const f=SHOP.festival||{};if(!f.from||!f.to)return null;const p=istParts(),d=new Date(Date.UTC(p.y,p.m,p.d)).toISOString().slice(0,10);return d>=f.from&&d<=f.to?f:null})();
-/* the Diwali offer runs on FEST.offerDay only (India time) */
-const DWOFF=FEST&&FEST.offer&&(!FEST.offerDay||istToday()===FEST.offerDay)?FEST.offer:0;
+/* the festival offer runs on FEST.offerDay only, or from FEST.offerFrom to FEST.offerTo (India time) */
+const DWOFF=(()=>{if(!FEST||!FEST.offer)return 0;const t=istToday();
+  if(FEST.offerDay)return t===FEST.offerDay?FEST.offer:0;
+  return (!FEST.offerFrom||t>=FEST.offerFrom)&&(!FEST.offerTo||t<=FEST.offerTo)?FEST.offer:0})();
+const FN=FEST?FEST.name:"Festival",FTAG=FEST?(FEST.tag||FEST.name).toUpperCase():"",FKEY=FEST?(FEST.key||"diwali"):"";
+const OFFEND=FEST?(FEST.offerDay||FEST.offerTo||FEST.to):"";
+const OFFTXT=FEST&&FEST.offerDay?"today only":"till "+(OFFEND?new Date(OFFEND+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):"");
 const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* Reduce Motion: soft glitter that fades in place instead of flying rockets */
 function glitter(ms){
@@ -779,11 +798,19 @@ function fireworks(ms,tapped){
   requestAnimationFrame(frame);
 }
 if(FEST){
-  document.documentElement.classList.add("diwali");
+  document.documentElement.classList.add("diwali","fest-"+FKEY);
+  /* festival texts from SHOP.festival */
+  (function(){const q=(sel,v,html)=>{const e=document.querySelector(sel);if(e&&v)e[html?"innerHTML":"textContent"]=v};
+    q(".fcard .feye",FEST.eye);q("#festTitle",FEST.title);q(".fcard .fmsg",FEST.msg);q("#festDrop",FEST.drop,true);
+    q("#fwmsg span",FEST.greet||FEST.eye);q("#fwmsg b",FEST.title);q("#festShop","Shop the "+FN+" Sale");
+    if(FKEY==="karthika")q("#crackerBtn","Light a lamp")})();
   /* decor: marigold strands ending in hanging brass diyas, and rangoli corners */
   (function(){
-    const MG=["#FF8A00","#FFB300","#FFD000","#F57C00"];
-    function flower(x,y,r,c){let p="";for(let k=0;k<10;k++){const a=k*Math.PI/5;p+=`<circle cx="${(x+Math.cos(a)*r*.55).toFixed(1)}" cy="${(y+Math.sin(a)*r*.55).toFixed(1)}" r="${(r*.5).toFixed(1)}" fill="${c}"/>`}
+    /* Karthika: strings of jasmine (malli); Diwali: marigolds */
+    const KT=FKEY==="karthika",MG=KT?["#FFFFFF","#FFFDF4","#FFF9E6","#FFFFFF"]:["#FF8A00","#FFB300","#FFD000","#F57C00"];
+    function flower(x,y,r,c){if(KT){r*=.8;let p="";for(let k=0;k<6;k++){const a=k*Math.PI/3;p+=`<ellipse cx="${(x+Math.cos(a)*r*.45).toFixed(1)}" cy="${(y+Math.sin(a)*r*.45).toFixed(1)}" rx="${(r*.42).toFixed(1)}" ry="${(r*.3).toFixed(1)}" transform="rotate(${(a*57.3).toFixed(0)} ${(x+Math.cos(a)*r*.45).toFixed(1)} ${(y+Math.sin(a)*r*.45).toFixed(1)})" fill="${c}" stroke="#B8AA7E" stroke-width=".9"/>`}
+        return p+`<circle cx="${x}" cy="${y}" r="${(r*.26).toFixed(1)}" fill="#E8C64A"/>`}
+      let p="";for(let k=0;k<10;k++){const a=k*Math.PI/5;p+=`<circle cx="${(x+Math.cos(a)*r*.55).toFixed(1)}" cy="${(y+Math.sin(a)*r*.55).toFixed(1)}" r="${(r*.5).toFixed(1)}" fill="${c}"/>`}
       return p+`<circle cx="${x}" cy="${y}" r="${(r*.45).toFixed(1)}" fill="#E65100" opacity=".55"/>`}
     function diya(x,y){return `<g transform="translate(${x} ${y})">
       <circle class="halo" cx="0" cy="-14" r="20" fill="url(#dglow)"/>
@@ -811,18 +838,29 @@ if(FEST){
         g+=`<circle r="${r-w*1.55}" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 4" opacity=".8"/>`});
       for(let k=0;k<24;k++)g+=`<circle cx="0" cy="-95" r="2.4" fill="${C[k%7]}" transform="rotate(${k*15})"/>`;
       return g+`<circle r="12" fill="#FFD54F"/><circle r="6" fill="#E65100"/></svg>`}
-    document.querySelectorAll(".drang").forEach(el=>el.innerHTML=rangoli());
+    /* Karthika: a white kolam on a red-earth floor with agal lamps */
+    function kolam(){let g=`<svg viewBox="-100 -100 200 200"><defs><radialGradient id="kg"><stop offset="0" stop-color="#FFF2B0"/><stop offset=".45" stop-color="#FFC233" stop-opacity=".5"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/></radialGradient></defs>
+      <circle r="97" fill="#9E3B22"/><circle r="97" fill="none" stroke="#7A2A16" stroke-width="3"/><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">`;
+      for(let k=0;k<8;k++)g+=`<path d="M0 -14 Q16 -44 0 -70 Q-16 -44 0 -14Z" transform="rotate(${k*45})"/>`;
+      for(let k=0;k<8;k++)g+=`<path d="M0 -70 Q22 -86 0 -92 Q-22 -86 0 -70Z" transform="rotate(${k*45+22.5})"/>`;
+      g+=`<circle r="14"/><circle r="80" stroke-dasharray="1 9"/></g><g fill="#fff">`;
+      for(let k=0;k<16;k++)g+=`<circle cx="0" cy="-48" r="2" transform="rotate(${k*22.5+11.25})"/>`;
+      g+=`</g>`;
+      for(let k=0;k<8;k++){g+=`<g transform="rotate(${k*45}) translate(0 -82) rotate(${-k*45})"><circle cy="-6" r="10" fill="url(#kg)"/><path d="M-6 0 Q0 6 6 0 Q0 -2 -6 0Z" fill="#C8692E"/><path class="fl" d="M0 -10 Q2.6 -5 0 -2 Q-2.6 -5 0 -10Z" fill="#FFC233"/></g>`}
+      return g+`<circle r="7" fill="#FFD24A"/></svg>`}
+    document.querySelectorAll(".drang").forEach(el=>el.innerHTML=KT?kolam():rangoli());
   })();
 
   document.getElementById("festive").hidden=false;
-  document.getElementById("crackerBtn").addEventListener("click",()=>fireworks(2200,true));
+  const greetNow=()=>{const m=document.getElementById("fwmsg"),dm=document.getElementById("fwdim");[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),1600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),2000)};
+  document.getElementById("crackerBtn").addEventListener("click",()=>{if(FKEY==="karthika"){document.querySelector(".fcard").classList.add("lit");greetNow()}else fireworks(2200,true)});
   document.getElementById("dwgo").addEventListener("click",ev=>{ev.preventDefault();const d=document.getElementById("dwtop");scrollTo({top:d.getBoundingClientRect().top+scrollY-ribH()-document.querySelector(".bar").offsetHeight,behavior:reduceMotion?"auto":"smooth"})});
   document.getElementById("festShop").addEventListener("click",()=>{const d=document.getElementById("dwtop"),e=d&&!d.hidden?d:document.getElementById("edits");scrollTo({top:e.getBoundingClientRect().top+scrollY-ribH()-document.querySelector(".bar").offsetHeight,behavior:reduceMotion?"auto":"smooth"})});
   let seen=false;try{seen=sessionStorage.getItem("dk_fw")==="1";sessionStorage.setItem("dk_fw","1")}catch(e){}
   if(!seen){const m=document.getElementById("fwmsg");
     const dm=document.getElementById("fwdim");
     /* short greeting: a quick burst and "Happy Diwali" for about 2 seconds, once per visit */
-    setTimeout(()=>{fireworks(1200);{[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),1600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),2000)}},200)}
+    setTimeout(()=>{if(FKEY!=="karthika")fireworks(1200);{[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),1600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),2000)}},200)}
 }
 /* announcement from SHOP.announce: first in the top band and a pill under the shop name, until its time passes */
 const ANNC=(()=>{const a=SHOP.announce||{};return a.text&&(!a.until||Date.now()<new Date(a.until).getTime())?a.text:""})();
@@ -835,9 +873,9 @@ if(ANNC){const el=document.getElementById("annc");if(el){el.innerHTML="<b><i>"+e
 function launchUI(raw){
   const next=nextLaunchDate(),p=istParts(),liveToday=p.dow===0&&p.h>=LAUNCH_HOUR;
   const waiting=(raw||[]).filter(x=>x.launch===next&&x.stock>0).length;
-  if(FEST&&(liveToday||next>FEST.to)){const dl=document.getElementById("festDrop");if(dl)dl.innerHTML="Our <b>Diwali drop is live</b>. Find your festive drape before it finds another home."}
+  if(FEST&&!FEST.drop&&(liveToday||next>FEST.to)){const dl=document.getElementById("festDrop");if(dl)dl.innerHTML=`Our <b>${esc(FN)} drop is live</b>. Find your festive drape before it finds another home.`}
   const lines=FEST&&(next<=FEST.to||liveToday)
-    ?[liveToday?"Diwali drop is live":"Diwali drop: "+fmtLaunch(next)+", 10 AM","Be the first, or miss the best","Happy Diwali from Dakshaya","One of each. Once it's gone, it's gone"]
+    ?[liveToday?FN+" drop is live":"New drop: "+fmtLaunch(next)+", 10 AM","Be the first, or miss the best",(FEST.greet||"Happy "+FN)+" from Dakshaya",...(DWOFF?[`${FN} Sale: ${DWOFF}% off sarees above ${inr(FEST.offerAbove||0)}, ${OFFTXT}`]:[]),"One of each. Once it's gone, it's gone"]
     :liveToday
     ?["Today's drop is live","Be the first, or miss the best","One of each. Once it's gone, it's gone","Next drop: "+fmtLaunch(next)+", 10 AM"]
     :["Be the first, or miss the best","New launches every Sunday, 10 AM","Next drop: "+fmtLaunch(next)+(waiting>1?` · ${waiting} new pieces`:""),"One of each. Once it's gone, it's gone"];
@@ -852,7 +890,7 @@ launchUI([]);
 Promise.all([fetch("catalog.json",{cache:"no-cache"}).then(r=>r.json()),fetch("descriptions.json",{cache:"no-cache"}).then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([d,ds])=>{
   const prep0=x=>({...x,disc:Math.min(90,Math.max(0,+x.disc||0)),type:fixType(x.type),material:fixType(x.material),...(ds[x.code.split(" ")[0]]||{})});
   /* Diwali Special: on FEST.offerDay, in-stock pieces priced above FEST.offerAbove get FEST.offer % off for that day, unless they already have a bigger offer */
-  const prep=x=>{const y=prep0(x);if(DWOFF&&+y.stock>0&&+y.price>(FEST.offerAbove||0)){y.diwali=true;if(!onOffer(y)||y.disc<DWOFF){y.disc=DWOFF;y.offerEnds=FEST.offerDay||FEST.to}}return y};
+  const prep=x=>{const y=prep0(x);if(DWOFF&&+y.stock>0&&+y.price>(FEST.offerAbove||0)){y.diwali=true;if(!onOffer(y)||y.disc<DWOFF){y.disc=DWOFF;y.offerEnds=OFFEND}}return y};
   const ok=x=>+x.price>0&&x.code&&x.img;
   const fill=()=>{const live=d.items.filter(x=>ok(x)&&isLive(x)).map(x=>x.launch?{...x,added:Math.max(+x.added||0,launchAt(x.launch))}:x);
     st.items=live.filter(x=>x.stock>0).map(prep);st.sold=live.filter(x=>!(x.stock>0)).map(prep)};
@@ -883,7 +921,7 @@ function chips(){
 }
 /* during the Diwali dates the Diwali Special comes first, then New arrivals, then Clearance; afterwards it's New, Clearance, Wedding Edit again */
 const EDITS=[
-  ...(FEST?[{k:"dwl",t:"Diwali Sale"+(DWOFF?` · ${DWOFF}% off today only`:""),d:"One of each. Rich silks for Diwali"+(DWOFF?`, ${DWOFF}% off on every saree above ${inr(FEST.offerAbove||0)}, today only (`+new Date((FEST.offerDay||FEST.to)+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"})+")":"")+". Shipping charges extra. Once they're gone, they're gone.",limited:true,min:1,f:x=>!!x.diwali,sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.cat="__diwali"}}]:[]),
+  ...(FEST?[{k:"dwl",t:FN+" Sale"+(DWOFF?` · ${DWOFF}% off ${OFFTXT}`:""),d:"One of each. Rich silks for "+FN+(DWOFF?`, ${DWOFF}% off on every saree above ${inr(FEST.offerAbove||0)}, ${OFFTXT}`:"")+". Shipping charges extra. Once they're gone, they're gone.",limited:true,min:1,f:x=>!!x.diwali,sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.cat="__diwali"}}]:[]),
   {k:"new",t:"New arrivals",d:"Just in, one of each. Fresh pieces launch every Sunday at 10 AM.",f:x=>true,sort:(a,b)=>(b.added||0)-(a.added||0),apply:()=>{st.sort="new";$("#sort").value="new"}},
   {k:"clr",t:"Clearance sale",d:"Reduced prices on the last few pieces. Once they're gone, they're gone.",min:1,f:x=>inOffers(x)&&!x.diwali,sort:(a,b)=>(+b.disc||0)-(+a.disc||0)||pNow(a)-pNow(b),apply:()=>{st.cat="__offers"}},
   ...(FEST?[]:[{k:"wed",t:"The Wedding Edit",d:"Rich weaves and zari for the big days.",f:x=>/wedding|reception/i.test(x.for||""),sort:(a,b)=>pNow(b)-pNow(a),apply:()=>{st.occ="Wedding"}}]),
@@ -907,7 +945,7 @@ function edits(){
   /* the Diwali sale sits at the very top of the page, above the greeting card */
   const top=EDITS.filter(e=>e.k==="dwl").map(dwlRow).join(""),rest=EDITS.filter(e=>e.k!=="dwl").map(one).join("");
   const dt=$("#dwtop");if(dt){dt.innerHTML=top?`<div class="wrap">${top}</div>`:"";dt.hidden=!top}
-  const dp=$("#dwpill");if(dp){dp.hidden=!(top&&DWOFF);if(!dp.hidden)$("#dwgo").textContent=`🪔 Diwali Sale · ${DWOFF}% off sarees above ${inr(FEST.offerAbove||0)} · today only →`}
+  const dp=$("#dwpill");if(dp){dp.hidden=!(top&&DWOFF);if(!dp.hidden)$("#dwgo").textContent=`🪔 ${FN} Sale · ${DWOFF}% off sarees above ${inr(FEST.offerAbove||0)} · ${OFFTXT} →`}
   $("#edits").innerHTML=`<div class="wrap">${rest}</div>`;
 }
 function toShop(){const y=document.getElementById("shop").getBoundingClientRect().top+scrollY-document.querySelector(".bar").offsetHeight-ribH();scrollTo({top:y,behavior:"smooth"})}
@@ -936,7 +974,7 @@ function pass(x,skip){
 const nFilters=()=>[st.occ,st.col,st.weave,st.price].filter(Boolean).length;
 function activeUI(){
   const n=nFilters();$("#fcount").hidden=!n;$("#fcount").textContent=n;
-  const catLab=st.cat==="__offers"?"Offers & Clearance":st.cat==="__diwali"?"Diwali Special":st.cat?(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label:"";
+  const catLab=st.cat==="__offers"?"Offers & Clearance":st.cat==="__diwali"?FN+" Sale":st.cat?(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label:"";
   const pills=[catLab&&["cat",catLab],st.occ&&["occ",st.occ],st.col&&["col",st.col],st.weave&&["weave",st.weave],st.price&&["price",(PRICES.find(p=>p[0]===st.price)||[,""])[1]]].filter(Boolean);
   $("#active").innerHTML=pills.map(([k,l])=>`<button class="pill" data-unset="${k}" aria-label="Remove ${esc(l)}">${esc(l)} <b aria-hidden="true">×</b></button>`).join("")+(pills.length>1?`<button class="clearall" data-unset="all">Clear all</button>`:"");
   $("#active").hidden=!pills.length;
@@ -964,13 +1002,13 @@ function openFilters(){
 }
 function refresh(){chips();render();activeUI()}
 function cardHTML(x){return `<button class="card" data-code="${esc(x.code)}" aria-label="${esc(title(x))}, ${inr(pNow(x))}">
-    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${(x.photos||[]).length>1?`<span class="pbadge">📷 ${x.photos.length} photos</span>`:""}${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.diwali?'<span class="lg">DIWALI </span>':x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isRes(x)?`<span class="flag res">RESERVED</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}${x._g?`<span class="gbadge">${esc(x._g)}</span>`:""}</div>
+    <div class="pic"><img src="img/${esc(x.img)}-s.jpg" alt="" loading="lazy" decoding="async" width="384" height="480">${(x.photos||[]).length>1?`<span class="pbadge">📷 ${x.photos.length} photos</span>`:""}${x.video?`<span class="vbadge">▶ Video</span>`:""}${onOffer(x)?`<span class="flag" style="background:#B42318;color:#fff">${x.diwali?'<span class="lg">'+esc(FTAG)+' </span>':x.clearance?'<span class="lg">CLEARANCE </span>':""}${x.disc}% OFF</span>`:isClear(x)?`<span class="flag" style="background:#B42318;color:#fff">CLEARANCE</span>`:""}${x.stock>1?`<span class="flag">${x.stock} available</span>`:""}${isRes(x)?`<span class="flag res">RESERVED</span>`:""}${PREVIEW&&queued(x)?`<span class="flag" style="background:#3A2B3F;color:#fff">COMING ${esc(fmtLaunch(x.launch).toUpperCase())}</span>`:""}${isNew(x)&&!inOffers(x)&&!(PREVIEW&&queued(x))?`<span class="flag new">NEW</span>`:""}${x._g?`<span class="gbadge">${esc(x._g)}</span>`:""}</div>
     <div class="txt"><span class="ty">${esc(tidy(x.type))}</span><span class="nm">${esc(title(x))}</span><span class="pr num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}</span><span class="code num">${esc(x.code.split(" ")[0])}</span></div></button>`}
 function syncSort(){const el=$("#sort");el.classList.toggle("sorted",st.sort!=="az");el.setAttribute("aria-label","Sort: "+el.options[el.selectedIndex].text);el.title="Sorted "+el.options[el.selectedIndex].text}
 function render(){
   syncSort();
   const r=filtered();
-  const lab=st.cat==="__offers"?"Offers & Clearance":st.cat==="__diwali"?"Diwali Special":(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
+  const lab=st.cat==="__offers"?"Offers & Clearance":st.cat==="__diwali"?FN+" Sale":(COLLECTIONS.find(o=>o.key===st.cat)||{label:st.cat}).label;
   $("#count").textContent=`${r.length} ${r.length===1?"design":"designs"}${st.cat?" in "+lab:""}`;
   if(!r.length&&st.cat&&st.cat!=="__offers"&&st.cat!=="__diwali"&&!st.items.some(x=>x.category===st.cat)){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${esc(lab)} are arriving soon.</b><br>Tell us what you're looking for on <a href="${wa("Hello Dakshaya Boutique, I'm looking for "+lab.toLowerCase()+". Please let me know when they arrive.")}" target="_blank" rel="noopener">WhatsApp</a> and we'll keep you posted.</div>`;return}
   $("#grid").innerHTML=r.length?r.map(x=>cardHTML(x)).join("")
@@ -981,12 +1019,12 @@ function open(x,push=true){
   const code=x.code.split(" ")[0];
   const spec=[["Code",code],["Weave / type",tidy(x.type)],["Material",x.material&&tidy(x.material).toLowerCase()!==tidy(x.type).toLowerCase()?tidy(x.material):""],["Colour",tidy(x.color)],["Border",x.border&&x.border!=="No"?(x.border==="Yes"?"With border":x.border):"Borderless"],["Size",x.size],["Length",x.length?x.length+" m":""],["Blouse piece",x.category==="Saree"?(x.blouse?"Included":"Not included"):""],["Dupatta",x.dupatta?"Included":""],["Best for",x.for],["Available",x.stock>1?x.stock+" pieces":"Only 1 piece"]].filter(r=>r[1]);
   const pv=(x.photos||[]).filter(p=>p&&/^[a-z0-9-]+$/i.test(p.img));
-  const ty=tidy(x.type),msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}${ty&&!title(x).toLowerCase().includes(ty.toLowerCase())?", "+ty:""} (${inr(pNow(x))}${onOffer(x)?(x.diwali?", Diwali offer price":", offer price"):""}). Is it available?${ackLine()}`;
+  const ty=tidy(x.type),msg=`Hello Dakshaya Boutique, I'm interested in ${code} – ${title(x)}${ty&&!title(x).toLowerCase().includes(ty.toLowerCase())?", "+ty:""} (${inr(pNow(x))}${onOffer(x)?(x.diwali?`, ${FN} offer price`:", offer price"):""}). Is it available?${ackLine()}`;
   $("#panel").innerHTML=`<button class="close" data-close aria-label="Close">×</button>
     <div class="media"><div class="big${pv.length>1?" multi":""}" id="bigMedia"><img src="img/${esc(x.img)}.jpg" alt="${esc(title(x))}${pv.length>1?" – "+esc(pv[0].l):""}" data-zoom="img/${esc(x.img)}.jpg"><span class="zoomhint">🔍 Tap to zoom</span>${pv.length>1?`<span class="viewtag" id="viewTag">${esc(pv[0].l)} · 1/${pv.length}</span>`:""}${x.video?`<button class="playbtn" data-video="${esc(x.video)}" data-poster="img/${esc(x.img)}.jpg">▶ Watch 10-sec video</button>`:""}</div>
     ${pv.length>1?`<div class="gstrip" role="group" aria-label="More photos">${pv.map((p,i)=>`<button type="button" data-view="${i}" aria-current="${i===0}" aria-label="Show ${esc(p.l)} photo"><img src="img/${esc(p.img)}-s.jpg" alt="" loading="lazy">${esc(p.l)}</button>`).join("")}</div>`:""}</div>
     <div class="info"><span class="eyebrow">${esc(x.category)} · ${esc(tidy(x.type))}</span><h2 id="sheetTitle">${esc(title(x))}</h2>
-      <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.diwali?"Diwali offer · ":x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:isClear(x)?` <span class="offtag">Clearance${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
+      <div class="price num">${onOffer(x)?`<s class="was">${inr(x.price)}</s> `:""}${inr(pNow(x))}${onOffer(x)?` <span class="offtag">${x.diwali?FN+" offer · ":x.clearance?"Clearance · ":""}${x.disc}% off${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:isClear(x)?` <span class="offtag">Clearance${x.offerEnds?" till "+new Date(x.offerEnds+"T00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short"}):""}</span>`:""}</div>
       ${x.desc?`<p class="desc">${esc(x.desc)}</p>`:""}
       <dl class="spec">${spec.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
       ${isRes(x)?`<p class="promise resnote"><b>Reserved for another customer.</b> If their order doesn't go through, the first person on the waiting list gets it.</p>
