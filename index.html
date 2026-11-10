@@ -475,7 +475,13 @@ html.fest-karthika .kscene{display:block;position:relative;height:clamp(140px,28
 html.fest-karthika .fcard{background:radial-gradient(130% 95% at 50% 115%,#FF5C8A 0,#C2185B 30%,#6A1B6A 62%,#0E4C6E 100%);box-shadow:0 18px 40px rgba(110,20,90,.35),inset 0 0 0 2px rgba(255,210,74,.6)}
 html.fest-karthika .fcard #festTitle{color:#FFE14A;text-shadow:0 2px 14px rgba(255,160,0,.55)}
 html.fest-karthika .gchip.grab{background:linear-gradient(90deg,#FFE14A,#FF7A1A,#E91E63);color:#fff}
-.fcard.lit .diya{filter:drop-shadow(0 0 10px #FFC233) drop-shadow(0 0 22px rgba(255,170,40,.7));transition:filter .6s}
+/* Karthika: the card's lamps start unlit; "Light a lamp" lights them one by one */
+html.fest-karthika .fcard .diya:not(.on) .flame,html.fest-karthika .fcard .diya:not(.on) .glow{display:none}
+html.fest-karthika .fcard .diya{opacity:.75;transition:opacity .4s,filter .6s}
+html.fest-karthika .fcard .diya.on{opacity:1;filter:drop-shadow(0 0 10px #FFC233) drop-shadow(0 0 24px rgba(255,170,40,.75))}
+html.fest-karthika .fcard .diya.on .flame{animation:ignite .5s ease-out,flick 1.2s ease-in-out .5s infinite alternate}
+@keyframes ignite{from{transform:scale(.1);opacity:0}60%{transform:scale(1.25);opacity:1}to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){html.fest-karthika .fcard .diya.on .flame{animation:none}}
 .mast{background:radial-gradient(120% 90% at 75% 30%,#FFFDF7 0%,#FBF3E2 50%,#F3E5C8 100%);color:#5A0A26}
 .mast::before{opacity:.10;background-image:radial-gradient(circle at 10px 10px,#B4871C 1.2px,transparent 1.5px)}
 .mast .gold{background:linear-gradient(100deg,#7E0F38 0%,#A3164A 35%,#A8741A 60%,#7E0F38 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -858,7 +864,9 @@ if(FEST){
 
   document.getElementById("festive").hidden=false;
   const greetNow=()=>{const m=document.getElementById("fwmsg"),dm=document.getElementById("fwdim");[m,dm].forEach(e=>e.classList.add("on"));requestAnimationFrame(()=>[m,dm].forEach(e=>e.classList.add("show")));setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("show")),1600);setTimeout(()=>[m,dm].forEach(e=>e.classList.remove("on")),2000)};
-  document.getElementById("crackerBtn").addEventListener("click",()=>{if(FKEY==="karthika"){document.querySelector(".fcard").classList.add("lit");greetNow()}else fireworks(2200,true)});
+  document.getElementById("crackerBtn").addEventListener("click",()=>{if(FKEY==="karthika"){const ds=[...document.querySelectorAll(".fcard .diya")];
+    if(ds.every(d=>d.classList.contains("on")))ds.forEach(d=>d.classList.remove("on"));
+    ds.forEach((d,i)=>setTimeout(()=>d.classList.add("on"),200+i*380));setTimeout(greetNow,200+ds.length*380+300)}else fireworks(2200,true)});
   document.getElementById("dwgo").addEventListener("click",ev=>{ev.preventDefault();const d=document.getElementById("dwtop");scrollTo({top:d.getBoundingClientRect().top+scrollY-ribH()-document.querySelector(".bar").offsetHeight,behavior:reduceMotion?"auto":"smooth"})});
   document.getElementById("festShop").addEventListener("click",()=>{const d=document.getElementById("dwtop"),e=d&&!d.hidden?d:document.getElementById("edits");scrollTo({top:e.getBoundingClientRect().top+scrollY-ribH()-document.querySelector(".bar").offsetHeight,behavior:reduceMotion?"auto":"smooth"})});
   let seen=false;try{seen=sessionStorage.getItem("dk_fw")==="1";sessionStorage.setItem("dk_fw","1")}catch(e){}
